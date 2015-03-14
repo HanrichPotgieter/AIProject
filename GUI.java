@@ -25,6 +25,14 @@ public class GUI implements ActionListener
         });
 	}
 
+    public void setConstaraints(GridBagConstraints c,int x,int y,int h)
+    {
+        c.fill = GridBagConstraints.BOTH;
+        c.gridx = x;
+        c.gridy = y;
+        c.gridheight = h;
+    }
+
 	public void creatGUI()
 	{
         JFrame frame = new JFrame("GAME");
@@ -36,35 +44,22 @@ public class GUI implements ActionListener
 
         JButton b = new JButton("Start Game");
         b.addActionListener(this);
-       	c.fill = GridBagConstraints.BOTH;
-		c.gridx = 0;
-		c.gridy = 0;
-		c.gridheight = 3;
+        setConstaraints(c,0,0,3);
 		frame.getContentPane().add(b,c);
 
 		JRadioButton playerButton = new JRadioButton("Player vs Player");
-    	//playerButton.setActionCommand(birdString);
     	playerButton.setSelected(true);
-    	c.fill = GridBagConstraints.BOTH;
-		c.gridx = 1;
-		c.gridy = 0;
-		c.gridheight = 1;
+        setConstaraints(c,1,0,1);
 		frame.getContentPane().add(playerButton,c);
 
     	JRadioButton aiButton = new JRadioButton("AI vs AI");
     	//aiButton.setActionCommand("Ai ");
-    	c.fill = GridBagConstraints.BOTH;
-        c.gridx = 1;
-		c.gridy = 2;
-		c.gridheight = 1;
+        setConstaraints(c,1,2,1);
 		frame.getContentPane().add(aiButton,c);
 
         JRadioButton haiButton = new JRadioButton("Human vs AI");
         //aiButton.setActionCommand("Ai ");
-        c.fill = GridBagConstraints.BOTH;
-        c.gridx = 1;
-        c.gridy = 1;
-        c.gridheight = 1;
+        setConstaraints(c,1,1,1);
         frame.getContentPane().add(haiButton,c);
 
     	ButtonGroup group = new ButtonGroup();
@@ -73,60 +68,35 @@ public class GUI implements ActionListener
         group.add(haiButton);
 
         Label nLabel = new Label("Select N:");
-        c.fill = GridBagConstraints.BOTH;
-        c.gridx = 0;
-        c.gridy = 4;
-        c.gridheight = 1;
+        setConstaraints(c,0,4,1);
         frame.getContentPane().add(nLabel,c);
-
-        c.fill = GridBagConstraints.BOTH;
-        c.gridx = 1;
-        c.gridy = 4;
-        c.gridheight = 1;
+        setConstaraints(c,1,4,1);
         frame.getContentPane().add(nSpinner,c);
 
         Label startingBlocksLabel = new Label("Select initial cells:");
-        c.fill = GridBagConstraints.BOTH;
-        c.gridx = 0;
-        c.gridy = 5;
-        c.gridheight = 1;
+        setConstaraints(c,0,5,1);
         frame.getContentPane().add(startingBlocksLabel,c);
 
         SpinnerNumberModel startingBlocksModel = new SpinnerNumberModel(1,1,1000,1); 
         JSpinner startingBlocksSpinner = new JSpinner(startingBlocksModel);
-        c.fill = GridBagConstraints.BOTH;
-        c.gridx = 1;
-        c.gridy = 5;
-        c.gridheight = 1;
+        setConstaraints(c,1,5,1);
         frame.getContentPane().add(startingBlocksSpinner,c);
 
         Label plyDepthLabel = new Label("Ply depth:");
-        c.fill = GridBagConstraints.BOTH;
-        c.gridx = 0;
-        c.gridy = 6;
-        c.gridheight = 1;
+        setConstaraints(c,0,6,1);
         frame.getContentPane().add(plyDepthLabel,c);
 
         SpinnerNumberModel plyDepthLabelModel = new SpinnerNumberModel(1,1,1000,1); 
         JSpinner plyDepthLabelSpinner = new JSpinner(plyDepthLabelModel);
-        c.fill = GridBagConstraints.BOTH;
-        c.gridx = 1;
-        c.gridy = 6;
-        c.gridheight = 1;
+        setConstaraints(c,1,6,1);
         frame.getContentPane().add(plyDepthLabelSpinner,c);
 
         Label pruningLabel = new Label("Alpha-Beta pruning");
-        c.fill = GridBagConstraints.BOTH;
-        c.gridx = 0;
-        c.gridy = 7;
-        c.gridheight = 1;
+        setConstaraints(c,0,7,1);
         frame.getContentPane().add(pruningLabel,c);
 
         JCheckBox pruningCheckbox = new JCheckBox(); 
-        c.fill = GridBagConstraints.BOTH;
-        c.gridx = 1;
-        c.gridy = 7;
-        c.gridheight = 1;
+        setConstaraints(c,1,7,1);
         frame.getContentPane().add(pruningCheckbox,c);
 
         //Display the window.
