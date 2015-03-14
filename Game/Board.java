@@ -92,4 +92,8 @@ public class Board {
        
    }
    
+   public GamePieces[][] getBoard(){
+       return board;
+   }
+   
 }
