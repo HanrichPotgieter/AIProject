@@ -224,8 +224,8 @@ public class GUI implements ActionListener
 
         @Override
         public void mouseClicked(MouseEvent e) {
-            System.out.println("Pressed events");
-            System.out.println(getRow(e.getY())+","+getCol(e.getX()));
+            //System.out.println("Pressed events");
+            //System.out.println(getRow(e.getY())+","+getCol(e.getX()));
             selectedPoint.y = getRow(e.getY());
             selectedPoint.x = getCol(e.getX());
             repaint();
