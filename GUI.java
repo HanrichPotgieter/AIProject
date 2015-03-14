@@ -36,16 +36,16 @@ public class GUI implements ActionListener
 
         JButton b = new JButton("Start Game");
         b.addActionListener(this);
-       	c.fill = GridBagConstraints.HORIZONTAL;
+       	c.fill = GridBagConstraints.BOTH;
 		c.gridx = 0;
 		c.gridy = 0;
-		c.gridheight = 2;
+		c.gridheight = 3;
 		frame.getContentPane().add(b,c);
 
 		JRadioButton playerButton = new JRadioButton("Player vs Player");
     	//playerButton.setActionCommand(birdString);
     	playerButton.setSelected(true);
-    	c.fill = GridBagConstraints.VERTICAL;
+    	c.fill = GridBagConstraints.BOTH;
 		c.gridx = 1;
 		c.gridy = 0;
 		c.gridheight = 1;
@@ -53,15 +53,15 @@ public class GUI implements ActionListener
 
     	JRadioButton aiButton = new JRadioButton("AI vs AI");
     	//aiButton.setActionCommand("Ai ");
-    	c.fill = GridBagConstraints.VERTICAL;
-		c.gridx = 1;
+    	c.fill = GridBagConstraints.BOTH;
+        c.gridx = 1;
 		c.gridy = 2;
 		c.gridheight = 1;
 		frame.getContentPane().add(aiButton,c);
 
         JRadioButton haiButton = new JRadioButton("Human vs AI");
         //aiButton.setActionCommand("Ai ");
-        c.fill = GridBagConstraints.VERTICAL;
+        c.fill = GridBagConstraints.BOTH;
         c.gridx = 1;
         c.gridy = 1;
         c.gridheight = 1;
@@ -73,20 +73,20 @@ public class GUI implements ActionListener
         group.add(haiButton);
 
         Label nLabel = new Label("Select N:");
-        c.fill = GridBagConstraints.VERTICAL;
+        c.fill = GridBagConstraints.BOTH;
         c.gridx = 0;
         c.gridy = 4;
         c.gridheight = 1;
         frame.getContentPane().add(nLabel,c);
 
-        c.fill = GridBagConstraints.VERTICAL;
+        c.fill = GridBagConstraints.BOTH;
         c.gridx = 1;
         c.gridy = 4;
         c.gridheight = 1;
         frame.getContentPane().add(nSpinner,c);
 
         Label startingBlocksLabel = new Label("Select initial cells:");
-        c.fill = GridBagConstraints.VERTICAL;
+        c.fill = GridBagConstraints.BOTH;
         c.gridx = 0;
         c.gridy = 5;
         c.gridheight = 1;
@@ -94,14 +94,14 @@ public class GUI implements ActionListener
 
         SpinnerNumberModel startingBlocksModel = new SpinnerNumberModel(1,1,1000,1); 
         JSpinner startingBlocksSpinner = new JSpinner(startingBlocksModel);
-        c.fill = GridBagConstraints.VERTICAL;
+        c.fill = GridBagConstraints.BOTH;
         c.gridx = 1;
         c.gridy = 5;
         c.gridheight = 1;
         frame.getContentPane().add(startingBlocksSpinner,c);
 
         Label plyDepthLabel = new Label("Ply depth:");
-        c.fill = GridBagConstraints.VERTICAL;
+        c.fill = GridBagConstraints.BOTH;
         c.gridx = 0;
         c.gridy = 6;
         c.gridheight = 1;
@@ -109,21 +109,21 @@ public class GUI implements ActionListener
 
         SpinnerNumberModel plyDepthLabelModel = new SpinnerNumberModel(1,1,1000,1); 
         JSpinner plyDepthLabelSpinner = new JSpinner(plyDepthLabelModel);
-        c.fill = GridBagConstraints.VERTICAL;
+        c.fill = GridBagConstraints.BOTH;
         c.gridx = 1;
         c.gridy = 6;
         c.gridheight = 1;
         frame.getContentPane().add(plyDepthLabelSpinner,c);
 
         Label pruningLabel = new Label("Alpha-Beta pruning");
-        c.fill = GridBagConstraints.VERTICAL;
+        c.fill = GridBagConstraints.BOTH;
         c.gridx = 0;
         c.gridy = 7;
         c.gridheight = 1;
         frame.getContentPane().add(pruningLabel,c);
 
         JCheckBox pruningCheckbox = new JCheckBox(); 
-        c.fill = GridBagConstraints.VERTICAL;
+        c.fill = GridBagConstraints.BOTH;
         c.gridx = 1;
         c.gridy = 7;
         c.gridheight = 1;
@@ -184,7 +184,6 @@ public class GUI implements ActionListener
 		private Integer totalHeight = ROW_WIDTH*ROW_COUNT;
 
         public Grid(int n) {
-            System.out.println(n); 
             ROW_COUNT = n;
             COL_COUNT = n;
             totalWidth = COL_WIDTH*COL_COUNT;
