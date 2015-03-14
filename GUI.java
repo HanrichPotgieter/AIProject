@@ -50,13 +50,22 @@ public class GUI
     	//aiButton.setActionCommand("Ai ");
     	c.fill = GridBagConstraints.VERTICAL;
 		c.gridx = 1;
-		c.gridy = 1;
+		c.gridy = 2;
 		c.gridheight = 1;
 		frame.getContentPane().add(aiButton,c);
+
+        JRadioButton haiButton = new JRadioButton("Human vs AI");
+        //aiButton.setActionCommand("Ai ");
+        c.fill = GridBagConstraints.VERTICAL;
+        c.gridx = 1;
+        c.gridy = 1;
+        c.gridheight = 1;
+        frame.getContentPane().add(haiButton,c);
 
     	ButtonGroup group = new ButtonGroup();
     	group.add(playerButton);
     	group.add(aiButton);
+        group.add(haiButton);
 
     	JFrame window = new JFrame();
         window.setSize(400, 300);
@@ -115,11 +124,11 @@ public class GUI
         frame.setVisible(true);
     }
 
-    public static class Grid extends JPanel {
+    public class Grid extends JPanel implements MouseListener{
 
         private ArrayList<Point> fillCells;
-       	private Integer ROW_COUNT = 12;
-		private Integer COL_COUNT = 11;
+       	private Integer ROW_COUNT = 8;
+		private Integer COL_COUNT = 8;
 		private Integer ROW_WIDTH = 20;
 		private Integer COL_WIDTH = 30;
 		private Integer totalWidth = COL_WIDTH*COL_COUNT;
@@ -127,6 +136,7 @@ public class GUI
 
         public Grid() {
             fillCells = new ArrayList<>(25);
+            addMouseListener(this);
         }
 
         @Override
@@ -135,11 +145,17 @@ public class GUI
             for (Point fillCell : fillCells) {
                 int cellX = (fillCell.x * COL_WIDTH);
                 int cellY = (fillCell.y * ROW_WIDTH);
-                g.setColor(Color.RED);
-                g.fillRect(cellX, cellY, COL_WIDTH, ROW_WIDTH);
+                //g.setColor(Color.RED);
+                //g.fillRect(cellX, cellY, COL_WIDTH, ROW_WIDTH);
+                //
+                //g.fill(r);
+                Graphics2D g2d = (Graphics2D) g;
+                Rectangle r = new Rectangle(cellX, cellY, COL_WIDTH, ROW_WIDTH);
+                g2d.fill(r);
             }
             g.setColor(Color.BLACK);
             g.drawRect(0,0,totalWidth, totalHeight);
+
 
             for (int i = 0; i <= totalWidth; i += COL_WIDTH) {
                 g.drawLine(i, 0, i, totalHeight);
@@ -154,6 +170,41 @@ public class GUI
             fillCells.add(new Point(x, y));
             repaint();
         }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+        }
+ 
+        @Override
+        public void mouseReleased(MouseEvent e) {
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+        }
+
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            System.out.println("Pressed events");
+            System.out.println(getRow(e.getY())+","+getCol(e.getX()));
+        }
+        public String getCol(int x)
+        {
+            Integer tmp = x/COL_WIDTH;
+            return tmp.toString();
+        }
+        public String getRow(int y)
+        {
+            Integer tmp = y/ROW_WIDTH;
+            return tmp.toString();
+        }
+
+
+
 
     }
 
