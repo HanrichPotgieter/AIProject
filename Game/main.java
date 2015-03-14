@@ -6,7 +6,7 @@
  *
  */
 
-package cos314project;
+
 
 import java.util.Scanner;
 
@@ -17,16 +17,16 @@ public class main {
     public static void main(String[] args) {
         
         //~~~~~~~~~~~~~~ Class variables 
-        Board board; 
+        Board board =  new Board(); 
         int sizeOfN = 0;
-        
+       
         Scanner in = new Scanner(System.in);
         
         // Create the board:
         System.out.println("Please provide a number N to create NxN grid:");
         System.out.println("****Note N needs to be an even number larger than 8****");
         sizeOfN = in.nextInt();
-        board = new Board(sizeOfN);
+       
         
         while(true){
             

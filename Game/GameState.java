@@ -6,7 +6,7 @@
  *
  */
 
-package cos314project;
+
 
 
 public class GameState {

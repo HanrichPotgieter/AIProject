@@ -6,7 +6,7 @@
  *
  */
 
-package cos314project;
+
 
 
 public class Board {
@@ -16,9 +16,11 @@ public class Board {
     public boolean validated; // this value will indicate if the N is valid
     public GamePieces[][] board; // this matrix will hold the whole game grid and which pieces are in which blocks
     public GamePieces temp;
+    //Game Pieces
+    int EMPTY = 0;
     
     //~~~~~~~~ Class constructor;
-    Board(int n){
+    Board(){
     
      N = 0;
      
@@ -52,8 +54,6 @@ public class Board {
             }
                 
         }
-            
-        
        
     }
     
@@ -62,10 +62,34 @@ public class Board {
         
         for(int i = 0; i < N; i++){
             for(int j = 0; j < N; j++){
-                
+                System.out.print("[");
+                if(board[i][j].getCurrentGamePiece().compareTo(GamePieces.gamePieces.Empty_Block) == 0){
+                    System.out.print("**");
+                }else
+                    if(board[i][j].getCurrentGamePiece().compareTo(GamePieces.gamePieces.Player_A_Dark) == 0){
+                    System.out.print("aD");
+                }else
+                    if(board[i][j].getCurrentGamePiece().compareTo(GamePieces.gamePieces.Player_A_Light) == 0){
+                    System.out.print("aL");
+                }else
+                    if(board[i][j].getCurrentGamePiece().compareTo(GamePieces.gamePieces.Player_B_Dark) == 0){
+                    System.out.print("bD");
+                }else
+                   if(board[i][j].getCurrentGamePiece().compareTo(GamePieces.gamePieces.Player_B_Light) == 0){
+                    System.out.print("bL");
+                }
+                 System.out.print("]");
             }
+            System.out.print('\n');
         }
             
     }
+    
+    //~~~~~~~~~~~ changeBoardPiece 
+   public void changeBoardPiece(int atRow, int atCol, GamePieces newPiece){
+       
+       board[atRow][atCol] = newPiece;
+       
+   }
    
 }
