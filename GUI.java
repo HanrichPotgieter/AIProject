@@ -11,6 +11,9 @@ import java.awt.Point;
 
 public class GUI implements ActionListener
 {
+    //Buttons and stuff
+    SpinnerNumberModel model = new SpinnerNumberModel(10,10,1000,2); 
+    JSpinner nSpinner = new JSpinner(model);
     private Integer n = 10;
 
 	public GUI()
@@ -76,8 +79,6 @@ public class GUI implements ActionListener
         c.gridheight = 1;
         frame.getContentPane().add(nLabel,c);
 
-        SpinnerNumberModel model = new SpinnerNumberModel(10,10,1000,2); 
-        JSpinner nSpinner = new JSpinner(model);
         c.fill = GridBagConstraints.VERTICAL;
         c.gridx = 1;
         c.gridy = 4;
@@ -128,47 +129,6 @@ public class GUI implements ActionListener
         c.gridheight = 1;
         frame.getContentPane().add(pruningCheckbox,c);
 
-
-
-
-		/*
-    	int rowStart = 3;
-    	for(int i = 0;i<ROW_COUNT;i++){
-    		for(int j = 0;j <COL_COUNT;j++){
-    			    c.fill = GridBagConstraints.HORIZONTAL;
-					c.gridx = rowStart + j;
-					c.gridy = i;
-					c.gridheight = 1;
-					JButton btn = new JButton();
-					btn.setBackground(Color.GREEN);
-					frame.getContentPane().add(btn,c);
-    		}
-    	}
-		*/
-		/*
- 		JButton b = new JButton("Just fake button");
- 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 0;
-		c.gridy = 0;
-		frame.getContentPane().add(b,c);
- 		JButton button2 = new JButton("Just fake button");
- 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.gridx = 1;
-		c.gridy = 0;
-		 frame.getContentPane().add(button2,c);
-        JButton button3 = new JButton("Just fake button");
- 		c.fill = GridBagConstraints.HORIZONTAL;
-		c.fill = GridBagConstraints.HORIZONTAL;
-		c.ipady = 40;      //make this component tall
-		c.weightx = 0.0;
-		c.gridwidth = 3;
-		c.gridx = 0;
-		c.gridy = 1;
-        JLabel label = new JLabel("This is our game!");
-        //frame.getContentPane().add(label);
-        
-        frame.getContentPane().add(button3,c);
-        */
         //Display the window.
         frame.pack();
         frame.setVisible(true);
@@ -179,21 +139,21 @@ public class GUI implements ActionListener
         // The game will start here. multiple instances of a game will be possibale
         GridBagConstraints c = new GridBagConstraints();
         JFrame window = new JFrame();
-        window.setSize(400, 300);
+       
 
-        Grid grid = new Grid();
+        Grid grid = new Grid(((Integer)nSpinner.getValue()));
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 0;
         c.gridy = 2;
+     
+        window.setSize(grid.getWidthGrid(),grid.getHeightGrid());
         window.add(grid);
-
         window.setVisible(true);
         grid.fillCell(0,0);
         grid.fillCell(3,4);
     }
 
     public class Grid extends JPanel implements MouseListener{
-
         private ArrayList<Point> fillCells;
        	private Integer ROW_COUNT = 8;
 		private Integer COL_COUNT = 8;
@@ -202,9 +162,15 @@ public class GUI implements ActionListener
 		private Integer totalWidth = COL_WIDTH*COL_COUNT;
 		private Integer totalHeight = ROW_WIDTH*ROW_COUNT;
 
-        public Grid() {
+        public Grid(int n) {
+            System.out.println(n); 
+            ROW_COUNT = n;
+            COL_COUNT = n;
+            totalWidth = COL_WIDTH*COL_COUNT;
+            totalHeight = ROW_WIDTH*ROW_COUNT;
             fillCells = new ArrayList<>(25);
             addMouseListener(this);
+            repaint();
         }
 
         @Override
@@ -270,7 +236,14 @@ public class GUI implements ActionListener
             Integer tmp = y/ROW_WIDTH;
             return tmp.toString();
         }
-
+        public Integer getWidthGrid()
+        {
+            return totalWidth;
+        }
+        public Integer getHeightGrid()
+        {
+            return totalHeight+ROW_WIDTH;
+        }
 
 
 
