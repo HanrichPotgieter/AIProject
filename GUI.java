@@ -42,10 +42,10 @@ public class GUI implements ActionListener
         frame.setLayout(layout);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        JButton b = new JButton("Start Game");
-        b.addActionListener(this);
+        JButton startButton = new JButton("Start Game");
+        startButton.addActionListener(this);
         setConstaraints(c,0,0,3);
-		frame.getContentPane().add(b,c);
+		frame.getContentPane().add(startButton,c);
 
 		JRadioButton playerButton = new JRadioButton("Player vs Player");
     	playerButton.setSelected(true);
@@ -152,6 +152,7 @@ public class GUI implements ActionListener
 		private Integer COL_WIDTH = 30;
 		private Integer totalWidth = COL_WIDTH*COL_COUNT;
 		private Integer totalHeight = ROW_WIDTH*ROW_COUNT;
+        private Point selectedPoint =  new Point();
 
         public Grid(int n) {
             ROW_COUNT = n;
@@ -171,9 +172,12 @@ public class GUI implements ActionListener
                 int cellY = (fillCell.point.y * ROW_WIDTH);
                 g.setColor(fillCell.color);
                 Graphics2D g2d = (Graphics2D) g;
-
+               
                 Rectangle r = new Rectangle(cellX, cellY, COL_WIDTH, ROW_WIDTH);
                 g2d.fill(r);
+                //g.setColor(Color.BLACK);
+                //Rectangle rO = new Rectangle(cellX+2, cellY+2, COL_WIDTH-4, ROW_WIDTH-4);
+                //g2d.fill(rO);
             }
             g.setColor(Color.BLACK);
             g.drawRect(0,0,totalWidth, totalHeight);
@@ -186,6 +190,14 @@ public class GUI implements ActionListener
             for (int i = 0; i <= totalHeight; i += ROW_WIDTH) {
                 g.drawLine(0, i, totalWidth, i);
             }
+
+            // Draw selection
+                int cellX = (selectedPoint.x * COL_WIDTH);
+                int cellY = (selectedPoint.y * ROW_WIDTH);
+                Graphics2D g2d = (Graphics2D) g;    
+                g.setColor(Color.BLACK);
+                Rectangle rO = new Rectangle(cellX+2, cellY+2, COL_WIDTH-4, ROW_WIDTH-4);
+                g2d.fill(rO);
         }
 
         public void fillCell(int x, int y,Color c) {
@@ -214,16 +226,19 @@ public class GUI implements ActionListener
         public void mouseClicked(MouseEvent e) {
             System.out.println("Pressed events");
             System.out.println(getRow(e.getY())+","+getCol(e.getX()));
+            selectedPoint.y = getRow(e.getY());
+            selectedPoint.x = getCol(e.getX());
+            repaint();
         }
-        public String getCol(int x)
+        public Integer getCol(int x)
         {
             Integer tmp = x/COL_WIDTH;
-            return tmp.toString();
+            return tmp;
         }
-        public String getRow(int y)
+        public Integer getRow(int y)
         {
             Integer tmp = y/ROW_WIDTH;
-            return tmp.toString();
+            return tmp;
         }
         public Integer getWidthGrid()
         {
