@@ -6,6 +6,8 @@ Date: 13 March 2015
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import java.util.ArrayList;
+import java.awt.Point;
 
 public class GUI
 {
@@ -58,8 +60,22 @@ public class GUI
     	group.add(playerButton);
     	group.add(aiButton);
 
-    	int rowStart = 3;
+    	JFrame window = new JFrame();
+        window.setSize(840, 560);
 
+		Grid grid = new Grid();
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 2;
+		c.gridheight = 100;
+		c.gridwidth = 100;
+		window.add(grid);
+
+		window.setVisible(true);
+
+
+		/*
+    	int rowStart = 3;
     	for(int i = 0;i<ROW_COUNT;i++){
     		for(int j = 0;j <COL_COUNT;j++){
     			    c.fill = GridBagConstraints.HORIZONTAL;
@@ -71,7 +87,7 @@ public class GUI
 					frame.getContentPane().add(btn,c);
     		}
     	}
-
+		*/
 		/*
  		JButton b = new JButton("Just fake button");
  		c.fill = GridBagConstraints.HORIZONTAL;
@@ -100,4 +116,41 @@ public class GUI
         frame.pack();
         frame.setVisible(true);
     }
+
+    public static class Grid extends JPanel {
+
+        private ArrayList<Point> fillCells;
+
+        public Grid() {
+            fillCells = new ArrayList<>(25);
+        }
+
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            for (Point fillCell : fillCells) {
+                int cellX = 10 + (fillCell.x * 10);
+                int cellY = 10 + (fillCell.y * 10);
+                g.setColor(Color.RED);
+                g.fillRect(cellX, cellY, 10, 10);
+            }
+            g.setColor(Color.BLACK);
+            g.drawRect(10, 10, 800, 500);
+
+            for (int i = 10; i <= 800; i += 10) {
+                g.drawLine(i, 10, i, 510);
+            }
+
+            for (int i = 10; i <= 500; i += 10) {
+                g.drawLine(10, i, 810, i);
+            }
+        }
+
+        public void fillCell(int x, int y) {
+            fillCells.add(new Point(x, y));
+            repaint();
+        }
+
+    }
+
 }
