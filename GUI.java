@@ -11,6 +11,7 @@ import java.awt.Point;
 
 public class GUI
 {
+    private Integer n = 10;
 
 	public GUI()
 	{
@@ -79,6 +80,36 @@ public class GUI
 		window.setVisible(true);
 		grid.fillCell(0,0);
         grid.fillCell(3,4);
+
+        Label nLabel = new Label("Select N:");
+        c.fill = GridBagConstraints.VERTICAL;
+        c.gridx = 0;
+        c.gridy = 4;
+        c.gridheight = 1;
+        frame.getContentPane().add(nLabel,c);
+
+        SpinnerNumberModel model = new SpinnerNumberModel(10,10,1000,2); 
+        JSpinner nSpinner = new JSpinner(model);
+        c.fill = GridBagConstraints.VERTICAL;
+        c.gridx = 1;
+        c.gridy = 4;
+        c.gridheight = 1;
+        frame.getContentPane().add(nSpinner,c);
+
+        Label startingBlocksLabel = new Label("Select initial cells:");
+        c.fill = GridBagConstraints.VERTICAL;
+        c.gridx = 0;
+        c.gridy = 5;
+        c.gridheight = 1;
+        frame.getContentPane().add(startingBlocksLabel,c);
+
+        SpinnerNumberModel startingBlocksModel = new SpinnerNumberModel(1,1,1000,1); 
+        JSpinner startingBlocksSpinner = new JSpinner(startingBlocksModel);
+        c.fill = GridBagConstraints.VERTICAL;
+        c.gridx = 1;
+        c.gridy = 5;
+        c.gridheight = 1;
+        frame.getContentPane().add(startingBlocksSpinner,c);
 
 
 		/*
