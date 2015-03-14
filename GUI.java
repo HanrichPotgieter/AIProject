@@ -11,8 +11,6 @@ import java.awt.Point;
 
 public class GUI
 {
-	Integer ROW_COUNT = 9;
-	Integer COL_COUNT = 8;
 
 	public GUI()
 	{
@@ -61,17 +59,17 @@ public class GUI
     	group.add(aiButton);
 
     	JFrame window = new JFrame();
-        window.setSize(840, 560);
+        window.setSize(400, 300);
 
 		Grid grid = new Grid();
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
 		c.gridy = 2;
-		c.gridheight = 100;
-		c.gridwidth = 100;
 		window.add(grid);
 
 		window.setVisible(true);
+		grid.fillCell(0,0);
+        grid.fillCell(3,4);
 
 
 		/*
@@ -120,6 +118,12 @@ public class GUI
     public static class Grid extends JPanel {
 
         private ArrayList<Point> fillCells;
+       	private Integer ROW_COUNT = 11;
+		private Integer COL_COUNT = 11;
+		private Integer ROW_WIDTH = 20;
+		private Integer COL_WIDTH = 30;
+		private Integer totalWidth = COL_WIDTH*COL_COUNT;
+		private Integer totalHeight = ROW_WIDTH*ROW_COUNT;
 
         public Grid() {
             fillCells = new ArrayList<>(25);
@@ -129,20 +133,20 @@ public class GUI
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
             for (Point fillCell : fillCells) {
-                int cellX = 10 + (fillCell.x * 10);
-                int cellY = 10 + (fillCell.y * 10);
+                int cellX = (fillCell.x * COL_WIDTH);
+                int cellY = (fillCell.y * ROW_WIDTH);
                 g.setColor(Color.RED);
-                g.fillRect(cellX, cellY, 10, 10);
+                g.fillRect(cellX, cellY, COL_WIDTH, ROW_WIDTH);
             }
             g.setColor(Color.BLACK);
-            g.drawRect(10, 10, 800, 500);
+            g.drawRect(0,0,totalWidth, totalHeight);
 
-            for (int i = 10; i <= 800; i += 10) {
-                g.drawLine(i, 10, i, 510);
+            for (int i = 0; i <= totalWidth; i += COL_WIDTH) {
+                g.drawLine(i, 0, i, totalHeight);
             }
 
-            for (int i = 10; i <= 500; i += 10) {
-                g.drawLine(10, i, 810, i);
+            for (int i = 0; i <= totalHeight; i += ROW_WIDTH) {
+                g.drawLine(0, i, totalWidth, i);
             }
         }
 
