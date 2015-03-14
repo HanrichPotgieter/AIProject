@@ -149,12 +149,33 @@ public class GUI implements ActionListener
         window.setSize(grid.getWidthGrid(),grid.getHeightGrid());
         window.add(grid);
         window.setVisible(true);
-        grid.fillCell(0,0);
-        grid.fillCell(3,4);
+        // We will use these functions to decorate the board.
+        grid.fillCell(0,0,Color.RED);
+        grid.fillCell(3,4,Color.BLUE);
+        grid.fillCell(3,5,Color.CYAN);
+        grid.fillCell(3,3,Color.CYAN);
+        grid.fillCell(4,5,Color.CYAN);
+        grid.fillCell(5,5,Color.CYAN);
+        grid.fillCell(6,5,Color.CYAN);
+        grid.fillCell(0,1,Color.PINK);
+        grid.fillCell(1,1,Color.PINK);
+        grid.fillCell(1,0,Color.PINK);
+        //Test cases
+    }
+
+    public class cellContents
+    {
+        public Point point;
+        public Color color;
+        public cellContents(Point p,Color c)
+        {
+            point = p;
+            color = c;
+        }
     }
 
     public class Grid extends JPanel implements MouseListener{
-        private ArrayList<Point> fillCells;
+        private ArrayList<cellContents> fillCells;
        	private Integer ROW_COUNT = 8;
 		private Integer COL_COUNT = 8;
 		private Integer ROW_WIDTH = 20;
@@ -176,14 +197,12 @@ public class GUI implements ActionListener
         @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
-            for (Point fillCell : fillCells) {
-                int cellX = (fillCell.x * COL_WIDTH);
-                int cellY = (fillCell.y * ROW_WIDTH);
-                //g.setColor(Color.RED);
-                //g.fillRect(cellX, cellY, COL_WIDTH, ROW_WIDTH);
-                //
-                //g.fill(r);
+            for (cellContents fillCell : fillCells) {
+                int cellX = (fillCell.point.x * COL_WIDTH);
+                int cellY = (fillCell.point.y * ROW_WIDTH);
+                g.setColor(fillCell.color);
                 Graphics2D g2d = (Graphics2D) g;
+
                 Rectangle r = new Rectangle(cellX, cellY, COL_WIDTH, ROW_WIDTH);
                 g2d.fill(r);
             }
@@ -200,8 +219,9 @@ public class GUI implements ActionListener
             }
         }
 
-        public void fillCell(int x, int y) {
-            fillCells.add(new Point(x, y));
+        public void fillCell(int x, int y,Color c) {
+            cellContents cell = new cellContents(new Point(x, y),c);
+            fillCells.add(cell);
             repaint();
         }
 
