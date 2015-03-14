@@ -118,7 +118,7 @@ public class GUI
     public static class Grid extends JPanel {
 
         private ArrayList<Point> fillCells;
-       	private Integer ROW_COUNT = 11;
+       	private Integer ROW_COUNT = 12;
 		private Integer COL_COUNT = 11;
 		private Integer ROW_WIDTH = 20;
 		private Integer COL_WIDTH = 30;
