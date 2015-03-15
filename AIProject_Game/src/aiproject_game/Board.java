@@ -593,9 +593,7 @@ public class Board {
       
            // first check up.... until you reach an empty block 
           while(checkedDone == false){
-              
-              if() 
-                  
+      
               
               
               
