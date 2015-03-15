@@ -425,6 +425,8 @@ public class Board {
    
    public boolean move(Point from,Point to)
    {
+       calculateAllowedNumberOfMoves(from.x, from.y);
+       
        if(from.x != to.x)
            if(from.y != to.y)
                return false;
