@@ -452,7 +452,7 @@ public class Board {
    
    
    
-   public int calculateAllowedNumberOfMoves(int row, int col, GamePieces.gamePieces piece){
+   public int calculateAllowedNumberOfMoves(int row, int col, GamePieces piece){
        // first validate the selected block 
        boolean validated = validateSelectedPiece(row, col);
        int cellCount = 0;
@@ -471,16 +471,29 @@ public class Board {
            // first check up.... until you reach an empty block 
           while(checkedDone == false){
               
-              if() 
+              tempVal++;
+              if(row-(tempVal+1) != 0){
+                  if(board[row-tempVal][col] != null){
+                      if(board[row-tempVal][col].getCurrentGamePiece() == coveredPiece.getCurrentGamePiece()){}// do nothing
+                      if(board[row-tempVal][col].getCurrentGamePiece() == piece.getCurrentGamePiece())// increase cellCount coz cell has been found
+                          cellCount++;
+                      if(board[row-tempVal][col].getCurrentGamePiece() == GamePieces.gamePieces.Empty_Block)// then exit while loop reached end of the covered area
+                          checkedDone = true;
+                          
+                  }
+                  
+              
+                          
                   
               
               
               
-          }
+          
        }
        else{} // error block selected is not valid.....
-       
+          }}
        return 0;
+          
    }
    
    //~~~~~~~~~~~~~ validateSelectedPiece - selected piece must be one of the layers own pieces. 
