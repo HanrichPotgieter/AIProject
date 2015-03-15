@@ -748,7 +748,9 @@ public class Board {
              }
           }
              
-             System.out.println("cellCount = " + cellCount);
+
+          System.out.println("cellCount = " + cellCount);
+
            
        return cellCount;
           
