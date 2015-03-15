@@ -8,6 +8,8 @@
 package aiproject_game;
 import java.util.Random;
 import java.awt.Point;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 
 
@@ -425,11 +427,22 @@ public class Board {
    
    public boolean move(Point from,Point to)
    {
-       calculateAllowedNumberOfMoves(from.x, from.y);
-       
+       //calculateAllowedNumberOfMoves(from.x, from.y);
+       //Check if we will be moving in a straight line.
        if(from.x != to.x)
            if(from.y != to.y)
                return false;
+       //check if point is not itself
+       if(from.x == to.x)
+           if(from.y == to.y)
+               return false;
+       // Check if there is another object in our way. 
+       if(isSelectable(to))
+           return false;
+       
+       takeOthers(to,to);
+       
+       
        System.out.println("From " + from.x +"."+ from.y +"|| To "+ to.x +"."+ to.y);
        
        clearSpace();
@@ -448,9 +461,9 @@ public class Board {
        
        colorSpace();
        
-       
+       coveredArea();
        updateGUI();
-       return false;
+       return true;
    }
    
    public void clearSpace()
@@ -731,5 +744,75 @@ public class Board {
       
        return validated;
    }
+   
+   public boolean isSelectable(Point a)
+   {
+       if(board[a.x][a.y].getCurrentGamePiece() == GamePieces.gamePieces.Player_A_Dark || board[a.x][a.y].getCurrentGamePiece() == GamePieces.gamePieces.Player_B_Dark )
+           return true;
+       return false;
+   }
+   
+   public void takeOthers(Point tmp,Point previous)
+   {  
+       /*
+                    Top
+                    XXX
+               Back XXX Front
+                    XXX
+                    Bottom
+       */
+       ArrayList<Point> list  = new ArrayList<Point>(12);
+       // Side Top
+       list.add(new Point(tmp.x-1,tmp.y+2));
+       list.add(new Point(tmp.x,tmp.y+2));
+       list.add(new Point(tmp.x+1,tmp.y+2));
+       //Side Front
+       list.add(new Point(tmp.x+2,tmp.y+1));
+       list.add(new Point(tmp.x+2,tmp.y));
+       list.add(new Point(tmp.x+2,tmp.y-1));
+       //Side Bottom
+       list.add(new Point(tmp.x+1,tmp.y-2));
+       list.add(new Point(tmp.x,tmp.y-2));
+       list.add(new Point(tmp.x-1,tmp.y-2));
+       //Side Back
+       list.add(new Point(tmp.x-2,tmp.y-1));
+       list.add(new Point(tmp.x-2,tmp.y));
+       list.add(new Point(tmp.x-2,tmp.y+1));
+       Iterator<Point> it = list.iterator();
+       while(it.hasNext())
+       {
+           Point z = it.next();
+           if(validPoint(z))
+           {
+               if(board[z.x][z.y].getCurrentGamePiece() == GamePieces.gamePieces.Player_A_Dark)
+               {
+                   if(board[tmp.x][tmp.x].getCurrentGamePiece() != GamePieces.gamePieces.Player_A_Dark)
+                   {
+                       board[z.x][z.y].setCurrentGamePiece(GamePieces.gamePieces.Player_B_Dark);
+                       if(z.x != previous.x && z.y != previous.y)
+                            takeOthers(new Point(z.x,z.y),tmp);
+                   }
+               }
+               if(board[z.x][z.y].getCurrentGamePiece() == GamePieces.gamePieces.Player_B_Dark)
+               {
+                   if(board[tmp.x][tmp.x].getCurrentGamePiece() != GamePieces.gamePieces.Player_B_Dark)
+                   {
+                       board[z.x][z.y].setCurrentGamePiece(GamePieces.gamePieces.Player_A_Dark);
+                        if(z.x != previous.x && z.y != previous.y)
+                            takeOthers(new Point(z.x,z.y),tmp);
+                   }
+               }
+           }
+       }
+   }
+   
+   public boolean validPoint(Point x)
+   {
+       if(x.x < N && x.x >= 0)
+           if(x.y < N && x.y >= 0)
+               return true;
+       return false;
+   }
+   
    
 }
