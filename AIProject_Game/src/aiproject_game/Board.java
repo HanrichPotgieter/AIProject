@@ -9,6 +9,7 @@ package aiproject_game;
 import java.util.Random;
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 
 
@@ -439,6 +440,8 @@ public class Board {
        if(isSelectable(to))
            return false;
        
+       takeOthers(to,to);
+       
        
        System.out.println("From " + from.x +"."+ from.y +"|| To "+ to.x +"."+ to.y);
        
@@ -657,7 +660,7 @@ public class Board {
        return false;
    }
    
-   public void takeOthers(Point tmp)
+   public void takeOthers(Point tmp,Point previous)
    {  
        /*
                     Top
@@ -666,7 +669,7 @@ public class Board {
                     XXX
                     Bottom
        */
-       ArrayList<Point> list  = new ArrayList<Point>();
+       ArrayList<Point> list  = new ArrayList<Point>(12);
        // Side Top
        list.add(new Point(tmp.x-1,tmp.y+2));
        list.add(new Point(tmp.x,tmp.y+2));
@@ -683,6 +686,32 @@ public class Board {
        list.add(new Point(tmp.x-2,tmp.y-1));
        list.add(new Point(tmp.x-2,tmp.y));
        list.add(new Point(tmp.x-2,tmp.y+1));
+       Iterator<Point> it = list.iterator();
+       while(it.hasNext())
+       {
+           Point z = it.next();
+           if(validPoint(z))
+           {
+               if(board[z.x][z.y].getCurrentGamePiece() == GamePieces.gamePieces.Player_A_Dark)
+               {
+                   if(board[tmp.x][tmp.x].getCurrentGamePiece() != GamePieces.gamePieces.Player_A_Dark)
+                   {
+                       board[z.x][z.y].setCurrentGamePiece(GamePieces.gamePieces.Player_B_Dark);
+                       if(z.x != previous.x && z.y != previous.y)
+                            takeOthers(new Point(z.x,z.y),tmp);
+                   }
+               }
+               if(board[z.x][z.y].getCurrentGamePiece() == GamePieces.gamePieces.Player_B_Dark)
+               {
+                   if(board[tmp.x][tmp.x].getCurrentGamePiece() != GamePieces.gamePieces.Player_B_Dark)
+                   {
+                       board[z.x][z.y].setCurrentGamePiece(GamePieces.gamePieces.Player_A_Dark);
+                        if(z.x != previous.x && z.y != previous.y)
+                            takeOthers(new Point(z.x,z.y),tmp);
+                   }
+               }
+           }
+       }
    }
    
    public boolean validPoint(Point x)
