@@ -427,6 +427,22 @@ public class Board {
    {
        System.out.println("From " + from.x +"."+ from.y +"|| To "+ to.x +"."+ to.y);
        clearSpace();
+       
+       if(board[from.x][from.y].getCurrentGamePiece() == GamePieces.gamePieces.Player_A_Dark) 
+       {
+           board[to.x][to.y].setCurrentGamePiece(GamePieces.gamePieces.Player_A_Dark);
+           board[from.x][from.y].setCurrentGamePiece(GamePieces.gamePieces.Empty_Block);
+       }
+       
+       if(board[from.x][from.y].getCurrentGamePiece() == GamePieces.gamePieces.Player_B_Dark) 
+       {
+           board[to.x][to.y].setCurrentGamePiece(GamePieces.gamePieces.Player_B_Dark);
+           board[from.x][from.y].setCurrentGamePiece(GamePieces.gamePieces.Empty_Block);
+       }
+       
+       colorSpace();
+       
+       
        updateGUI();
        return false;
    }
@@ -444,6 +460,113 @@ public class Board {
            }
        }
    }
+   
+   public void colorSpace()
+   {
+       for(int i = 0; i < N; i++)
+       {
+           for(int j = 0;j < N;j++)
+           {
+               if(board[i][j].getCurrentGamePiece() == GamePieces.gamePieces.Player_A_Dark)
+               {
+                   GamePieces a = null;
+                   GamePieces b = null;
+                   GamePieces c = null;
+                   GamePieces d = null;
+                   GamePieces above = null;
+                   GamePieces below = null;
+                   GamePieces infront = null;
+                   GamePieces before = null;   
+                   if(i-1 >= 0)
+                       above = board[i-1][j];
+                   if(i+1 < N)
+                       below = board[i+1][j];
+                   if(j-1 >= 0)
+                       before = board[i][j-1];
+                   if(j+1 < N)
+                       infront = board[i][j+1];
+                   
+                   if(i-1 >= 0 && j-1>=0)
+                       a = board[i-1][j-1];
+                   if(i+1 <N && j-1 >=0)
+                       b = board[i+1][j-1];
+                   if(i-1 >= 0 && j+1<N)
+                       c = board[i-1][j+1];
+                   if(i+1 < N  && j+1<N)
+                       d = board[i+1][j+1];
+       
+                       
+                   if(a != null)
+                       a.setCurrentGamePiece(GamePieces.gamePieces.Player_A_Light);
+                   if(b != null)
+                       b.setCurrentGamePiece(GamePieces.gamePieces.Player_A_Light);
+                   if(c != null)
+                       c.setCurrentGamePiece(GamePieces.gamePieces.Player_A_Light);
+                   if(d != null)
+                       d.setCurrentGamePiece(GamePieces.gamePieces.Player_A_Light);
+                   
+                   if(infront != null)
+                       infront.setCurrentGamePiece(GamePieces.gamePieces.Player_A_Light);
+                   if(below != null)
+                       below.setCurrentGamePiece(GamePieces.gamePieces.Player_A_Light);
+                   if(above != null)
+                       above.setCurrentGamePiece(GamePieces.gamePieces.Player_A_Light);
+                   if(before != null)
+                       before.setCurrentGamePiece(GamePieces.gamePieces.Player_A_Light);
+               }
+               
+                          
+               if(board[i][j].getCurrentGamePiece() == GamePieces.gamePieces.Player_B_Dark)
+               {
+                   GamePieces a = null;
+                   GamePieces b = null;
+                   GamePieces c = null;
+                   GamePieces d = null;
+                   GamePieces above = null;
+                   GamePieces below = null;
+                   GamePieces infront = null;
+                   GamePieces before = null;   
+                   if(i-1 >= 0)
+                       above = board[i-1][j];
+                   if(i+1 < N)
+                       below = board[i+1][j];
+                   if(j-1 >= 0)
+                       before = board[i][j-1];
+                   if(j+1 < N)
+                       infront = board[i][j+1];
+                   
+                   if(i-1 >= 0 && j-1>=0)
+                       a = board[i-1][j-1];
+                   if(i+1 <N && j-1 >=0)
+                       b = board[i+1][j-1];
+                   if(i-1 >= 0 && j+1<N)
+                       c = board[i-1][j+1];
+                   if(i+1 < N  && j+1<N)
+                       d = board[i+1][j+1];
+                   
+                    if(a != null)
+                       a.setCurrentGamePiece(GamePieces.gamePieces.Player_B_Light);
+                   if(b != null)
+                       b.setCurrentGamePiece(GamePieces.gamePieces.Player_B_Light);
+                   if(c != null)
+                       c.setCurrentGamePiece(GamePieces.gamePieces.Player_B_Light);
+                   if(d != null)
+                       d.setCurrentGamePiece(GamePieces.gamePieces.Player_B_Light);
+                   
+                   if(infront != null)
+                       infront.setCurrentGamePiece(GamePieces.gamePieces.Player_B_Light);
+                   if(below != null)
+                       below.setCurrentGamePiece(GamePieces.gamePieces.Player_B_Light);
+                   if(above != null)
+                       above.setCurrentGamePiece(GamePieces.gamePieces.Player_B_Light);
+                   if(before != null)
+                       before.setCurrentGamePiece(GamePieces.gamePieces.Player_B_Light);
+               }
+           }
+       }
+   }
+   
+   
    
    public void updateGUI()
    {
@@ -470,6 +593,7 @@ public class Board {
       
            // first check up.... until you reach an empty block 
           while(checkedDone == false){
+
               
               tempVal++;
               if(row-(tempVal+1) != 0){
@@ -485,6 +609,8 @@ public class Board {
               
                           
                   
+
+     
               
               
               
