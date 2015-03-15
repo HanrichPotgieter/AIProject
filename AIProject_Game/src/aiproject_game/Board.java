@@ -579,15 +579,20 @@ public class Board {
    
    
    
-   public int calculateAllowedNumberOfMoves(int row, int col, GamePieces piece){
+   public int calculateAllowedNumberOfMoves(int row, int col){
        // first validate the selected block 
-       boolean validated = validateSelectedPiece(row, col);
+      // boolean validated = validateSelectedPiece(row, col);
        int cellCount = 0;
        int tempVal = 0;
+       int countUp = 0;
+       int countDown = 0;
+       int countLeft = 0;
+       int countRight = 0;
        boolean checkedDone = false;
        GamePieces coveredPiece =  new GamePieces();
+       GamePieces piece = board[row][col];
        
-      if(validated){
+    //  if(validated){
          // determine what the covered piece must be 
          if(gameState.getGameState() == GameState.states.Player_A_Turn)
            coveredPiece.setCurrentGamePiece(GamePieces.gamePieces.Player_A_Light);
@@ -595,21 +600,24 @@ public class Board {
              if(gameState.getGameState() == GameState.states.Player_B_Turn)
                 coveredPiece.setCurrentGamePiece(GamePieces.gamePieces.Player_B_Light);
       
-           // first check up.... until you reach an empty block 
+//*****************COUNT UP***************
           while(checkedDone == false){
               tempVal++;
               if(row-(tempVal+1) != 0){
                   if(board[row-tempVal][col] != null){
-                      if(board[row-tempVal][col].getCurrentGamePiece() == coveredPiece.getCurrentGamePiece()){}// do nothing
-                      if(board[row-tempVal][col].getCurrentGamePiece() == piece.getCurrentGamePiece())// increase cellCount coz cell has been found
-                          cellCount++;
+                      if(board[row-tempVal][col].getCurrentGamePiece() == coveredPiece.getCurrentGamePiece())// increase the upCount
+                          countUp++;
+                      if(board[row-tempVal][col].getCurrentGamePiece() == piece.getCurrentGamePiece())// increase cellCount coz cell has been found and increase upCount
+                          countUp++;
                       if(board[row-tempVal][col].getCurrentGamePiece() == GamePieces.gamePieces.Empty_Block)// then exit while loop reached end of the covered area
                           checkedDone = true;
                           
                   }
-       }
-       else{} // error block selected is not valid.....
-          }}
+              }
+          }
+      
+          System.out.print("CountUp: " + countUp);
+          
        return 0;
           
    }
