@@ -297,9 +297,9 @@ public class GUI implements ActionListener
             return totalHeight+ROW_WIDTH;
         }
         
-        public void update(Grid g)
+        public void update()
         {
-            loadBoard(board.getBoard(),g);
+            loadBoard(board.getBoard(),this);
             repaint();
         }
     }
@@ -307,7 +307,7 @@ public class GUI implements ActionListener
     public void update(int id)
     {
         Grid tmp = boards.get(id);
-        tmp.update(tmp);
+        tmp.update();
       
     }
 
