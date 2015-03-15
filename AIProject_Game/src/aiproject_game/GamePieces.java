@@ -18,7 +18,7 @@ public class GamePieces {
                             Player_B_Dark,
                             Player_B_Light,
     }
-    public gamePieces currentGamePiece;
+    private gamePieces currentGamePiece;
     
     
     // ~~~~~~~  Class Constructor

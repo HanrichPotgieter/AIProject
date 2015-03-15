@@ -15,6 +15,7 @@ public class Board {
     // embedded class to help out with initial states when creating a board. 
     GUI gui = null;
     Integer id = null;
+    GameState gameState;
     public void setGUI(GUI g,int id)
     {
         gui = g;
@@ -60,6 +61,7 @@ public class Board {
     
      N = 0;
      numInitialCells = initialCells;
+     gameState = new GameState();
      
     }
     
@@ -569,6 +571,55 @@ public class Board {
    public void updateGUI()
    {
        gui.update(id);
+   }
+   
+   
+   
+   public int calculateAllowedNumberOfMoves(int row, int col, GamePieces.gamePieces piece){
+       // first validate the selected block 
+       boolean validated = validateSelectedPiece(row, col);
+       int cellCount = 0;
+       int tempVal = 0;
+       boolean checkedDone = false;
+       GamePieces coveredPiece =  new GamePieces();
+       
+      if(validated){
+         // determine what the covered piece must be 
+         if(gameState.getGameState() == GameState.states.Player_A_Turn)
+           coveredPiece.setCurrentGamePiece(GamePieces.gamePieces.Player_A_Light);
+         else
+             if(gameState.getGameState() == GameState.states.Player_B_Turn)
+                coveredPiece.setCurrentGamePiece(GamePieces.gamePieces.Player_B_Light);
+      
+           // first check up.... until you reach an empty block 
+          while(checkedDone == false){
+              
+              if() 
+                  
+              
+              
+              
+          }
+       }
+       else{} // error block selected is not valid.....
+       
+       return 0;
+   }
+   
+   //~~~~~~~~~~~~~ validateSelectedPiece - selected piece must be one of the layers own pieces. 
+   public boolean validateSelectedPiece(int row, int col){
+   
+       boolean validated = false;
+      if(gameState.getGameState() == GameState.states.Player_A_Turn)
+          if(board[row][col].getCurrentGamePiece() == GamePieces.gamePieces.Player_A_Dark)
+              validated =  true;
+      
+       if(gameState.getGameState() == GameState.states.Player_B_Turn)
+          if(board[row][col].getCurrentGamePiece() == GamePieces.gamePieces.Player_B_Dark)
+              validated =  true;
+      
+      
+       return validated;
    }
    
 }
