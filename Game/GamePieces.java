@@ -24,7 +24,7 @@ public class GamePieces {
     // ~~~~~~~  Class Constructor
     GamePieces(){
         currentGamePiece = gamePieces.Empty_Block;
-        System.out.println("*****" + gamePieces.Empty_Block);
+        //System.out.println("*****" + gamePieces.Empty_Block);
     }
     
     //~~~~~~~~~  getCutterntGamePiece

@@ -6,18 +6,46 @@
  *
  */
 
+import java.util.Random;
 
 
 
 public class Board {
+    
+    // embedded class to help out with initial states when creating a board. 
+    protected class allocated{
+        // ~~~~~~ class variables 
+        protected int row;
+        protected int col;
+        
+        //~~~~~~~~~ Class constructor.
+        allocated(){
+            row = -1;
+            col = -1;
+        }
+        public void setValues(int r, int c){
+            row = r;
+            col = c;
+        }
+    }
+    
     
     //~~~~~~~~~~ Class variables 
     public int N; // the size of the NxN matrix.
     public boolean validated; // this value will indicate if the N is valid
     public GamePieces[][] board; // this matrix will hold the whole game grid and which pieces are in which blocks
     public GamePieces temp;
-    //Game Pieces
     int EMPTY = 0;
+    Random random;
+    
+     public static  String WHITE = "\u001B[37m";
+     public static  String BLUE = "\u001B[34m";
+     public static  String RED = "\u001B[31m";
+     public static  String PURPLE = "\u001B[45m";
+     public static  String GREEN = "\u001B[32m";
+     public static  String RESET = "\u001B[0m";
+     public static  String CYAN = "\u001B[36m";
+     public static  String ANSI_PURPLE = "\u001B[35m";
     
     //~~~~~~~~ Class constructor;
     Board(){
@@ -45,15 +73,116 @@ public class Board {
     private void createBoard(){
        
         board = new GamePieces[N][N];
-        
+        int min = 0;
+        int max = 0;
+        allocated[] allocatedSells;
+        boolean alreadyAllocated;
+        int val1 = 0;
+        int val2 = 0;
+      
         // Initialize whole board to emptyBlocks
         for(int i = 0; i < N; i++){
             for(int j = 0; j < N; j++){
-                
                 board[i][j] = new GamePieces();
             }
-                
         }
+        // Randomize each players cells...
+         random = new Random();
+         
+        //********PLAYER_A********* set pieces for Player A and initial state will start at the right side. 
+         max = (N/2) -  2;
+         min = 0;
+         allocatedSells = new allocated[5]; // this will just store the random numbers that already 
+                                     // has blocks allocated for initial ststes
+         // just initialize all of the allocated values....
+         for(int i = 0; i < 5; i++)
+             allocatedSells[i] = new allocated();
+         
+        // We now need to allocate 5 pieces of player A to 5 differant blocks 
+        boolean stillLooking = true;
+        for(int i = 0; i < 5; i++){
+            
+            while(stillLooking == true){
+              val1 = random.nextInt((N-1) - 0 + 1) + 0;
+              val2 = random.nextInt(max - min + 1) + min;
+              alreadyAllocated = false;
+              
+              // Check if block has not yet been allocated to a piece 
+              for(int j = 0; j < 5; j++)
+              {
+                  if((allocatedSells[j].col == val2) && (allocatedSells[j].row == val1) )
+                      alreadyAllocated = true;
+              }
+              
+              if(alreadyAllocated == false){ // then blocks can be allocated
+                allocatedSells[i].setValues(val1, val2);
+                stillLooking = false;
+              }
+              else // keep looking for random numbers to get an unallocated block. 
+                  stillLooking = true;
+            }
+            stillLooking = true; // reset the value and start searching for 2 new values to allocate a piece to the block
+         }
+        System.out.println("***********");
+        for(int i = 0; i < 5; i++){
+            System.out.println("allocated : "+ i + "  : " + allocatedSells[i].row + allocatedSells[i].col);
+            board[allocatedSells[i].row][allocatedSells[i].col].setCurrentGamePiece(GamePieces.gamePieces.Player_A_Dark);
+        }
+        // ***** PLAYER A NOW PLACED..... ***** 
+        
+       //********PLAYER_B*********  
+         max =  N - 1;
+         min = (N/2) + 2;
+         System.out.println("min: " + min + " max: " + max);
+         allocatedSells = new allocated[5]; // this will just store the random numbers that already 
+                                            // has blocks allocated for initial ststes
+         // just initialize all of the allocated values....
+         for(int i = 0; i < 5; i++)
+             allocatedSells[i] = new allocated();
+         
+        // We now need to allocate 5 pieces of player A to 5 differant blocks 
+       stillLooking = true;
+        for(int i = 0; i < 5; i++){
+            
+            while(stillLooking == true){
+              val1 = random.nextInt((N-1) - 0 + 1) + 0;
+              val2 = random.nextInt(max - min + 1) + min;
+              alreadyAllocated = false;
+              
+              // Check if block has not yet been allocated to a piece 
+              for(int j = 0; j < 5; j++)
+              {
+                  if((allocatedSells[j].col == val2) && (allocatedSells[j].row == val1) )
+                      alreadyAllocated = true;
+              }
+              
+              if(alreadyAllocated == false){ // then blocks can be allocated
+                allocatedSells[i].setValues(val1, val2);
+                stillLooking = false;
+              }
+              else // keep looking for random numbers to get an unallocated block. 
+                  stillLooking = true;
+            }
+            stillLooking = true; // reset the value and start searching for 2 new values to allocate a piece to the block
+         }
+        System.out.println("***********");
+        int counter = 0;
+        for(int i =0; i < 5; i++){
+            
+            System.out.println("allocated : "+ i + "  : " + allocatedSells[i].row + allocatedSells[i].col);
+            board[allocatedSells[i].row][allocatedSells[i].col].setCurrentGamePiece(GamePieces.gamePieces.Player_B_Dark);
+            counter++;
+        }
+        // ***** PLAYER A NOW PLACED..... ***** 
+        
+        
+       
+       
+        
+        
+                 
+             
+        printBoard();
        
     }
     
@@ -67,13 +196,13 @@ public class Board {
                     System.out.print("**");
                 }else
                     if(board[i][j].getCurrentGamePiece().compareTo(GamePieces.gamePieces.Player_A_Dark) == 0){
-                    System.out.print("aD");
+                    System.out.print(BLUE+"aD"+RESET);
                 }else
                     if(board[i][j].getCurrentGamePiece().compareTo(GamePieces.gamePieces.Player_A_Light) == 0){
                     System.out.print("aL");
                 }else
                     if(board[i][j].getCurrentGamePiece().compareTo(GamePieces.gamePieces.Player_B_Dark) == 0){
-                    System.out.print("bD");
+                    System.out.print(RED+"bD"+RESET);
                 }else
                    if(board[i][j].getCurrentGamePiece().compareTo(GamePieces.gamePieces.Player_B_Light) == 0){
                     System.out.print("bL");

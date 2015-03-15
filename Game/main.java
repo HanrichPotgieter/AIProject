@@ -19,6 +19,7 @@ public class main {
         //~~~~~~~~~~~~~~ Class variables 
         Board board =  new Board(); 
         int sizeOfN = 0;
+        Game game;
        
         Scanner in = new Scanner(System.in);
         
@@ -40,7 +41,9 @@ public class main {
                 System.out.println("Please provide a new numberN to create the grid:");
                 sizeOfN = in.nextInt();
             }
-    }
+        }// if it exits this while then the grid value n has been validated and the board
+         // has been generated so now we can just start the game
+        
 }
         
        
