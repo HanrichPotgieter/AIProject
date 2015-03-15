@@ -435,7 +435,7 @@ public class Board {
    
    public boolean move(Point from,Point to)
    {
-       //calculateAllowedNumberOfMoves(from.x, from.y);
+       calculateAllowedNumberOfMoves(from.x, from.y);
        //Check if we will be moving in a straight line.
        if(from.x != to.x)
            if(from.y != to.y)
