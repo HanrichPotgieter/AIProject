@@ -425,7 +425,11 @@ public class Board {
    
    public boolean move(Point from,Point to)
    {
+       if(from.x != to.x)
+           if(from.y != to.y)
+               return false;
        System.out.println("From " + from.x +"."+ from.y +"|| To "+ to.x +"."+ to.y);
+       
        clearSpace();
        
        if(board[from.x][from.y].getCurrentGamePiece() == GamePieces.gamePieces.Player_A_Dark) 
@@ -593,8 +597,6 @@ public class Board {
       
            // first check up.... until you reach an empty block 
           while(checkedDone == false){
-
-              
               tempVal++;
               if(row-(tempVal+1) != 0){
                   if(board[row-tempVal][col] != null){
@@ -605,16 +607,6 @@ public class Board {
                           checkedDone = true;
                           
                   }
-                  
-              
-                          
-                  
-
-     
-              
-              
-              
-          
        }
        else{} // error block selected is not valid.....
           }}
