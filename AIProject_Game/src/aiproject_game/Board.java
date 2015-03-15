@@ -425,11 +425,14 @@ public class Board {
    
    public boolean move(Point from,Point to)
    {
-       calculateAllowedNumberOfMoves(from.x, from.y);
+       //calculateAllowedNumberOfMoves(from.x, from.y);
        
        if(from.x != to.x)
            if(from.y != to.y)
                return false;
+       
+       if(isSelectable(to))
+           return false;
        System.out.println("From " + from.x +"."+ from.y +"|| To "+ to.x +"."+ to.y);
        
        clearSpace();
@@ -639,5 +642,13 @@ public class Board {
       
        return validated;
    }
+   
+   public boolean isSelectable(Point a)
+   {
+       if(board[a.x][a.y].getCurrentGamePiece() == GamePieces.gamePieces.Player_A_Dark || board[a.x][a.y].getCurrentGamePiece() == GamePieces.gamePieces.Player_B_Dark )
+           return true;
+       return false;
+   }
+   
    
 }
