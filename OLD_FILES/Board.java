@@ -37,6 +37,7 @@ public class Board {
     public GamePieces temp;
     int EMPTY = 0;
     Random random;
+    int numInitialCells;
     
      public static  String WHITE = "\u001B[37m";
      public static  String BLUE = "\u001B[34m";
@@ -48,9 +49,10 @@ public class Board {
      public static  String ANSI_PURPLE = "\u001B[35m";
     
     //~~~~~~~~ Class constructor;
-    Board(){
+    Board( int initialCells){
     
      N = 0;
+     numInitialCells = initialCells;
      
     }
     
@@ -89,18 +91,18 @@ public class Board {
         // Randomize each players cells...
          random = new Random();
          
-        //********PLAYER_A********* set pieces for Player A and initial state will start at the right side. 
+//********PLAYER_A********* set pieces for Player A and initial state will start at the right side. 
          max = (N/2) -  2;
          min = 0;
-         allocatedSells = new allocated[5]; // this will just store the random numbers that already 
+         allocatedSells = new allocated[numInitialCells]; // this will just store the random numbers that already 
                                      // has blocks allocated for initial ststes
          // just initialize all of the allocated values....
-         for(int i = 0; i < 5; i++)
+         for(int i = 0; i < numInitialCells; i++)
              allocatedSells[i] = new allocated();
          
         // We now need to allocate 5 pieces of player A to 5 differant blocks 
         boolean stillLooking = true;
-        for(int i = 0; i < 5; i++){
+        for(int i = 0; i < numInitialCells; i++){
             
             while(stillLooking == true){
               val1 = random.nextInt((N-1) - 0 + 1) + 0;
@@ -108,7 +110,7 @@ public class Board {
               alreadyAllocated = false;
               
               // Check if block has not yet been allocated to a piece 
-              for(int j = 0; j < 5; j++)
+              for(int j = 0; j < numInitialCells; j++)
               {
                   if((allocatedSells[j].col == val2) && (allocatedSells[j].row == val1) )
                       alreadyAllocated = true;
@@ -124,14 +126,14 @@ public class Board {
             stillLooking = true; // reset the value and start searching for 2 new values to allocate a piece to the block
          }
         //System.out.println("***********");
-        for(int i = 0; i < 5; i++){
+        for(int i = 0; i < numInitialCells; i++){
          //   System.out.println("allocated : "+ i + "  : " + allocatedSells[i].row + allocatedSells[i].col);
             board[allocatedSells[i].row][allocatedSells[i].col].setCurrentGamePiece(GamePieces.gamePieces.Player_A_Dark);
         }
         
         // now we need to create a covered region where all squeres around each cell is covered in a 
         //ighter shade of that cell...
-        for(int i = 0; i < 5; i++) {
+        for(int i = 0; i < numInitialCells; i++) {
             
             int row = allocatedSells[i].row;
             int col = allocatedSells[i].col;
@@ -180,22 +182,21 @@ public class Board {
     }
        // now we need to join up the covered areas. 
         
-       
-        // ***** PLAYER A NOW PLACED..... ***** 
+// *****PLAYER A NOW PLACED ***** 
         
-       //********PLAYER_B*********  
+//********PLAYER_B*********  
          max =  N - 1;
          min = (N/2) + 2;
         // System.out.println("min: " + min + " max: " + max);
-         allocatedSells = new allocated[5]; // this will just store the random numbers that already 
+         allocatedSells = new allocated[numInitialCells]; // this will just store the random numbers that already 
                                             // has blocks allocated for initial ststes
          // just initialize all of the allocated values....
-         for(int i = 0; i < 5; i++)
+         for(int i = 0; i < numInitialCells; i++)
              allocatedSells[i] = new allocated();
          
         // We now need to allocate 5 pieces of player A to 5 differant blocks 
        stillLooking = true;
-        for(int i = 0; i < 5; i++){
+        for(int i = 0; i < numInitialCells; i++){
             
             while(stillLooking == true){
               val1 = random.nextInt((N-1) - 0 + 1) + 0;
@@ -203,7 +204,7 @@ public class Board {
               alreadyAllocated = false;
               
               // Check if block has not yet been allocated to a piece 
-              for(int j = 0; j < 5; j++)
+              for(int j = 0; j < numInitialCells; j++)
               {
                   if((allocatedSells[j].col == val2) && (allocatedSells[j].row == val1) )
                       alreadyAllocated = true;
@@ -220,7 +221,7 @@ public class Board {
          }
        // System.out.println("***********");
         int counter = 0;
-        for(int i =0; i < 5; i++){
+        for(int i =0; i < numInitialCells; i++){
             
            // System.out.println("allocated : "+ i + "  : " + allocatedSells[i].row + allocatedSells[i].col);
             board[allocatedSells[i].row][allocatedSells[i].col].setCurrentGamePiece(GamePieces.gamePieces.Player_B_Dark);
@@ -229,7 +230,7 @@ public class Board {
         
         // now we need to create a covered region where all squeres around each cell is covered in a 
         //ighter shade of that cell...
-        for(int i = 0; i < 5; i++) {
+        for(int i = 0; i < numInitialCells; i++) {
             
             int row = allocatedSells[i].row;
             int col = allocatedSells[i].col;
@@ -284,7 +285,7 @@ public class Board {
         
         
                  
-             
+            
         printBoard();
        
     }
@@ -319,13 +320,17 @@ public class Board {
     
     //~~~~~~~~~~~ changeBoardPiece 
    public void changeBoardPiece(int atRow, int atCol, GamePieces newPiece){
-       
        board[atRow][atCol] = newPiece;
-       
    }
    
+   //~~~~~~~~~~~~ getBoard - this returns the 2D array with all the pieces of the board in the current state. 
    public GamePieces[][] getBoard(){
        return board;
+   }
+   
+   //~~~~~~~~~~~ joinCoveredArea this function will check and join the pieces mentioned if they touch. 
+   public void joinCoveredAreas(GamePieces.gamePieces piece, allocated[] allocatedArray){
+       
    }
    
 }

@@ -12,8 +12,10 @@ import java.awt.Point;
 public class GUI implements ActionListener
 {
     //Buttons and stuff
-    SpinnerNumberModel model = new SpinnerNumberModel(10,10,1000,2); 
+    SpinnerNumberModel model = new SpinnerNumberModel(10,10,1000,2);
     JSpinner nSpinner = new JSpinner(model);
+    SpinnerNumberModel startingBlocksModel = new SpinnerNumberModel(1,1,1000,1); 
+    JSpinner startingBlocksSpinner = new JSpinner(startingBlocksModel); 
     private Integer n = 10;
 
 	public GUI()
@@ -77,8 +79,6 @@ public class GUI implements ActionListener
         setConstaraints(c,0,5,1);
         frame.getContentPane().add(startingBlocksLabel,c);
 
-        SpinnerNumberModel startingBlocksModel = new SpinnerNumberModel(1,1,1000,1); 
-        JSpinner startingBlocksSpinner = new JSpinner(startingBlocksModel);
         setConstaraints(c,1,5,1);
         frame.getContentPane().add(startingBlocksSpinner,c);
 
@@ -119,8 +119,8 @@ public class GUI implements ActionListener
         window.setSize(grid.getWidthGrid(),grid.getHeightGrid());
         window.add(grid);
         window.setVisible(true);
-
-        Board board = new Board();
+        Integer num = (Integer)startingBlocksSpinner.getValue();
+        Board board = new Board(num);
         if(board.validateBoardSize(n))
         {
             loadBoard(board.getBoard(),grid);
@@ -140,7 +140,7 @@ public class GUI implements ActionListener
                 Enum tmp = boardLayout[i][j].getCurrentGamePiece();
                 if(tmp.toString() == "Empty_Block")
                 {
-
+                    grid.fillCell(j,i,Color.WHITE);
                 }
                 if(tmp.toString() == "Player_A_Dark")
                 {
