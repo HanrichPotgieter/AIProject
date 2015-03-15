@@ -41,7 +41,7 @@ public class Board {
      public static  String WHITE = "\u001B[37m";
      public static  String BLUE = "\u001B[34m";
      public static  String RED = "\u001B[31m";
-     public static  String PURPLE = "\u001B[45m";
+     public static  String PURPLE ="\u001B[35m";;
      public static  String GREEN = "\u001B[32m";
      public static  String RESET = "\u001B[0m";
      public static  String CYAN = "\u001B[36m";
@@ -123,17 +123,70 @@ public class Board {
             }
             stillLooking = true; // reset the value and start searching for 2 new values to allocate a piece to the block
          }
-        System.out.println("***********");
+        //System.out.println("***********");
         for(int i = 0; i < 5; i++){
-            System.out.println("allocated : "+ i + "  : " + allocatedSells[i].row + allocatedSells[i].col);
+         //   System.out.println("allocated : "+ i + "  : " + allocatedSells[i].row + allocatedSells[i].col);
             board[allocatedSells[i].row][allocatedSells[i].col].setCurrentGamePiece(GamePieces.gamePieces.Player_A_Dark);
         }
+        
+        // now we need to create a covered region where all squeres around each cell is covered in a 
+        //ighter shade of that cell...
+        for(int i = 0; i < 5; i++) {
+            
+            int row = allocatedSells[i].row;
+            int col = allocatedSells[i].col;
+         
+      if((row !=0))
+        if(board[row-1][col] != null) // one cell up
+             if((board[row-1][col].getCurrentGamePiece() == GamePieces.gamePieces.Empty_Block))
+                board[row-1][col].setCurrentGamePiece(GamePieces.gamePieces.Player_A_Light);
+        
+      if(row != (N-1))
+        if(board[row+1][col] != null) // one cell down
+           if((board[row+1][col].getCurrentGamePiece() == GamePieces.gamePieces.Empty_Block))
+            board[row+1][col].setCurrentGamePiece(GamePieces.gamePieces.Player_A_Light);
+       
+        if(col != (N-1))
+         if(board[row][col+1] != null) // one cell right
+           if((board[row][col+1].getCurrentGamePiece() == GamePieces.gamePieces.Empty_Block))
+            board[row][col+1].setCurrentGamePiece(GamePieces.gamePieces.Player_A_Light);
+         
+        if(col != 0)
+          if(board[row][col-1] != null) // one cell left
+           if((board[row][col-1].getCurrentGamePiece() == GamePieces.gamePieces.Empty_Block))
+            board[row][col-1].setCurrentGamePiece(GamePieces.gamePieces.Player_A_Light);
+        
+       
+     if((row != 0) && (col != N-1) )
+        if(board[row-1][col+1] != null) // one cell diagonal up right
+           if((board[row-1][col+1].getCurrentGamePiece() == GamePieces.gamePieces.Empty_Block))
+            board[row-1][col+1].setCurrentGamePiece(GamePieces.gamePieces.Player_A_Light);
+       
+     if((row != 0) && (col != 0))
+        if(board[row-1][col-1] != null) // one cell diagonal up left
+           if((board[row-1][col-1].getCurrentGamePiece() == GamePieces.gamePieces.Empty_Block))
+            board[row-1][col-1].setCurrentGamePiece(GamePieces.gamePieces.Player_A_Light);
+     
+     if((row != N-1) && (col != 0))
+        if(board[row+1][col-1] != null) // one cell diagonal down left
+           if((board[row+1][col-1].getCurrentGamePiece() == GamePieces.gamePieces.Empty_Block))
+            board[row+1][col-1].setCurrentGamePiece(GamePieces.gamePieces.Player_A_Light);
+     
+     if((row != N-1) && (col != N-1))
+        if(board[row+1][col+1] != null) // one cell diagonal down right
+           if((board[row+1][col+1].getCurrentGamePiece() == GamePieces.gamePieces.Empty_Block))
+            board[row+1][col+1].setCurrentGamePiece(GamePieces.gamePieces.Player_A_Light);
+     
+    }
+       // now we need to join up the covered areas. 
+        
+       
         // ***** PLAYER A NOW PLACED..... ***** 
         
        //********PLAYER_B*********  
          max =  N - 1;
          min = (N/2) + 2;
-         System.out.println("min: " + min + " max: " + max);
+        // System.out.println("min: " + min + " max: " + max);
          allocatedSells = new allocated[5]; // this will just store the random numbers that already 
                                             // has blocks allocated for initial ststes
          // just initialize all of the allocated values....
@@ -165,15 +218,65 @@ public class Board {
             }
             stillLooking = true; // reset the value and start searching for 2 new values to allocate a piece to the block
          }
-        System.out.println("***********");
+       // System.out.println("***********");
         int counter = 0;
         for(int i =0; i < 5; i++){
             
-            System.out.println("allocated : "+ i + "  : " + allocatedSells[i].row + allocatedSells[i].col);
+           // System.out.println("allocated : "+ i + "  : " + allocatedSells[i].row + allocatedSells[i].col);
             board[allocatedSells[i].row][allocatedSells[i].col].setCurrentGamePiece(GamePieces.gamePieces.Player_B_Dark);
             counter++;
         }
-        // ***** PLAYER A NOW PLACED..... ***** 
+        
+        // now we need to create a covered region where all squeres around each cell is covered in a 
+        //ighter shade of that cell...
+        for(int i = 0; i < 5; i++) {
+            
+            int row = allocatedSells[i].row;
+            int col = allocatedSells[i].col;
+         
+      if((row !=0))
+        if(board[row-1][col] != null) // one cell up
+             if((board[row-1][col].getCurrentGamePiece() == GamePieces.gamePieces.Empty_Block))
+                board[row-1][col].setCurrentGamePiece(GamePieces.gamePieces.Player_B_Light);
+        
+      if(row != (N-1))
+        if(board[row+1][col] != null) // one cell down
+           if((board[row+1][col].getCurrentGamePiece() == GamePieces.gamePieces.Empty_Block))
+            board[row+1][col].setCurrentGamePiece(GamePieces.gamePieces.Player_B_Light);
+       
+        if(col != (N-1))
+         if(board[row][col+1] != null) // one cell right
+           if((board[row][col+1].getCurrentGamePiece() == GamePieces.gamePieces.Empty_Block))
+            board[row][col+1].setCurrentGamePiece(GamePieces.gamePieces.Player_B_Light);
+         
+        if(col != 0)
+          if(board[row][col-1] != null) // one cell left
+           if((board[row][col-1].getCurrentGamePiece() == GamePieces.gamePieces.Empty_Block))
+            board[row][col-1].setCurrentGamePiece(GamePieces.gamePieces.Player_B_Light);
+        
+       
+     if((row != 0) && (col != N-1) )
+        if(board[row-1][col+1] != null) // one cell diagonal up right
+           if((board[row-1][col+1].getCurrentGamePiece() == GamePieces.gamePieces.Empty_Block))
+            board[row-1][col+1].setCurrentGamePiece(GamePieces.gamePieces.Player_B_Light);
+       
+     if((row != 0) && (col != 0))
+        if(board[row-1][col-1] != null) // one cell diagonal up left
+           if((board[row-1][col-1].getCurrentGamePiece() == GamePieces.gamePieces.Empty_Block))
+            board[row-1][col-1].setCurrentGamePiece(GamePieces.gamePieces.Player_B_Light);
+     
+     if((row != N-1) && (col != 0))
+        if(board[row+1][col-1] != null) // one cell diagonal down left
+           if((board[row+1][col-1].getCurrentGamePiece() == GamePieces.gamePieces.Empty_Block))
+            board[row+1][col-1].setCurrentGamePiece(GamePieces.gamePieces.Player_B_Light);
+     
+     if((row != N-1) && (col != N-1))
+        if(board[row+1][col+1] != null) // one cell diagonal down right
+           if((board[row+1][col+1].getCurrentGamePiece() == GamePieces.gamePieces.Empty_Block))
+            board[row+1][col+1].setCurrentGamePiece(GamePieces.gamePieces.Player_B_Light);
+     
+}
+        // ***** PLAYER B NOW PLACED..... ***** 
         
         
        
@@ -199,13 +302,13 @@ public class Board {
                     System.out.print(BLUE+"aD"+RESET);
                 }else
                     if(board[i][j].getCurrentGamePiece().compareTo(GamePieces.gamePieces.Player_A_Light) == 0){
-                    System.out.print("aL");
+                    System.out.print(CYAN+"aL"+RESET);
                 }else
                     if(board[i][j].getCurrentGamePiece().compareTo(GamePieces.gamePieces.Player_B_Dark) == 0){
                     System.out.print(RED+"bD"+RESET);
                 }else
                    if(board[i][j].getCurrentGamePiece().compareTo(GamePieces.gamePieces.Player_B_Light) == 0){
-                    System.out.print("bL");
+                    System.out.print(PURPLE+"bL"+RESET);
                 }
                  System.out.print("]");
             }
