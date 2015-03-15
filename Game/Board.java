@@ -181,6 +181,7 @@ public class Board {
      
     }
        // now we need to join up the covered areas. 
+        joinCoveredAreas(GamePieces.gamePieces.Player_A_Light);
         
 // *****PLAYER A NOW PLACED ***** 
         
@@ -329,8 +330,101 @@ public class Board {
    }
    
    //~~~~~~~~~~~ joinCoveredArea this function will check and join the pieces mentioned if they touch. 
-   public void joinCoveredAreas(GamePieces.gamePieces piece, allocated[] allocatedArray){
-       
+   private boolean joinCoveredAreas(GamePieces.gamePieces piece){
+       int row = 0;
+       int col = 0;
+       boolean changed = false;
+     
+     for(int i = 0; i < N; i++){
+         for(int j = 0; j < N ; j++){
+             
+             if(board[i][j].getCurrentGamePiece() == piece){
+                 
+                 // diagonal right down is also a light block of same color
+                 if((i != N-1) && (j != 0))
+                     if(board[i+1][j-1].getCurrentGamePiece() == piece){// then it is touching another piece ...
+                         row = i+1;
+                         col = j-1;
+                         
+                         if(col != N-1) // then fill block next to it
+                            if(board[row][col+1] != null)
+                                if(board[row][col+1].getCurrentGamePiece() == GamePieces.gamePieces.Empty_Block){
+                                    board[row][col+1].setCurrentGamePiece(piece);
+                                    changed = true;
+                                }
+                        
+                         if(row != N-1)// fill block under it
+                            if(board[row+1][col] != null)
+                                if(board[row+1][col].getCurrentGamePiece() ==  GamePieces.gamePieces.Empty_Block){
+                                    board[row+1][col].setCurrentGamePiece(piece);
+                                    changed = true; 
+                            }
+                     }
+                 
+                 // diagonal right up
+                 if((i != 0) && (j != N-1))
+                     if(board[i-1][j+1].getCurrentGamePiece() == piece){// then it is toucing another piece...
+                         row = i-1;
+                         col = j+1;
+                         
+                          if(row != 0)  // fill block under it
+                            if(board[row-1][col].getCurrentGamePiece() == GamePieces.gamePieces.Empty_Block){
+                                board[row-1][col].setCurrentGamePiece(piece);
+                                changed = true;
+                            }
+                          
+                          if( col != (N-1))// fill block next to it
+                            if(board[row][col+1].getCurrentGamePiece() ==  GamePieces.gamePieces.Empty_Block){
+                                board[row][col+1].setCurrentGamePiece(piece);
+                                changed = true;
+                            }
+                    }
+             
+                  // diagonal left up 
+                  if((i != 0) && (j != 0))
+                      if(board[i-1][j-1].getCurrentGamePiece() == piece){// then it is touching another piece 
+                          row = i-1;
+                          col = j-1;
+                       
+                          if(row != 0) // fill block under it 
+                              if(board[row-1][col].getCurrentGamePiece() == GamePieces.gamePieces.Empty_Block){
+                                  board[row-1][col].setCurrentGamePiece(piece);
+                                  changed = true;
+                              }
+                          
+                          if(col != 0) // fill block next to it 
+                              if(board[row][col-1].getCurrentGamePiece() == GamePieces.gamePieces.Empty_Block){
+                                  board[row][col-1].setCurrentGamePiece(piece);
+                                  changed = true;
+                           }
+                      }
+                  
+                  //diagonal left down 
+                  if((i != N-1)&& (j != 0))
+                      if(board[i+1][j-1].getCurrentGamePiece() == piece){ // then it is touching another piece
+                          row = i+1;
+                          col = j-1;
+                          
+                          if(row != N-1)// fill block under it
+                              if(board[row+1][col].getCurrentGamePiece() == GamePieces.gamePieces.Empty_Block){
+                                  board[row+1][col].setCurrentGamePiece(piece);
+                                  changed = true;
+                              }
+                          
+                          if(col != 0) // fill block next to it
+                              if(board[row][col-1].getCurrentGamePiece() == GamePieces.gamePieces.Empty_Block){
+                                  board[row][col-1].setCurrentGamePiece(piece);
+                                  changed = true;
+                              }
+                      }
+             }
+     }
+    
    }
-   
+    
+    return changed;
+   }
 }
+   
+
+
