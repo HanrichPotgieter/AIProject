@@ -368,11 +368,13 @@ public class Board {
                    {
                        if(above.getCurrentGamePiece() == GamePieces.gamePieces.Player_A_Light && infront.getCurrentGamePiece() == GamePieces.gamePieces.Player_A_Light)
                        {
+                           if(board[i][j].getCurrentGamePiece() != GamePieces.gamePieces.Player_A_Dark ||board[i][j].getCurrentGamePiece() != GamePieces.gamePieces.Player_B_Dark )
                            board[i][j].setCurrentGamePiece(GamePieces.gamePieces.Player_A_Light);
                            change = true;
                        }
                        else if(above.getCurrentGamePiece() == GamePieces.gamePieces.Player_B_Light && infront.getCurrentGamePiece() == GamePieces.gamePieces.Player_B_Light)
                        {
+                           if(board[i][j].getCurrentGamePiece() != GamePieces.gamePieces.Player_A_Dark ||board[i][j].getCurrentGamePiece() != GamePieces.gamePieces.Player_B_Dark )
                            board[i][j].setCurrentGamePiece(GamePieces.gamePieces.Player_B_Light);
                            change = true;
                        }
@@ -382,11 +384,13 @@ public class Board {
                    {
                        if(below.getCurrentGamePiece() == GamePieces.gamePieces.Player_A_Light && infront.getCurrentGamePiece() == GamePieces.gamePieces.Player_A_Light)
                        {
+                           if(board[i][j].getCurrentGamePiece() != GamePieces.gamePieces.Player_A_Dark ||board[i][j].getCurrentGamePiece() != GamePieces.gamePieces.Player_B_Dark )
                            board[i][j].setCurrentGamePiece(GamePieces.gamePieces.Player_A_Light);
                            change = true;
                        }
                        else if(below.getCurrentGamePiece() == GamePieces.gamePieces.Player_B_Light && infront.getCurrentGamePiece() == GamePieces.gamePieces.Player_B_Light)
                        {
+                           if(board[i][j].getCurrentGamePiece() != GamePieces.gamePieces.Player_A_Dark ||board[i][j].getCurrentGamePiece() != GamePieces.gamePieces.Player_B_Dark )
                            board[i][j].setCurrentGamePiece(GamePieces.gamePieces.Player_B_Light);
                            change = true;
                        }
@@ -396,11 +400,13 @@ public class Board {
                    {
                        if(below.getCurrentGamePiece() == GamePieces.gamePieces.Player_A_Light && before.getCurrentGamePiece() == GamePieces.gamePieces.Player_A_Light)
                        {
+                           if(board[i][j].getCurrentGamePiece() != GamePieces.gamePieces.Player_A_Dark ||board[i][j].getCurrentGamePiece() != GamePieces.gamePieces.Player_B_Dark )
                            board[i][j].setCurrentGamePiece(GamePieces.gamePieces.Player_A_Light);
                            change = true;
                        }
                        else if(below.getCurrentGamePiece() == GamePieces.gamePieces.Player_B_Light && before.getCurrentGamePiece() == GamePieces.gamePieces.Player_B_Light)
                        {
+                           if(board[i][j].getCurrentGamePiece() != GamePieces.gamePieces.Player_A_Dark ||board[i][j].getCurrentGamePiece() != GamePieces.gamePieces.Player_B_Dark )
                            board[i][j].setCurrentGamePiece(GamePieces.gamePieces.Player_B_Light);
                            change = true;
                        }
@@ -410,11 +416,13 @@ public class Board {
                    {
                        if(above.getCurrentGamePiece() == GamePieces.gamePieces.Player_A_Light && before.getCurrentGamePiece() == GamePieces.gamePieces.Player_A_Light)
                        {
+                           if(board[i][j].getCurrentGamePiece() != GamePieces.gamePieces.Player_A_Dark ||board[i][j].getCurrentGamePiece() != GamePieces.gamePieces.Player_B_Dark )
                            board[i][j].setCurrentGamePiece(GamePieces.gamePieces.Player_A_Light);
                            change = true;
                        }
                        else if(above.getCurrentGamePiece() == GamePieces.gamePieces.Player_B_Light && before.getCurrentGamePiece() == GamePieces.gamePieces.Player_B_Light)
                        {
+                           if(board[i][j].getCurrentGamePiece() != GamePieces.gamePieces.Player_A_Dark ||board[i][j].getCurrentGamePiece() != GamePieces.gamePieces.Player_B_Dark )
                            board[i][j].setCurrentGamePiece(GamePieces.gamePieces.Player_B_Light);
                            change = true;
                        }
@@ -439,13 +447,14 @@ public class Board {
        // Check if there is another object in our way. 
        if(isSelectable(to))
            return false;
+       clearSpace();
        
        takeOthers(to,to);
        
        
        System.out.println("From " + from.x +"."+ from.y +"|| To "+ to.x +"."+ to.y);
        
-       clearSpace();
+       
        
        if(board[from.x][from.y].getCurrentGamePiece() == GamePieces.gamePieces.Player_A_Dark) 
        {
@@ -516,21 +525,29 @@ public class Board {
        
                        
                    if(a != null)
+                       if(a.getCurrentGamePiece() != GamePieces.gamePieces.Player_A_Dark || a.getCurrentGamePiece() != GamePieces.gamePieces.Player_B_Dark)
                        a.setCurrentGamePiece(GamePieces.gamePieces.Player_A_Light);
                    if(b != null)
+                       if(b.getCurrentGamePiece() != GamePieces.gamePieces.Player_A_Dark || b.getCurrentGamePiece() != GamePieces.gamePieces.Player_B_Dark)
                        b.setCurrentGamePiece(GamePieces.gamePieces.Player_A_Light);
                    if(c != null)
+                       if(c.getCurrentGamePiece() != GamePieces.gamePieces.Player_A_Dark || c.getCurrentGamePiece() != GamePieces.gamePieces.Player_B_Dark)
                        c.setCurrentGamePiece(GamePieces.gamePieces.Player_A_Light);
                    if(d != null)
+                       if(d.getCurrentGamePiece() != GamePieces.gamePieces.Player_A_Dark || d.getCurrentGamePiece() != GamePieces.gamePieces.Player_B_Dark)
                        d.setCurrentGamePiece(GamePieces.gamePieces.Player_A_Light);
                    
                    if(infront != null)
+                       if(infront.getCurrentGamePiece() != GamePieces.gamePieces.Player_A_Dark || infront.getCurrentGamePiece() != GamePieces.gamePieces.Player_B_Dark)
                        infront.setCurrentGamePiece(GamePieces.gamePieces.Player_A_Light);
                    if(below != null)
+                       if(below.getCurrentGamePiece() != GamePieces.gamePieces.Player_A_Dark || below.getCurrentGamePiece() != GamePieces.gamePieces.Player_B_Dark)
                        below.setCurrentGamePiece(GamePieces.gamePieces.Player_A_Light);
                    if(above != null)
+                       if(above.getCurrentGamePiece() != GamePieces.gamePieces.Player_A_Dark || above.getCurrentGamePiece() != GamePieces.gamePieces.Player_B_Dark)
                        above.setCurrentGamePiece(GamePieces.gamePieces.Player_A_Light);
                    if(before != null)
+                       if(before.getCurrentGamePiece() != GamePieces.gamePieces.Player_A_Dark || before.getCurrentGamePiece() != GamePieces.gamePieces.Player_B_Dark)
                        before.setCurrentGamePiece(GamePieces.gamePieces.Player_A_Light);
                }
                
@@ -564,21 +581,29 @@ public class Board {
                        d = board[i+1][j+1];
                    
                     if(a != null)
+                        if(a.getCurrentGamePiece() != GamePieces.gamePieces.Player_B_Dark|| a.getCurrentGamePiece() != GamePieces.gamePieces.Player_A_Dark)
                        a.setCurrentGamePiece(GamePieces.gamePieces.Player_B_Light);
                    if(b != null)
+                       if(b.getCurrentGamePiece() != GamePieces.gamePieces.Player_B_Dark || b.getCurrentGamePiece() != GamePieces.gamePieces.Player_A_Dark)
                        b.setCurrentGamePiece(GamePieces.gamePieces.Player_B_Light);
                    if(c != null)
+                       if(c.getCurrentGamePiece() != GamePieces.gamePieces.Player_B_Dark || c.getCurrentGamePiece() != GamePieces.gamePieces.Player_A_Dark)
                        c.setCurrentGamePiece(GamePieces.gamePieces.Player_B_Light);
                    if(d != null)
+                       if(d.getCurrentGamePiece() != GamePieces.gamePieces.Player_B_Dark || d.getCurrentGamePiece() != GamePieces.gamePieces.Player_A_Dark)
                        d.setCurrentGamePiece(GamePieces.gamePieces.Player_B_Light);
                    
                    if(infront != null)
+                       if(infront.getCurrentGamePiece() != GamePieces.gamePieces.Player_B_Dark || infront.getCurrentGamePiece() != GamePieces.gamePieces.Player_A_Dark)
                        infront.setCurrentGamePiece(GamePieces.gamePieces.Player_B_Light);
                    if(below != null)
+                       if(below.getCurrentGamePiece() != GamePieces.gamePieces.Player_B_Dark || below.getCurrentGamePiece() != GamePieces.gamePieces.Player_A_Dark)
                        below.setCurrentGamePiece(GamePieces.gamePieces.Player_B_Light);
                    if(above != null)
+                       if(above.getCurrentGamePiece() != GamePieces.gamePieces.Player_B_Dark || above.getCurrentGamePiece() != GamePieces.gamePieces.Player_A_Dark )
                        above.setCurrentGamePiece(GamePieces.gamePieces.Player_B_Light);
                    if(before != null)
+                       if(before.getCurrentGamePiece() != GamePieces.gamePieces.Player_B_Dark || before.getCurrentGamePiece() != GamePieces.gamePieces.Player_A_Dark)
                        before.setCurrentGamePiece(GamePieces.gamePieces.Player_B_Light);
                }
            }
@@ -761,7 +786,7 @@ public class Board {
                     XXX
                     Bottom
        */
-       ArrayList<Point> list  = new ArrayList<Point>(12);
+       ArrayList<Point> list  = new ArrayList<Point>(16);
        // Side Top
        list.add(new Point(tmp.x-1,tmp.y+2));
        list.add(new Point(tmp.x,tmp.y+2));
@@ -778,6 +803,11 @@ public class Board {
        list.add(new Point(tmp.x-2,tmp.y-1));
        list.add(new Point(tmp.x-2,tmp.y));
        list.add(new Point(tmp.x-2,tmp.y+1));
+       //Side above
+       list.add(new Point(tmp.x,tmp.y+1));
+       list.add(new Point(tmp.x,tmp.y-1));
+       list.add(new Point(tmp.x+1,tmp.y));
+       list.add(new Point(tmp.x-1,tmp.y));
        Iterator<Point> it = list.iterator();
        while(it.hasNext())
        {
@@ -786,16 +816,17 @@ public class Board {
            {
                if(board[z.x][z.y].getCurrentGamePiece() == GamePieces.gamePieces.Player_A_Dark)
                {
-                   if(board[tmp.x][tmp.x].getCurrentGamePiece() != GamePieces.gamePieces.Player_A_Dark)
+                   if(board[tmp.x][tmp.y].getCurrentGamePiece() != GamePieces.gamePieces.Player_B_Dark)
                    {
                        board[z.x][z.y].setCurrentGamePiece(GamePieces.gamePieces.Player_B_Dark);
                        if(z.x != previous.x && z.y != previous.y)
                             takeOthers(new Point(z.x,z.y),tmp);
                    }
                }
+               
                if(board[z.x][z.y].getCurrentGamePiece() == GamePieces.gamePieces.Player_B_Dark)
                {
-                   if(board[tmp.x][tmp.x].getCurrentGamePiece() != GamePieces.gamePieces.Player_B_Dark)
+                   if(board[tmp.x][tmp.y].getCurrentGamePiece() != GamePieces.gamePieces.Player_A_Dark)
                    {
                        board[z.x][z.y].setCurrentGamePiece(GamePieces.gamePieces.Player_A_Dark);
                         if(z.x != previous.x && z.y != previous.y)
