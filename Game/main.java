@@ -17,23 +17,29 @@ public class main {
     public static void main(String[] args) {
         
         //~~~~~~~~~~~~~~ Class variables 
-        Board board =  new Board(); 
+        Board board;
         int sizeOfN = 0;
+        int initialCells = 0;
         Game game;
        
         Scanner in = new Scanner(System.in);
         
         // Create the board:
+        System.out.println("*****************************************************");
+        System.out.println("                 WELCOME TO CELL WARS....");
+        System.out.println("*****************************************************");
+        System.out.println("Please provide the number of initial cells for each player: ");
+        initialCells = in.nextInt();
         System.out.println("Please provide a number N to create NxN grid:");
         System.out.println("****Note N needs to be an even number larger than 8****");
+        
         sizeOfN = in.nextInt();
-       
+        board =  new Board(initialCells); 
         
         while(true){
             
             if(board.validateBoardSize(sizeOfN))
             {
-               System.out.println("Generating board.....");
                return;
             }
             else{
