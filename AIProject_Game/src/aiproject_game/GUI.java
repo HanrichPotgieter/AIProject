@@ -11,6 +11,8 @@ import java.awt.Point;
 
 public class GUI implements ActionListener
 {
+    ArrayList<Grid> boards = new ArrayList<Grid>();
+    Integer id = 0;
     //Buttons and stuff
     SpinnerNumberModel model = new SpinnerNumberModel(10,10,1000,2);
     JSpinner nSpinner = new JSpinner(model);
@@ -111,7 +113,12 @@ public class GUI implements ActionListener
         JFrame window = new JFrame();
        
         n = (Integer)nSpinner.getValue();
-        Grid grid = new Grid(n);
+        Integer num = (Integer)startingBlocksSpinner.getValue();
+        Board board = new Board(num);
+        board.setGUI(this,id);
+        id++;
+        Grid grid = new Grid(n,board);
+        boards.add(grid);
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 0;
         c.gridy = 2;
@@ -119,8 +126,8 @@ public class GUI implements ActionListener
         window.setSize(grid.getWidthGrid(),grid.getHeightGrid());
         window.add(grid);
         window.setVisible(true);
-        Integer num = (Integer)startingBlocksSpinner.getValue();
-        Board board = new Board(num);
+     
+        
         if(board.validateBoardSize(n))
         {
             loadBoard(board.getBoard(),grid);
@@ -175,6 +182,8 @@ public class GUI implements ActionListener
     }
 
     public class Grid extends JPanel implements MouseListener{
+        private Board board = null;
+        private ArrayList<Point> clicks = new ArrayList<Point>();
         private ArrayList<cellContents> fillCells;
        	private Integer ROW_COUNT = 8;
 		private Integer COL_COUNT = 8;
@@ -184,7 +193,8 @@ public class GUI implements ActionListener
 		private Integer totalHeight = ROW_WIDTH*ROW_COUNT;
         private Point selectedPoint =  new Point();
 
-        public Grid(int n) {
+        public Grid(int n,Board b) {
+            board = b;
             ROW_COUNT = n;
             COL_COUNT = n;
             totalWidth = COL_WIDTH*COL_COUNT;
@@ -256,9 +266,17 @@ public class GUI implements ActionListener
         public void mouseClicked(MouseEvent e) {
             //System.out.println("Pressed events");
             //System.out.println(getRow(e.getY())+","+getCol(e.getX()));
+            clicks.add(new Point(getRow(e.getY()),getCol(e.getX())));
             selectedPoint.y = getRow(e.getY());
             selectedPoint.x = getCol(e.getX());
             repaint();
+            if(clicks.size() > 1)
+            {
+                Point from = clicks.remove(0);
+                Point to = clicks.remove(0);
+                board.move(from,to);
+            }
+               
         }
         public Integer getCol(int x)
         {
@@ -278,8 +296,19 @@ public class GUI implements ActionListener
         {
             return totalHeight+ROW_WIDTH;
         }
+        
+        public void update(Grid g)
+        {
+            loadBoard(board.getBoard(),g);
+            repaint();
+        }
     }
 
-
+    public void update(int id)
+    {
+        Grid tmp = boards.get(id);
+        tmp.update(tmp);
+      
+    }
 
 }

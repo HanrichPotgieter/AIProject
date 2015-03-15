@@ -7,12 +7,19 @@
  */
 package aiproject_game;
 import java.util.Random;
+import java.awt.Point;
 
 
 
 public class Board {
-    
     // embedded class to help out with initial states when creating a board. 
+    GUI gui = null;
+    Integer id = null;
+    public void setGUI(GUI g,int id)
+    {
+        gui = g;
+        this.id = id;
+    }
     protected class allocated{
         // ~~~~~~ class variables 
         protected int row;
@@ -279,13 +286,7 @@ public class Board {
 }
         // ***** PLAYER B NOW PLACED..... ***** 
         
-        
-       
-       
-        
-        
-                 
-            
+        coveredArea();  
         printBoard();
        
     }
@@ -331,6 +332,120 @@ public class Board {
    //~~~~~~~~~~~ joinCoveredArea this function will check and join the pieces mentioned if they touch. 
    public void joinCoveredAreas(GamePieces.gamePieces piece, allocated[] allocatedArray){
        
+   }
+     
+   public void coveredArea()
+   {
+       boolean change = true;
+       while(change)
+       {
+           change = false;
+       for(int i = 0;i < N;i++)
+       {
+           for(int j = 0; j < N; j++)
+           {
+               if(board[i][j].getCurrentGamePiece() == GamePieces.gamePieces.Empty_Block)
+               {
+                  
+                   GamePieces above = null;
+                   GamePieces below = null;
+                   GamePieces infront = null;
+                   GamePieces before = null;   
+                   if(i-1 >= 0)
+                       above = board[i-1][j];
+                   if(i+1 < N)
+                       below = board[i+1][j];
+                   if(j-1 >= 0)
+                       before = board[i][j-1];
+                   if(j+1 < N)
+                       infront = board[i][j+1];
+                   
+                   if(above!=null && infront!=null)
+                   {
+                       if(above.getCurrentGamePiece() == GamePieces.gamePieces.Player_A_Light && infront.getCurrentGamePiece() == GamePieces.gamePieces.Player_A_Light)
+                       {
+                           board[i][j].setCurrentGamePiece(GamePieces.gamePieces.Player_A_Light);
+                           change = true;
+                       }
+                       else if(above.getCurrentGamePiece() == GamePieces.gamePieces.Player_B_Light && infront.getCurrentGamePiece() == GamePieces.gamePieces.Player_B_Light)
+                       {
+                           board[i][j].setCurrentGamePiece(GamePieces.gamePieces.Player_B_Light);
+                           change = true;
+                       }
+                   }
+                   
+                   if(below!=null && infront!=null)
+                   {
+                       if(below.getCurrentGamePiece() == GamePieces.gamePieces.Player_A_Light && infront.getCurrentGamePiece() == GamePieces.gamePieces.Player_A_Light)
+                       {
+                           board[i][j].setCurrentGamePiece(GamePieces.gamePieces.Player_A_Light);
+                           change = true;
+                       }
+                       else if(below.getCurrentGamePiece() == GamePieces.gamePieces.Player_B_Light && infront.getCurrentGamePiece() == GamePieces.gamePieces.Player_B_Light)
+                       {
+                           board[i][j].setCurrentGamePiece(GamePieces.gamePieces.Player_B_Light);
+                           change = true;
+                       }
+                   }
+                   
+                   if(below!=null && before!=null)
+                   {
+                       if(below.getCurrentGamePiece() == GamePieces.gamePieces.Player_A_Light && before.getCurrentGamePiece() == GamePieces.gamePieces.Player_A_Light)
+                       {
+                           board[i][j].setCurrentGamePiece(GamePieces.gamePieces.Player_A_Light);
+                           change = true;
+                       }
+                       else if(below.getCurrentGamePiece() == GamePieces.gamePieces.Player_B_Light && before.getCurrentGamePiece() == GamePieces.gamePieces.Player_B_Light)
+                       {
+                           board[i][j].setCurrentGamePiece(GamePieces.gamePieces.Player_B_Light);
+                           change = true;
+                       }
+                   }
+                   
+                   if(above!=null && before!=null)
+                   {
+                       if(above.getCurrentGamePiece() == GamePieces.gamePieces.Player_A_Light && before.getCurrentGamePiece() == GamePieces.gamePieces.Player_A_Light)
+                       {
+                           board[i][j].setCurrentGamePiece(GamePieces.gamePieces.Player_A_Light);
+                           change = true;
+                       }
+                       else if(above.getCurrentGamePiece() == GamePieces.gamePieces.Player_B_Light && before.getCurrentGamePiece() == GamePieces.gamePieces.Player_B_Light)
+                       {
+                           board[i][j].setCurrentGamePiece(GamePieces.gamePieces.Player_B_Light);
+                           change = true;
+                       }
+                   }
+               }
+           }
+       }
+       }
+   }
+   
+   public boolean move(Point from,Point to)
+   {
+       System.out.println("From " + from.x +"."+ from.y +"|| To "+ to.x +"."+ to.y);
+       clearSpace();
+       updateGUI();
+       return false;
+   }
+   
+   public void clearSpace()
+   {
+       for(int i = 0; i< N;i++)
+       {
+           for(int j = 0; j < N;j++)
+           {
+              if(board[i][j].getCurrentGamePiece()== GamePieces.gamePieces.Player_B_Light || board[i][j].getCurrentGamePiece()== GamePieces.gamePieces.Player_A_Light )
+              {
+                  board[i][j].setCurrentGamePiece(GamePieces.gamePieces.Empty_Block);
+              }
+           }
+       }
+   }
+   
+   public void updateGUI()
+   {
+       gui.update(id);
    }
    
 }
