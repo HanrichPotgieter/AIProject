@@ -590,37 +590,129 @@ public class Board {
        int countDown = 0;
        int countLeft = 0;
        int countRight = 0;
+       int newRow = 0;
+       int newCol = 0;
        boolean checkedDone = false;
        GamePieces coveredPiece =  new GamePieces();
        GamePieces piece = board[row][col];
        
-    //  if(validated){
-         // determine what the covered piece must be 
-         if(gameState.getGameState() == GameState.states.Player_A_Turn)
+       if(piece.getCurrentGamePiece() == GamePieces.gamePieces.Player_A_Dark)
            coveredPiece.setCurrentGamePiece(GamePieces.gamePieces.Player_A_Light);
-         else
-             if(gameState.getGameState() == GameState.states.Player_B_Turn)
-                coveredPiece.setCurrentGamePiece(GamePieces.gamePieces.Player_B_Light);
-      
-//*****************COUNT UP***************
-          while(checkedDone == false){
-              tempVal++;
-              if(row-(tempVal+1) != 0){
-                  if(board[row-tempVal][col] != null){
-                      if(board[row-tempVal][col].getCurrentGamePiece() == coveredPiece.getCurrentGamePiece())// increase the upCount
-                          countUp++;
-                      if(board[row-tempVal][col].getCurrentGamePiece() == piece.getCurrentGamePiece())// increase cellCount coz cell has been found and increase upCount
-                          countUp++;
-                      if(board[row-tempVal][col].getCurrentGamePiece() == GamePieces.gamePieces.Empty_Block)// then exit while loop reached end of the covered area
-                          checkedDone = true;
-                          
-                  }
-              }
-          }
-      
-          System.out.print("CountUp: " + countUp);
+       if(piece.getCurrentGamePiece() == GamePieces.gamePieces.Player_B_Dark)
+           coveredPiece.setCurrentGamePiece(GamePieces.gamePieces.Player_B_Light);
+       
+ //*****************COUNT UP************
+           newRow = row;
+           newCol = col;
+           
+           while(checkedDone == false){
+               if(newRow > 0 && newRow < N){
+                   if(board[newRow-1][newCol].getCurrentGamePiece() == piece.getCurrentGamePiece())// dark block
+                       countUp++;
+                   if(board[newRow-1][newCol].getCurrentGamePiece() == coveredPiece.getCurrentGamePiece())// covered block
+                       countUp++;
+                   if(board[newRow-1][newCol].getCurrentGamePiece() == GamePieces.gamePieces.Empty_Block)// white block
+                       checkedDone = true;
+               }else
+                   checkedDone = true;
+               newRow--;
+           }
+  //***********************COUNT DOWN*************
+           newRow = row;
+           newCol = col;
+           checkedDone = false; 
+           
+           while(checkedDone == false){
+               if(newRow < N-1 && newRow >= 0){
+                   if(board[newRow+1][col].getCurrentGamePiece() == piece.getCurrentGamePiece())// dark block
+                       countDown++;
+                   if(board[newRow+1][col].getCurrentGamePiece() == coveredPiece.getCurrentGamePiece())// covered block
+                       countDown++;
+                   if(board[newRow+1][col].getCurrentGamePiece() == GamePieces.gamePieces.Empty_Block)// white block
+                       checkedDone = true;
+               }else
+                   checkedDone = true;
+               newRow++;
+           }
+   //******************COUNT LEFT*******
+           newRow = row;
+           newCol = col;
+           checkedDone = false;
+           
+           while(checkedDone == false){
+               if(newCol > 0 && newCol < N){
+                   if(board[newRow][newCol-1].getCurrentGamePiece() == piece.getCurrentGamePiece()) // dark block
+                       countLeft++;
+                   if(board[newRow][newCol-1].getCurrentGamePiece() == coveredPiece.getCurrentGamePiece())// light block
+                       countLeft++;
+                   if(board[newRow][newCol-1].getCurrentGamePiece() == GamePieces.gamePieces.Empty_Block)// white block
+                       checkedDone = true;
+               }else
+                   checkedDone = true;
+               newCol--;
+           }
+           
+    //**********COUNT RIGHT*****
+           newRow = row;
+           newCol = col;
+           checkedDone = false;
+           
+           while(checkedDone == false){
+               if(newCol >= 0 && newCol < N-1){
+                   if(board[newRow][newCol+1].getCurrentGamePiece() == piece.getCurrentGamePiece())// dark block 
+                       countRight++;
+                   if(board[newRow][newCol+1].getCurrentGamePiece() == coveredPiece.getCurrentGamePiece()) // covered block
+                       countRight++;
+                   if(board[newRow][newCol+1].getCurrentGamePiece() == GamePieces.gamePieces.Empty_Block)// white block
+                       checkedDone = true;
+               }else
+                   checkedDone = true;
+               newCol++;
+           }
+               
+           /*System.out.println("countUp " + countUp);
+           System.out.println("CountDown " + countDown);
+           System.out.println("CountLeft " + countLeft);
+           System.out.println("CountRight " + countRight);*/
+           
+           // now determine the rectangle....
+           /*
+           
+                a---------------b
+                |               |
+                |               |
+                |               |
+                c---------------d
+           */
+          allocated a = new allocated();
+          allocated b = new allocated();
+          allocated c = new allocated();
+          allocated d = new allocated();
           
-       return 0;
+          a.col = col - countLeft;
+          a.row = row - countUp;
+          
+          b.col = col + countRight;
+          b.row = row - countUp;
+          
+          c.col = col - countLeft;
+          c.row = row + countDown;
+          
+          d.col = col + countRight;
+          d.row = row +countDown;
+         
+          
+          for(int q = a.row; q < c.row; q++){
+             for(int p = a.col; p < b.col; p++){
+                 
+                 if(board[q][p].getCurrentGamePiece() == piece.getCurrentGamePiece()) // dark block 
+                     cellCount++;
+             }
+          }
+             
+             // System.out.println("cellCount = " + cellCount);
+           
+       return cellCount;
           
    }
    
