@@ -110,8 +110,8 @@ public class GUI implements ActionListener
         GridBagConstraints c = new GridBagConstraints();
         JFrame window = new JFrame();
        
-
-        Grid grid = new Grid(((Integer)nSpinner.getValue()));
+        n = (Integer)nSpinner.getValue();
+        Grid grid = new Grid(n);
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 0;
         c.gridy = 2;
@@ -119,18 +119,48 @@ public class GUI implements ActionListener
         window.setSize(grid.getWidthGrid(),grid.getHeightGrid());
         window.add(grid);
         window.setVisible(true);
-        // We will use these functions to decorate the board.
-        grid.fillCell(0,0,Color.RED);
-        grid.fillCell(3,4,Color.BLUE);
-        grid.fillCell(3,5,Color.CYAN);
-        grid.fillCell(3,3,Color.CYAN);
-        grid.fillCell(4,5,Color.CYAN);
-        grid.fillCell(5,5,Color.CYAN);
-        grid.fillCell(6,5,Color.CYAN);
-        grid.fillCell(0,1,Color.PINK);
-        grid.fillCell(1,1,Color.PINK);
-        grid.fillCell(1,0,Color.PINK);
-        //Test cases
+
+        Board board = new Board();
+        if(board.validateBoardSize(n))
+        {
+            loadBoard(board.getBoard(),grid);
+        }
+        else
+        {
+            System.out.println("Failed to create board");
+        }
+    }
+
+    public void loadBoard(GamePieces[][] boardLayout,Grid grid)
+    {
+        for(int i = 0;i<n;i++)
+        {
+            for(int j = 0;j<n;j++)
+            {
+                Enum tmp = boardLayout[i][j].getCurrentGamePiece();
+                if(tmp.toString() == "Empty_Block")
+                {
+
+                }
+                if(tmp.toString() == "Player_A_Dark")
+                {
+                    grid.fillCell(j,i,Color.BLUE);
+                }
+                if(tmp.toString() == "Player_B_Dark")
+                {
+                    grid.fillCell(j,i,Color.RED);
+                }
+                if(tmp.toString() == "Player_A_Light")
+                {
+                    grid.fillCell(j,i,Color.CYAN);
+                }
+                if(tmp.toString() == "Player_B_Light")
+                {
+                    grid.fillCell(j,i,Color.PINK);
+                }
+ 
+            }
+        }
     }
 
     public class cellContents
@@ -248,9 +278,8 @@ public class GUI implements ActionListener
         {
             return totalHeight+ROW_WIDTH;
         }
-
-
-
     }
+
+
 
 }
