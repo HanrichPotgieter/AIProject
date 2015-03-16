@@ -45,9 +45,11 @@ public class Board {
     public boolean validated; // this value will indicate if the N is valid
     public GamePieces[][] board; // this matrix will hold the whole game grid and which pieces are in which blocks
     public GamePieces temp;
-    int EMPTY = 0;
-    Random random;
-    int numInitialCells;
+    public int EMPTY = 0;
+    public Random random;
+    protected int numInitialCells;
+    public ArrayList<allocated> allocatedList; // used for cell counts... in the searchAroundBlock function
+    public ArrayList<allocated> checkedList; // used to make sure no stack overflow occurs in searcAroundBlock function
     
      public static  String WHITE = "\u001B[37m";
      public static  String BLUE = "\u001B[34m";
@@ -622,7 +624,7 @@ public class Board {
    public int calculateAllowedNumberOfMoves(int row, int col){
        // first validate the selected block 
       // boolean validated = validateSelectedPiece(row, col);
-       int cellCount = 0;
+      /* int cellCount = 0;
        int tempVal = 0;
        int countUp = 0;
        int countDown = 0;
@@ -722,7 +724,7 @@ public class Board {
                 |               |
                 c---------------d
            */
-          allocated a = new allocated();
+       /*   allocated a = new allocated();
           allocated b = new allocated();
           allocated c = new allocated();
           allocated d = new allocated();
@@ -753,12 +755,171 @@ public class Board {
 
           System.out.println("cellCount = " + cellCount);
 
-           
+           */
+       int cellCount = 0;
+       allocatedList = new ArrayList<>();
+       checkedList = new ArrayList<>();
+       searchAroundBlock(row, col);
+       cellCount = allocatedList.size();
+       
+       System.out.println("cellCount = " + cellCount);
+       
        return cellCount;
           
    }
    
-   //~~~~~~~~~~~~~ validateSelectedPiece - selected piece must be one of the layers own pieces. 
+   //~~~~~~~~~~~~ searchAround block will search around the block and return cellcount.
+   // sRow and sCol specifies the block around which it must search,
+   public void searchAroundBlock(int sRow, int sCol ){
+      
+       GamePieces piece = new GamePieces();
+       GamePieces coveredPiece = new GamePieces();
+       allocated tempVal;
+       
+       if(gameState.getGameState() == GameState.states.Player_A_Turn){
+           piece.setCurrentGamePiece(GamePieces.gamePieces.Player_A_Dark);
+           coveredPiece.setCurrentGamePiece(GamePieces.gamePieces.Player_A_Light);
+       }
+       else{ // it is player B's turn....
+           piece.setCurrentGamePiece(GamePieces.gamePieces.Player_B_Dark);
+           coveredPiece.setCurrentGamePiece(GamePieces.gamePieces.Player_B_Light);
+       }
+       
+       // add block you are checking to checked list so that it does not check itself again....
+       tempVal = new allocated();
+       tempVal.setValues(sRow, sCol);
+       checkedList.add(tempVal);
+       
+       //******check up
+       if(sRow != 0){
+            if(board[sRow-1][sCol].getCurrentGamePiece() == piece.getCurrentGamePiece()){// then it is a dark block add to arrayList
+             addToArrayList(sRow-1,sCol);
+             if(containsInCheckedList(sRow-1,sCol) == false)// block has not yet been checked
+                searchAroundBlock(sRow-1,sCol);
+            }
+            if(board[sRow-1][sCol].getCurrentGamePiece() == coveredPiece.getCurrentGamePiece()){// then it is a light block so just check
+               if(containsInCheckedList(sRow-1,sCol) == false)// block has not yet been checked
+                    searchAroundBlock(sRow-1,sCol);
+            }
+      }
+       // ******check diagonal up right
+       if((sRow != 0) && sCol < N-1){
+           if(board[sRow-1][sCol+1].getCurrentGamePiece() == piece.getCurrentGamePiece()){// then ot is a dark block add to arraylist and check around you
+             addToArrayList(sRow-1,sCol+1);
+             if(containsInCheckedList(sRow-1,sCol+1) == false)// block has ot yet been checked
+                searchAroundBlock(sRow-1,sCol+1);
+           }
+           if(board[sRow-1][sCol+1].getCurrentGamePiece() == coveredPiece.getCurrentGamePiece()){// then it is a light block so just check
+               if(containsInCheckedList(sRow-1,sCol+1) == false)// block has not yet been checked
+                 searchAroundBlock(sRow-1,sCol+1);
+           }
+        }
+        // ******check diagonal up left
+       if((sRow != 0) && sCol != 0){
+           if(board[sRow-1][sCol-1].getCurrentGamePiece() == piece.getCurrentGamePiece()){// then ot is a dark block add to arraylist and check around you
+             addToArrayList(sRow-1,sCol-1);
+             if(containsInCheckedList(sRow-1,sCol-1) == false)// block has not yet been checked
+                searchAroundBlock(sRow-1,sCol-1);
+           }
+           if(board[sRow-1][sCol-1].getCurrentGamePiece() == coveredPiece.getCurrentGamePiece()){// then it is a light block so just check
+               if(containsInCheckedList(sRow-1,sCol-1) == false)// block has not yet been checked
+                 searchAroundBlock(sRow-1,sCol-1);
+           }
+        }
+        // ******check left
+       if( sCol != 0){
+           if(board[sRow][sCol-1].getCurrentGamePiece() == piece.getCurrentGamePiece()){// then ot is a dark block add to arraylist and check around you
+             addToArrayList(sRow,sCol-1);
+             if(containsInCheckedList(sRow,sCol-1) == false)// block has not yet been checked
+                searchAroundBlock(sRow,sCol-1);
+           }
+           if(board[sRow][sCol-1].getCurrentGamePiece() == coveredPiece.getCurrentGamePiece()){// then it is a light block so just check
+               if(containsInCheckedList(sRow,sCol-1) == false)// block has not yet been checked
+                 searchAroundBlock(sRow,sCol-1);
+           }
+        }
+        // ******check right
+       if( sCol < N-1){
+           if(board[sRow][sCol+1].getCurrentGamePiece() == piece.getCurrentGamePiece()){// then ot is a dark block add to arraylist and check around you
+             addToArrayList(sRow,sCol+1);
+             if(containsInCheckedList(sRow,sCol+1) == false)// block has not yet been checked
+             searchAroundBlock(sRow,sCol+1);
+           }
+           if(board[sRow][sCol+1].getCurrentGamePiece() == coveredPiece.getCurrentGamePiece()){// then it is a light block so just check
+              if(containsInCheckedList(sRow,sCol+1) == false)// block has not yet been checked
+                 searchAroundBlock(sRow,sCol+1);
+           }
+        }
+       // ******check down
+       if( sRow < N-1){
+           if(board[sRow+1][sCol].getCurrentGamePiece() == piece.getCurrentGamePiece()){// then ot is a dark block add to arraylist and check around you
+             addToArrayList(sRow+1,sCol);
+             if(containsInCheckedList(sRow+1,sCol) == false)// block has not yet been checked
+                 searchAroundBlock(sRow+1,sCol);
+           }
+           if(board[sRow+1][sCol].getCurrentGamePiece() == coveredPiece.getCurrentGamePiece()){// then it is a light block so just check
+              if(containsInCheckedList(sRow+1,sCol) == false)// block has not yet been checked
+               searchAroundBlock(sRow+1,sCol);
+           }
+        }
+        // ******check diagonal right down
+       if( (sRow < N-1) && (sCol < N-1)){
+           if(board[sRow+1][sCol+1].getCurrentGamePiece() == piece.getCurrentGamePiece()){// then ot is a dark block add to arraylist and check around you
+             addToArrayList(sRow+1,sCol+1);
+             if(containsInCheckedList(sRow+1,sCol+1) == false)// block has not yet been checked
+                searchAroundBlock(sRow+1,sCol+1);
+           }
+           if(board[sRow+1][sCol+1].getCurrentGamePiece() == coveredPiece.getCurrentGamePiece()){// then it is a light block so just check
+              if(containsInCheckedList(sRow+1,sCol+1) == false)// block has not yet been checked
+                 searchAroundBlock(sRow+1,sCol+1);
+           }
+        }
+        // ******check diagonal left down
+       if( (sRow < N-1) && (sCol != 0)){
+           if(board[sRow+1][sCol-1].getCurrentGamePiece() == piece.getCurrentGamePiece()){// then ot is a dark block add to arraylist and check around you
+             addToArrayList(sRow+1,sCol-1);
+              if(containsInCheckedList(sRow+1,sCol-1) == false)// block has not yet been checked
+             searchAroundBlock(sRow+1,sCol-1);
+           }
+           if(board[sRow+1][sCol-1].getCurrentGamePiece() == coveredPiece.getCurrentGamePiece()){// then it is a light block so just check
+              if(containsInCheckedList(sRow+1,sCol-1) == false)// block has not yet been checked
+               searchAroundBlock(sRow+1,sCol-1);
+           }
+        }
+     
+   }
+   
+   //~~~~~~~~~~~~~ addToAllocatedList - checks if the mentioned coordinites is in the allocated array list.. 
+   private void addToArrayList(int row, int col){
+       
+       boolean alreadyContains = false;
+       allocated temp = new allocated();
+       temp.setValues(row, col);
+       for(int i = 0; i < allocatedList.size(); i++){
+           if(!allocatedList.isEmpty())
+               if(((allocatedList.get(i).row) == row) && ((allocatedList.get(i).col) == col))
+                   alreadyContains = true;
+       }
+           
+       if(alreadyContains == false){
+           allocatedList.add(temp);
+       }
+           
+   }
+   
+   private boolean containsInCheckedList(int row, int col){
+       
+       boolean contains = false;
+       if(!checkedList.isEmpty()){
+           for(int i = 0; i < checkedList.size(); i++){
+               if((checkedList.get(i).row == row) && (checkedList.get(i).col == col))
+                   contains = true;
+           }
+       }
+       return contains;
+   }
+   
+   //~~~~~~~~~~~~~ validateSelectedPiece - selected piece must be one of the Payers own pieces. 
    public boolean validateSelectedPiece(int row, int col){
    
        boolean validated = false;
