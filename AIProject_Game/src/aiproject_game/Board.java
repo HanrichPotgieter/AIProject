@@ -739,7 +739,7 @@ public class Board {
           d.col = col + countRight;
           d.row = row +countDown;
          
-          
+          // check rectangle....
           for(int q = a.row; q < c.row; q++){
              for(int p = a.col; p < b.col; p++){
                  
@@ -747,6 +747,8 @@ public class Board {
                      cellCount++;
              }
           }
+          // check rectangle corners....
+         
              
             System.out.println("cellCount = " + cellCount);
            
