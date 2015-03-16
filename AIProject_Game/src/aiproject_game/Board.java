@@ -750,7 +750,9 @@ public class Board {
           // check rectangle corners....
          
              
-            System.out.println("cellCount = " + cellCount);
+
+          System.out.println("cellCount = " + cellCount);
+
            
        return cellCount;
           
