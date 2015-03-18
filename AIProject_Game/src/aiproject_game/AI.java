@@ -21,26 +21,18 @@ public class AI extends Thread {
     //~~~~~~~~ class variables
   
     protected Integer heuristicVal;
-    
-    // ~~~~~~~~ class constructor 
-  
-
-    Board board = null;
+    public  Board board = null;
     ArrayList<Move> moves;
+   
     
+    //~~~~~~ class constructor
     public AI(Board board)
     {
         this.board = board; 
+        
     }
     
     
-
-    
-    public Integer HeuristicCount()
-    {
-        heuristicVal = board.getPossibleMoves().size();
-        return heuristicVal;
-    }
     public void randomAI()
     {
         Scanner a = new Scanner(System.in);
