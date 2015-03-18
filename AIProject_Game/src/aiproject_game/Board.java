@@ -493,10 +493,11 @@ public class Board {
            board[from.x][from.y].setCurrentGamePiece(GamePieces.gamePieces.Empty_Block);
        }
        
-       colorSpace();
+       //colorSpace();
        
-       coveredArea();
+       //coveredArea();
        updateGUI();
+       //Change turn when move is done..
        if(piece.getCurrentGamePiece() == GamePieces.gamePieces.Player_A_Dark)
            gameState.setGameState(GameState.states.Player_B_Turn);
        else if(piece.getCurrentGamePiece() == GamePieces.gamePieces.Player_B_Dark)
@@ -972,6 +973,18 @@ public class Board {
    
    public void takeOthers(Point tmp,Point previous)
    {  
+       GamePieces piece = new GamePieces();
+       GamePieces coveredPiece = new GamePieces();
+       
+       if(gameState.getGameState() == GameState.states.Player_A_Turn){
+           piece.setCurrentGamePiece(GamePieces.gamePieces.Player_A_Dark);
+           coveredPiece.setCurrentGamePiece(GamePieces.gamePieces.Player_A_Light);
+       }
+       else if(gameState.getGameState() == GameState.states.Player_B_Turn)
+       {
+           piece.setCurrentGamePiece(GamePieces.gamePieces.Player_B_Dark);
+           coveredPiece.setCurrentGamePiece(GamePieces.gamePieces.Player_B_Light);
+       }
        /*
                     Top
                     XXX
@@ -1007,24 +1020,15 @@ public class Board {
            Point z = it.next();
            if(validPoint(z))
            {
-               if(board[z.x][z.y].getCurrentGamePiece() == GamePieces.gamePieces.Player_A_Dark)
+               if(board[z.x][z.y].getCurrentGamePiece() == GamePieces.gamePieces.Player_B_Dark && piece.getCurrentGamePiece() == GamePieces.gamePieces.Player_A_Dark)
                {
-                   if(board[tmp.x][tmp.y].getCurrentGamePiece() != GamePieces.gamePieces.Player_B_Dark)
-                   {
-                       board[z.x][z.y].setCurrentGamePiece(GamePieces.gamePieces.Player_B_Dark);
-                       if(z.x != previous.x && z.y != previous.y)
-                            takeOthers(new Point(z.x,z.y),tmp);
-                   }
+                   board[z.x][z.y].setCurrentGamePiece(GamePieces.gamePieces.Player_A_Dark);
+                   takeOthers(z,tmp);
                }
-               
-               if(board[z.x][z.y].getCurrentGamePiece() == GamePieces.gamePieces.Player_B_Dark)
+               if(board[z.x][z.y].getCurrentGamePiece() == GamePieces.gamePieces.Player_A_Dark && piece.getCurrentGamePiece() == GamePieces.gamePieces.Player_B_Dark)
                {
-                   if(board[tmp.x][tmp.y].getCurrentGamePiece() != GamePieces.gamePieces.Player_A_Dark)
-                   {
-                       board[z.x][z.y].setCurrentGamePiece(GamePieces.gamePieces.Player_A_Dark);
-                        if(z.x != previous.x && z.y != previous.y)
-                            takeOthers(new Point(z.x,z.y),tmp);
-                   }
+                   board[z.x][z.y].setCurrentGamePiece(GamePieces.gamePieces.Player_B_Dark);
+                   takeOthers(z,tmp);
                }
            }
        }
