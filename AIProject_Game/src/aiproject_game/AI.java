@@ -65,6 +65,12 @@ public class AI extends Thread {
     @Override
     public void run()
     {
+        generateTree(true,false,board);
+        System.out.println("AI has done its calculation");
+    }
+    
+    public Integer generateTree(Boolean max,Boolean min,Board board)
+    {
         moves = board.getPossibleMoves();
         Iterator<Move> it  = moves.iterator();
         while(it.hasNext()){
@@ -72,10 +78,47 @@ public class AI extends Thread {
             GamePieces[][] newBoardArray  = board.getBoard();
             Board newBoard = new Board(board.N);
             board.setBoard(newBoardArray);
-            //Get heuristic on baord
-            //----------------------
+            board.move(move.from, move.to);
+            
+            if(max)
+                move.heuristicVal = generateTree(false,true,newBoard);
+            else if(min)
+                move.heuristicVal = generateTree(true, false, board);            
         }
-        
+        if(max)
+        {
+            return getMax(moves);
+        }
+        else if(min)
+        {
+            return getMin(moves);
+        }
+        return null;
+    }
+    
+    public Integer getMax(ArrayList<Move> list)
+    {
+        Integer max = -1000000;
+        Iterator<Move> it  = list.iterator();
+        while(it.hasNext())
+        {
+            Move move = it.next();
+            if(move.heuristicVal > max)
+                max = move.heuristicVal;
+        }
+        return max;
+    }
+    public Integer getMin(ArrayList<Move> list)
+    {
+        Integer min = 1000000;
+        Iterator<Move> it  = list.iterator();
+        while(it.hasNext())
+        {
+            Move move = it.next();
+            if(move.heuristicVal < min)
+                min = move.heuristicVal;
+        }
+        return min;
     }
     
 }
