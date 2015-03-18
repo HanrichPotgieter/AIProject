@@ -1065,16 +1065,15 @@ public class Board {
           int eX, eY;
           int pX, pY;
           int distance = 0;
-          int temp = 0;
-          
+         
           currentPiece = new GamePieces();
           piece = new GamePieces();
           
           piece.setCurrentGamePiece(board[p.x][p.y].getCurrentGamePiece());
           if(piece.getCurrentGamePiece() == GamePieces.gamePieces.Player_A_Dark)
-              currentPiece.setCurrentGamePiece(GamePieces.gamePieces.Player_B_Dark);
+              currentPiece.setCurrentGamePiece(GamePieces.gamePieces.Player_A_Dark);
           else
-               currentPiece.setCurrentGamePiece(GamePieces.gamePieces.Player_A_Dark);
+               currentPiece.setCurrentGamePiece(GamePieces.gamePieces.Player_B_Dark);
               
           currentPiece.setCurrentGamePiece(piece.getCurrentGamePiece());
           enemyCells = new ArrayList<>();
