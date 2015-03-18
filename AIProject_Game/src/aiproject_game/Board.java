@@ -332,7 +332,7 @@ public class Board {
    }
    
    //~~~~~~~~~~~~ getBoard - this returns the 2D array with all the pieces of the board in the current state. 
-   public GamePieces[][] getBoard(){
+   public synchronized GamePieces[][] getBoard(){
        GamePieces[][] copyBoard = new GamePieces[N][N];
        for(int i = 0;i<N;i++)
             for(int j = 0;j<N;j++)
@@ -1055,7 +1055,7 @@ public class Board {
      
       
     //~~~~~~~~~~~~~~ heuristicCellCount - returns the amount of the players cells - theopponents cells
-      public int hueristicCellCount(Point p){
+      public synchronized int hueristicCellCount(Point p){
         
           int hValue = 0;
           GamePieces currentPiece;

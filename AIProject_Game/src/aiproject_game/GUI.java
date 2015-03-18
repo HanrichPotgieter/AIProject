@@ -211,7 +211,7 @@ public class GUI implements ActionListener
         }
 
         @Override
-        protected void paintComponent(Graphics g) {
+        protected synchronized void paintComponent(Graphics g) {
             super.paintComponent(g);
             for (cellContents fillCell : fillCells) {
                 int cellX = (fillCell.point.x * COL_WIDTH);
