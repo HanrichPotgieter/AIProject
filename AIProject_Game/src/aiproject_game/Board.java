@@ -1001,28 +1001,36 @@ public class Board {
         return moves;
     }
       
-     public int evaluationFunction(){
+     public int hueristicCellCount(){
          
          int hValue = 0;
          ArrayList<Point> playerCells = new ArrayList<>();
-         GamePieces.gamePieces piece;
+         GamePieces piece;
+         GamePieces opponent;
+         opponent = new GamePieces();
+         piece = new GamePieces();
+         ArrayList<Point> currentPlayerCells;
+         ArrayList<Point> opponentPlayerCells;
          
-          if(gameState.getGameState() == GameState.states.Player_A_Turn)
-          //  piece.setCurrentGamePiece(GamePieces.gamePieces.Player_B_Dark);
-        // else 
-          /// piece.setCurrentGamePiece(GamePieces.gamePieces.Player_A_Dark);
+          if(gameState.getGameState() == GameState.states.Player_A_Turn){
+            piece.setCurrentGamePiece(GamePieces.gamePieces.Player_B_Dark);
+            opponent.setCurrentGamePiece(GamePieces.gamePieces.Player_A_Dark);
+          }else {
+           piece.setCurrentGamePiece(GamePieces.gamePieces.Player_A_Dark);
+           opponent.setCurrentGamePiece(GamePieces.gamePieces.Player_B_Dark);
+          }
          
-         //playerCells = getCells();
+          currentPlayerCells = new ArrayList<>();
+          currentPlayerCells = getCells(piece);
+          opponentPlayerCells = new ArrayList<>();
+          opponentPlayerCells =  getCells(opponent);
          
+         hValue = currentPlayerCells.size() - opponentPlayerCells.size();
          
-         
-       hValue = playerCells.size();
-         
-         
-         return 0;
+         return hValue;
      }
      
-     //~~~~~~~~~ getCells
+     //~~~~~~~~~ getCells - return the number of dark cells of specified player. 
      public ArrayList<Point> getCells(GamePieces piece){
          
          ArrayList<Point> playerPoints = new ArrayList<>();
@@ -1038,9 +1046,6 @@ public class Board {
                 }
             }
          }
-         
-         
-         
          
          return playerPoints;
          
