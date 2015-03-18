@@ -1059,6 +1059,7 @@ public class Board {
         
           int hValue = 0;
           GamePieces currentPiece;
+          GamePieces piece;
           ArrayList<Point> enemyCells;
           ArrayList<Integer> distanceFromEnemy;
           int eX, eY;
@@ -1067,7 +1068,15 @@ public class Board {
           int temp = 0;
           
           currentPiece = new GamePieces();
-          currentPiece.setCurrentGamePiece(board[p.x][p.y].getCurrentGamePiece());
+          piece = new GamePieces();
+          
+          piece.setCurrentGamePiece(board[p.x][p.y].getCurrentGamePiece());
+          if(piece.getCurrentGamePiece() == GamePieces.gamePieces.Player_A_Dark)
+              currentPiece.setCurrentGamePiece(GamePieces.gamePieces.Player_B_Dark);
+          else
+               currentPiece.setCurrentGamePiece(GamePieces.gamePieces.Player_A_Dark);
+              
+          currentPiece.setCurrentGamePiece(piece.getCurrentGamePiece());
           enemyCells = new ArrayList<>();
           distanceFromEnemy = new ArrayList<>();
           enemyCells = getCells(currentPiece);
