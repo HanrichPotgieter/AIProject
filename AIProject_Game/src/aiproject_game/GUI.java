@@ -129,7 +129,6 @@ public class GUI implements ActionListener
         window.setSize(grid.getWidthGrid(),grid.getHeightGrid());
         window.add(grid);
         window.setVisible(true);
-     
         
         if(board.validateBoardSize(n))
         {
@@ -139,6 +138,10 @@ public class GUI implements ActionListener
         {
             System.out.println("Failed to create board");
         }
+        
+        AI ai = new AI(board);
+        ai.start();
+        
     }
 
     public void loadBoard(GamePieces[][] boardLayout,Grid grid)
@@ -277,7 +280,7 @@ public class GUI implements ActionListener
             //clicks.add(new Point(getRow(e.getY()),getCol(e.getX())));
             selectedPoint.y = getRow(e.getY());
             selectedPoint.x = getCol(e.getX());
-           
+            board.getPossibleMoves();
             if(clicks.size() > 1)
             {
                 Point from = clicks.remove(0);
