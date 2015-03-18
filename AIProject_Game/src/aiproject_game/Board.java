@@ -882,11 +882,16 @@ public class Board {
    
    public boolean validPoint(Point x)
    {
-       if(x.x < N && x.x >= 0)
-           if(x.y < N && x.y >= 0)
-               return true;
+       if(x.x < N && x.x >= 0){
+           if(x.y < N && x.y >= 0){
+               //if(board[x.x][x.y].getCurrentGamePiece() != GamePieces.gamePieces.Player_A_Dark && board[x.x][x.y].getCurrentGamePiece() != GamePieces.gamePieces.Player_B_Dark )
+               //{
+                 return true;  
+              //}
+           }
+       }
+               
        return false;
-   }
-   
-   
+  
+    }
 }
