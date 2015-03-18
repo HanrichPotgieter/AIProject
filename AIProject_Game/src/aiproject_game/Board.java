@@ -495,7 +495,7 @@ public class Board {
        
        colorSpace();
        
-       //coveredArea();
+       coveredArea();
        updateGUI();
        //Change turn when move is done..
        if(piece.getCurrentGamePiece() == GamePieces.gamePieces.Player_A_Dark)
@@ -547,7 +547,6 @@ public class Board {
    }
    public void colorSpace()
    {
-       
        if(gameState.getGameState() == GameState.states.Player_A_Turn){
            ColorA();
            ColorB();
@@ -965,6 +964,12 @@ public class Board {
        list.add(new Point(tmp.x,tmp.y-1));
        list.add(new Point(tmp.x+1,tmp.y));
        list.add(new Point(tmp.x-1,tmp.y));
+       //Corners
+       list.add(new Point(tmp.x-1,tmp.y-1));
+       list.add(new Point(tmp.x+1,tmp.y-1));
+       list.add(new Point(tmp.x+1,tmp.y+1));
+       list.add(new Point(tmp.x-1,tmp.y+1));
+       
        Iterator<Point> it = list.iterator();
        while(it.hasNext())
        {
