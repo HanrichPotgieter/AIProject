@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
 import java.util.Scanner;
+import java.awt.Point;
+
 /**
  *
  * @author hanrich
@@ -70,7 +72,7 @@ public class AI extends Thread {
      while(true)
      {
         try{
-        Thread.sleep(100);
+        Thread.sleep(1000);
         }
         catch(Exception e)
         {
@@ -78,24 +80,22 @@ public class AI extends Thread {
         }
         ArrayList<Move> moves = board.getPossibleMoves();
         GamePieces[][] newBoardArray  = board.getBoard();
-        Board newBoard = new Board(board.N);
+        Board newBoard = new Board(board.numInitialCells);
         newBoard.validateBoardSize(board.N);
-        board.setBoard(newBoardArray);
-        
+        newBoard.setBoard(newBoardArray);
+        newBoard.printBoard();
+        ArrayList<Move> moves2 = newBoard.getPossibleMoves();
         generateTree(true,false,newBoard,1,0);
         
        
         
         System.out.println("AI has done its calculation");
         //board.move(nextMove.from, nextMove.to);
-        if(board.move(nextMove.from,nextMove.to))
-        {
-            System.out.println("We moved!");
-        }
-        else
-        {
-            System.out.println("Move failed");
-        }
+        this.board.printBoard();
+        this.board.move(nextMove.to,nextMove.from,false);
+        this.board.printBoard();
+        this.board.updateGUI();
+
      }
     }
     public Move nextMove;
@@ -114,16 +114,24 @@ public class AI extends Thread {
         while(it.hasNext()){
             Move move = it.next();
             GamePieces[][] newBoardArray  = b.getBoard();
-            Board newBoard = new Board(b.N);
+            Board newBoard = new Board(b.numInitialCells);
             newBoard.validateBoardSize(b.N);
-            b.setBoard(newBoardArray);
-            b.move(move.from, move.to);
+            newBoard.setBoard(newBoardArray);
+            newBoard.printBoard();
+            
+            if(newBoard.move(move.from, move.to,false))
+            {
+                System.out.println("failed test move");
+            }
+            newBoard.printBoard();
             move.heuristicVal += newBoard.hueristicCellCount();
             //System.out.println(move.heuristicVal);
-            if(max)
+            if(max){
                 move.heuristicVal += generateTree(false,true,newBoard,plyDepth,currentDepth+1);
-            if(min)
+            }
+            if(min){
                 move.heuristicVal += generateTree(true, false,newBoard,plyDepth,currentDepth+1); 
+            }
             
             if(currentDepth == 0)
             {
@@ -142,7 +150,7 @@ public class AI extends Thread {
         //return null;
         return null;
     }
-    public Move getMaxMove(ArrayList<Move> list)
+    public synchronized Move getMaxMove(ArrayList<Move> list)
     {
         Integer max = -1000000;
         Move x = null;
@@ -153,13 +161,15 @@ public class AI extends Thread {
             if(move.heuristicVal > max)
             {
                 max = move.heuristicVal;
-                x = move;
+                x = new Move();
+                x.from = new Point(move.from.x,move.from.y);
+                x.to = new Point(move.to.x,move.to.y);
             }
         }
         return x;
     }
     
-    public Integer getMax(ArrayList<Move> list)
+    public synchronized Integer  getMax(ArrayList<Move> list)
     {
         Integer max = -1000000;
         Iterator<Move> it  = list.iterator();
@@ -171,7 +181,7 @@ public class AI extends Thread {
         }
         return max;
     }
-    public Integer getMin(ArrayList<Move> list)
+    public synchronized Integer getMin(ArrayList<Move> list)
     {
         Integer min = 1000000;
         Iterator<Move> it  = list.iterator();
