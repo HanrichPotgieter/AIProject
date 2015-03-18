@@ -124,7 +124,7 @@ public class AI extends Thread {
                 System.out.println("failed test move");
             }
             newBoard.printBoard();
-            move.heuristicVal += newBoard.hueristicCellCount();
+            move.heuristicVal += newBoard.hueristicCellCount(move.to);
             //System.out.println(move.heuristicVal);
             if(max){
                 move.heuristicVal += generateTree(false,true,newBoard,plyDepth,currentDepth+1);
