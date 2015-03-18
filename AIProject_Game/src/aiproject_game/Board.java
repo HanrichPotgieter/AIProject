@@ -1001,7 +1001,53 @@ public class Board {
         return moves;
     }
       
-     public int hueristicCellCount(){
+     public int heuristicDistanceCount(){
+         
+         ArrayList<Point> currentPlayer;
+         ArrayList<Point> myCoveredAreas;
+         GamePieces piece;
+         GamePieces current;
+         currentPlayer = new ArrayList<>();
+         myCoveredAreas = new ArrayList<>();
+         piece = new GamePieces();
+         current = new GamePieces();
+         boolean canEnterCoveredArea = false;
+         
+         if(gameState.getGameState() == GameState.states.Player_A_Turn){
+             piece.setCurrentGamePiece(GamePieces.gamePieces.Player_A_Dark);// opponenet
+             current.setCurrentGamePiece(GamePieces.gamePieces.Player_B_Light); // current
+         }else
+         {
+            piece.setCurrentGamePiece(GamePieces.gamePieces.Player_B_Dark); // opponenet
+            current.setCurrentGamePiece(GamePieces.gamePieces.Player_A_Light);// current
+         }
+         // now you know where the current players' opponents cell positions and now need to calculate the distance tehy are from the covered areas of your cells.
+           currentPlayer = getCells(piece);
+          
+         // for each position in current player determine how far it is from the closest covered area of the other player
+          // if other player can enter the covered area (-5)
+          // if other player can get close enough to touch border
+        
+          canEnterCoveredArea =  otherPlayerCanEnterCoveredArea(currentPlayer);
+          
+           
+           
+       
+          
+         return 0;
+     }
+     
+     public boolean otherPlayerCanEnterCoveredArea(ArrayList Opponent){
+         
+         
+         
+     return false;
+     }
+     
+      
+      
+    //~~~~~~~~~~~~~~ heuristicCellCount - returns the amount of the players cells - theopponents cells
+      public int hueristicCellCount(){
          
          int hValue = 0;
          ArrayList<Point> playerCells = new ArrayList<>();
@@ -1036,7 +1082,6 @@ public class Board {
          ArrayList<Point> playerPoints = new ArrayList<>();
          Point temp = new Point();
          
-        
          for(int i = 0; i < N-1; i++){
             for(int j = 0; j  < N-1; j++){
                 if(board[i][j].getCurrentGamePiece() == piece.getCurrentGamePiece()){
