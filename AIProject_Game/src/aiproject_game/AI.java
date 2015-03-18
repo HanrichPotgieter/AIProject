@@ -27,13 +27,11 @@ public class AI extends Thread {
     {
         return 0;
     }
-    
-    @Override
-    public void run()
+    public void randomAI()
     {
         Scanner a = new Scanner(System.in);
         System.out.println("Let AI move..");
-         a.nextLine();
+        a.nextLine();
         
         while(true)
         {
@@ -60,6 +58,11 @@ public class AI extends Thread {
                 
             }
         }
+    }
+    @Override
+    public void run()
+    {
+
         
     }
     
