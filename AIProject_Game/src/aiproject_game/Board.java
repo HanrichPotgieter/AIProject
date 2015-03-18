@@ -1048,7 +1048,7 @@ public class Board {
       
       
     //~~~~~~~~~~~~~~ heuristicCellCount - returns the amount of the players cells - theopponents cells
-      public int hueristicCellCount(){
+      public int hueristicCellCount(Point p){
          
          int hValue = 0;
          ArrayList<Point> playerCells = new ArrayList<>();
