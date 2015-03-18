@@ -67,9 +67,10 @@ public class AI extends Thread {
     @Override
     public void run()
     {
-       
+     while(true)
+     {
         try{
-        Thread.sleep(1000);
+        Thread.sleep(100);
         }
         catch(Exception e)
         {
@@ -81,11 +82,23 @@ public class AI extends Thread {
         newBoard.validateBoardSize(board.N);
         board.setBoard(newBoardArray);
         
-        generateTree(true,false,newBoard,2,0);
+        generateTree(true,false,newBoard,1,0);
+        
+       
         
         System.out.println("AI has done its calculation");
+        //board.move(nextMove.from, nextMove.to);
+        if(board.move(nextMove.from,nextMove.to))
+        {
+            System.out.println("We moved!");
+        }
+        else
+        {
+            System.out.println("Move failed");
+        }
+     }
     }
-    
+    public Move nextMove;
     public synchronized Integer generateTree(Boolean max,Boolean min,Board b, int plyDepth,int currentDepth)
     {
         if(plyDepth <= currentDepth)
@@ -106,11 +119,17 @@ public class AI extends Thread {
             b.setBoard(newBoardArray);
             b.move(move.from, move.to);
             move.heuristicVal += newBoard.hueristicCellCount();
-            System.out.println(move.heuristicVal);
+            //System.out.println(move.heuristicVal);
             if(max)
                 move.heuristicVal += generateTree(false,true,newBoard,plyDepth,currentDepth+1);
             if(min)
-                move.heuristicVal += generateTree(true, false,newBoard,plyDepth,currentDepth+1);            
+                move.heuristicVal += generateTree(true, false,newBoard,plyDepth,currentDepth+1); 
+            
+            if(currentDepth == 0)
+            {
+                nextMove = getMaxMove(moves);
+                return 0;
+            }
         }
         if(max)
         {
@@ -122,6 +141,22 @@ public class AI extends Thread {
         }
         //return null;
         return null;
+    }
+    public Move getMaxMove(ArrayList<Move> list)
+    {
+        Integer max = -1000000;
+        Move x = null;
+        Iterator<Move> it  = list.iterator();
+        while(it.hasNext())
+        {
+            Move move = it.next();
+            if(move.heuristicVal > max)
+            {
+                max = move.heuristicVal;
+                x = move;
+            }
+        }
+        return x;
     }
     
     public Integer getMax(ArrayList<Move> list)
