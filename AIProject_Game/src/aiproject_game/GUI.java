@@ -139,6 +139,8 @@ public class GUI implements ActionListener
             System.out.println("Failed to create board");
         }
         
+        AI ai = new AI(board);
+        ai.start();
         
     }
 
