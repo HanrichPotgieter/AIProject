@@ -2,7 +2,7 @@
  *  COS 314 Project 1 
  *  Authors:
  *  Isabel Nel : 13070305
- *  Hanrich Potgieter : 
+ *  Hanrich Potgieter :  12287343
  *
  */
 

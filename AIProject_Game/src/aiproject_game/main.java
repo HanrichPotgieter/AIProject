@@ -1,7 +1,10 @@
 /*
-Created by Isabeel Nel and Hanrich Potgieter
-Date: 13 March 2015
-*/
+ *  COS 314 Project 1 
+ *  Authors:
+ *  Isabel Nel : 13070305
+ *  Hanrich Potgieter :  12287343
+ *
+ */
 package aiproject_game;
 
 public class main {
