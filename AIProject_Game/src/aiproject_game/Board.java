@@ -18,6 +18,11 @@ public class Board {
     GUI gui = null;
     Integer id = null;
     GameState gameState;
+    public ArrayList<Move> getPossibleMoves()
+    {
+        return null;
+    }
+
     public void setGUI(GUI g,int id)
     {
         gui = g;

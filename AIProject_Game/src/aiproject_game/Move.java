@@ -5,22 +5,13 @@
  */
 package aiproject_game;
 
+import java.awt.Point;
+
 /**
  *
  * @author hanrich
  */
-public class AI extends Thread {
-    Board board = null;
-    
-    public Integer HeuristicCount()
-    {
-        return 0;
-    }
-    
-    @Override
-    public void run()
-    {
-        
-    }
-    
+public class Move {
+    public Point from;
+    public Point to;
 }
