@@ -294,11 +294,11 @@ public class Board {
         // ***** PLAYER B NOW PLACED..... ***** 
         
         coveredArea();  
-        printBoard();
+       // printBoard();
        
     }
     
-    private void printBoard(){
+    public void printBoard(){
         System.out.println("Printing the Grid");
         
         for(int i = 0; i < N; i++){
@@ -469,9 +469,9 @@ public class Board {
        
        Integer xdir = Math.abs(to.x - from.x);
        Integer ydir = Math.abs(to.y - from.y);
-       System.out.println("xdir "+ xdir);
-       System.out.println("ydir "+ ydir);
-       System.out.println("mc "+ movecount);
+       //System.out.println("xdir "+ xdir);
+       //System.out.println("ydir "+ ydir);
+       //System.out.println("mc "+ movecount);
        
        boolean cont = false;
        if(ydir >= 0 && ydir <= movecount)
@@ -500,7 +500,7 @@ public class Board {
        takeOthers(to,to);
        
        
-       System.out.println("From " + from.x +"."+ from.y +"|| To "+ to.x +"."+ to.y);
+       //System.out.println("From " + from.x +"."+ from.y +"|| To "+ to.x +"."+ to.y);
        
        
        
@@ -618,7 +618,8 @@ public class Board {
    
    public void updateGUI()
    {
-       gui.update(id);
+       if(gui != null)
+           gui.update(id);
    }
    
    
@@ -631,7 +632,7 @@ public class Board {
        searchAroundBlock(row, col);
        cellCount = allocatedList.size();
        
-       System.out.println("cellCount = " + cellCount);
+       //System.out.println("cellCount = " + cellCount);
        
        return cellCount;
           
@@ -939,8 +940,8 @@ public class Board {
        while(it.hasNext())
        {
            Move move = it.next();
-           System.out.println("From x:" + move.from.x + " From y:" + move.from.y);
-           System.out.println("To x:" + move.to.x + " To y:" + move.to.y);
+           //System.out.println("From x:" + move.from.x + " From y:" + move.from.y);
+           //System.out.println("To x:" + move.to.x + " To y:" + move.to.y);
        }
        return moves;
     }
@@ -1099,7 +1100,9 @@ public class Board {
 
     public void setBoard(GamePieces[][] board)
     {
-        this.board = board;
+       for(int i = 0;i<N;i++)
+            for(int j = 0;j<N;j++)
+                this.board[i][j] = board[i][j];
     }
 
 }
