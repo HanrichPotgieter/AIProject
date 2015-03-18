@@ -437,6 +437,29 @@ public class Board {
    
    public boolean move(Point from,Point to)
    {
+       //Checking turns
+       GamePieces piece = new GamePieces();
+       GamePieces coveredPiece = new GamePieces();
+       
+       if(gameState.getGameState() == GameState.states.Player_A_Turn){
+           piece.setCurrentGamePiece(GamePieces.gamePieces.Player_A_Dark);
+           coveredPiece.setCurrentGamePiece(GamePieces.gamePieces.Player_A_Light);
+       }
+       else if(gameState.getGameState() == GameState.states.Player_B_Turn)
+       {
+           piece.setCurrentGamePiece(GamePieces.gamePieces.Player_B_Dark);
+           coveredPiece.setCurrentGamePiece(GamePieces.gamePieces.Player_B_Light);
+       }
+       else
+       {
+           return false;
+       }
+       
+       if(board[from.x][from.y].getCurrentGamePiece() != piece.getCurrentGamePiece())
+       {
+           return false;
+       }
+       
        calculateAllowedNumberOfMoves(from.x, from.y);
        //Check if we will be moving in a straight line.
        if(from.x != to.x)
@@ -474,6 +497,10 @@ public class Board {
        
        coveredArea();
        updateGUI();
+       if(piece.getCurrentGamePiece() == GamePieces.gamePieces.Player_A_Dark)
+           gameState.setGameState(GameState.states.Player_B_Turn);
+       else if(piece.getCurrentGamePiece() == GamePieces.gamePieces.Player_B_Dark)
+           gameState.setGameState(GameState.states.Player_A_Turn);
        return true;
    }
    
@@ -493,6 +520,7 @@ public class Board {
    
    public void colorSpace()
    {
+
        for(int i = 0; i < N; i++)
        {
            for(int j = 0;j < N;j++)
