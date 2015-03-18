@@ -440,7 +440,7 @@ public class Board {
        }
    }
    
-   public boolean move(Point from,Point to)
+   public boolean move(Point from,Point to,Boolean test)
    {
        //Checking turns
        GamePieces piece = new GamePieces();
@@ -495,6 +495,8 @@ public class Board {
        // Check if there is another object in our way. 
        if(isSelectable(to))
            return false;
+       if(test)
+           return true;
        clearSpace();
        
        takeOthers(to,to);
@@ -616,7 +618,7 @@ public class Board {
    
    
    
-   public void updateGUI()
+   public synchronized void updateGUI()
    {
        if(gui != null)
            gui.update(id);
@@ -930,7 +932,13 @@ public class Board {
                     while(it.hasNext())
                     {
                         Move move = it.next();
-                        moves.add(move);
+                        if(move(move.from,move.to,true)){
+                            moves.add(move);
+                        }
+                        else
+                        {
+                            //System.out.println("invalid move");
+                        }
                     }
                 }
            }

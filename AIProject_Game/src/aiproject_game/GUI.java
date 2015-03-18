@@ -285,7 +285,7 @@ public class GUI implements ActionListener
             {
                 Point from = clicks.remove(0);
                 Point to = clicks.remove(0);
-                board.move(from,to);
+                board.move(from,to,false);
             }
             repaint();
                
