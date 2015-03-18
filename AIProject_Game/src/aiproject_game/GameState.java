@@ -34,5 +34,17 @@ public class GameState {
         currentState = newState; 
     }
     
+    public void swop()
+    {
+        if(currentState == states.Player_A_Turn)
+        {
+            currentState = states.Player_B_Turn;
+        }
+        else if(currentState == states.Player_B_Turn)
+        {
+            currentState = states.Player_A_Turn;
+        }
+    }
+    
     
 }

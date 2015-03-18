@@ -69,34 +69,31 @@ public class AI extends Thread {
     @Override
     public void run()
     {
-     while(true)
-     {
-        try{
-        Thread.sleep(1000);
-        }
-        catch(Exception e)
+        while(true)
         {
+            try{
+            Thread.sleep(1000);
+            }
+            catch(Exception e)
+            {
                 
-        }
-        ArrayList<Move> moves = board.getPossibleMoves();
-        GamePieces[][] newBoardArray  = board.getBoard();
-        Board newBoard = new Board(board.numInitialCells);
-        newBoard.validateBoardSize(board.N);
-        newBoard.setBoard(newBoardArray);
-        newBoard.printBoard();
-        ArrayList<Move> moves2 = newBoard.getPossibleMoves();
-        generateTree(true,false,newBoard,1,0);
-        
-       
-        
-        System.out.println("AI has done its calculation");
-        //board.move(nextMove.from, nextMove.to);
-        this.board.printBoard();
-        this.board.move(nextMove.to,nextMove.from,false);
-        this.board.printBoard();
-        this.board.updateGUI();
+            }
+            ArrayList<Move> moves = board.getPossibleMoves();
+            GamePieces[][] newBoardArray  = board.getBoard();
+            Board newBoard = new Board(board.numInitialCells);
+            newBoard.validateBoardSize(board.N);
+            newBoard.setBoard(newBoardArray);
+            newBoard.gui = null;
+            generateTree(true,false,newBoard,1,0);
 
-     }
+            System.out.println("AI has done its calculation");
+            Move tmp = nextMove;
+            this.board.move(nextMove.from,nextMove.to,false);
+            
+            this.board.printBoard();
+            //this.board.updateGUI();
+        }
+
     }
     public Move nextMove;
     public synchronized Integer generateTree(Boolean max,Boolean min,Board b, int plyDepth,int currentDepth)
@@ -116,14 +113,16 @@ public class AI extends Thread {
             GamePieces[][] newBoardArray  = b.getBoard();
             Board newBoard = new Board(b.numInitialCells);
             newBoard.validateBoardSize(b.N);
+            
             newBoard.setBoard(newBoardArray);
-            newBoard.printBoard();
+            newBoard.gui = null;
+            //newBoard.printBoard();
             
             if(newBoard.move(move.from, move.to,false))
             {
-                System.out.println("failed test move");
+  //              System.out.println("failed test move");
             }
-            newBoard.printBoard();
+            //newBoard.printBoard();
             move.heuristicVal += newBoard.hueristicCellCount(move.to);
             //System.out.println(move.heuristicVal);
             if(max){
