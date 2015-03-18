@@ -2,7 +2,7 @@
  *  COS 314 Project 1 
  *  Authors:
  *  Isabel Nel : 13070305
- *  Hanrich Potgieter : 
+ *  Hanrich Potgieter :  12287343
  *
  */
 package aiproject_game;
@@ -460,7 +460,25 @@ public class Board {
            return false;
        }
        
-       calculateAllowedNumberOfMoves(from.x, from.y);
+       Integer movecount = calculateAllowedNumberOfMoves(from.x, from.y);
+       
+       Integer xdir = Math.abs(to.x - from.x);
+       Integer ydir = Math.abs(to.y - from.y);
+       System.out.println("xdir "+ xdir);
+       System.out.println("ydir "+ ydir);
+       System.out.println("mc "+ movecount);
+       
+       boolean cont = false;
+       if(ydir >= 0 && ydir <= movecount)
+       {
+           if(xdir >= 0 && xdir <= movecount)
+           {
+               cont = true;
+           }
+       }
+       if(cont == false)
+           return false;
+       
        //Check if we will be moving in a straight line.
        if(from.x != to.x)
            if(from.y != to.y)
