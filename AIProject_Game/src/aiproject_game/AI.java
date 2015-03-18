@@ -1,8 +1,11 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ *  COS 314 Project 1 
+ *  Authors:
+ *  Isabel Nel : 13070305
+ *  Hanrich Potgieter :  12287343
+ *
  */
+
 package aiproject_game;
 
 /**
@@ -10,11 +13,22 @@ package aiproject_game;
  * @author hanrich
  */
 public class AI extends Thread {
-    Board board = null;
+    
+    //~~~~~~~~ class variables
+    public Board board = null;
+    protected Integer heuristicVal;
+    
+    // ~~~~~~~~ class constructor 
+    public AI(Board b){
+        board = b;
+        heuristicVal = null;
+    }
+    
     
     public Integer HeuristicCount()
     {
-        return 0;
+        heuristicVal = board.getPossibleMoves().size();
+        return heuristicVal;
     }
     
     @Override
