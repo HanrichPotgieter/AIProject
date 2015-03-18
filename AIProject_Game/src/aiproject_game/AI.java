@@ -72,10 +72,10 @@ public class AI extends Thread {
             GamePieces[][] newBoardArray  = board.getBoard();
             Board newBoard = new Board(board.N);
             board.setBoard(newBoardArray);
-            newBoard.move(move.from, move.to);
             //Get heuristic on baord
             //----------------------
         }
+        
     }
     
 }
