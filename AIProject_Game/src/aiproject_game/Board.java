@@ -333,6 +333,10 @@ public class Board {
    
    //~~~~~~~~~~~~ getBoard - this returns the 2D array with all the pieces of the board in the current state. 
    public GamePieces[][] getBoard(){
+       GamePieces[][] copyBoard = new GamePieces[N][N];
+       for(int i = 0;i<N;i++)
+            for(int j = 0;j<N;j++)
+                copyBoard[i][j] = board[i][j];
        return board;
    }
    
@@ -902,6 +906,7 @@ public class Board {
   
     }
     
+
      public ArrayList<Move> getPossibleMoves()
     {
        GamePieces piece = new GamePieces();
@@ -1040,5 +1045,11 @@ public class Board {
          return playerPoints;
          
      }
+
+
+    public void setBoard(GamePieces[][] board)
+    {
+        this.board = board;
+    }
 
 }

@@ -40,10 +40,7 @@ public class AI extends Thread {
         a.nextLine();
         
         while(true)
-        {
-           
-            
-           
+        {   
             moves = board.getPossibleMoves();
             Integer maximum = moves.size()-1;
             Integer minimum = 0;
@@ -68,8 +65,17 @@ public class AI extends Thread {
     @Override
     public void run()
     {
-
-        
+        moves = board.getPossibleMoves();
+        Iterator<Move> it  = moves.iterator();
+        while(it.hasNext()){
+            Move move = it.next();
+            GamePieces[][] newBoardArray  = board.getBoard();
+            Board newBoard = new Board(board.N);
+            board.setBoard(newBoardArray);
+            newBoard.move(move.from, move.to);
+            //Get heuristic on baord
+            //----------------------
+        }
     }
     
 }
