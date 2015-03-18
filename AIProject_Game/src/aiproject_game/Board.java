@@ -1010,33 +1010,104 @@ public class Board {
         return moves;
     }
       
-     public int hueristicCellCount(){
+     public int heuristicDistanceCount(){
          
-         int hValue = 0;
-         ArrayList<Point> playerCells = new ArrayList<>();
+         ArrayList<Point> currentPlayer;
+         ArrayList<Point> myCoveredAreas;
          GamePieces piece;
-         GamePieces opponent;
-         opponent = new GamePieces();
+         GamePieces current;
+         currentPlayer = new ArrayList<>();
+         myCoveredAreas = new ArrayList<>();
          piece = new GamePieces();
-         ArrayList<Point> currentPlayerCells;
-         ArrayList<Point> opponentPlayerCells;
+         current = new GamePieces();
+         boolean canEnterCoveredArea = false;
          
-          if(gameState.getGameState() == GameState.states.Player_A_Turn){
-            piece.setCurrentGamePiece(GamePieces.gamePieces.Player_B_Dark);
-            opponent.setCurrentGamePiece(GamePieces.gamePieces.Player_A_Dark);
-          }else {
-           piece.setCurrentGamePiece(GamePieces.gamePieces.Player_A_Dark);
-           opponent.setCurrentGamePiece(GamePieces.gamePieces.Player_B_Dark);
+         if(gameState.getGameState() == GameState.states.Player_A_Turn){
+             piece.setCurrentGamePiece(GamePieces.gamePieces.Player_A_Dark);// opponenet
+             current.setCurrentGamePiece(GamePieces.gamePieces.Player_B_Light); // current
+         }else
+         {
+            piece.setCurrentGamePiece(GamePieces.gamePieces.Player_B_Dark); // opponenet
+            current.setCurrentGamePiece(GamePieces.gamePieces.Player_A_Light);// current
+         }
+         // now you know where the current players' opponents cell positions and now need to calculate the distance tehy are from the covered areas of your cells.
+           currentPlayer = getCells(piece);
+          
+         // for each position in current player determine how far it is from the closest covered area of the other player
+          // if other player can enter the covered area (-5)
+          // if other player can get close enough to touch border
+        
+          canEnterCoveredArea =  otherPlayerCanEnterCoveredArea(currentPlayer);
+          
+           
+           
+       
+          
+         return 0;
+     }
+     
+     public boolean otherPlayerCanEnterCoveredArea(ArrayList Opponent){
+         
+         
+         
+     return false;
+     }
+     
+      
+    //~~~~~~~~~~~~~~ heuristicCellCount - returns the amount of the players cells - theopponents cells
+      public int hueristicCellCount(Point p){
+        
+          int hValue = 0;
+          GamePieces currentPiece;
+          ArrayList<Point> enemyCells;
+          ArrayList<Integer> distanceFromEnemy;
+          int eX, eY;
+          int pX, pY;
+          int distance = 0;
+          int temp = 0;
+          
+          currentPiece = new GamePieces();
+          currentPiece.setCurrentGamePiece(board[p.x][p.y].getCurrentGamePiece());
+          enemyCells = new ArrayList<>();
+          distanceFromEnemy = new ArrayList<>();
+          enemyCells = getCells(currentPiece);
+          pX = p.x;
+          pY = p.y;
+          
+          for(int i = 0; i < enemyCells.size(); i++){
+             eX =  enemyCells.get(i).x;
+             eY = enemyCells.get(i).y;
+             
+             if(eX == pX){// they are in range in the same row
+                 distance = Math.abs((eY - pY));
+             }else
+             if(eY == pY){ // then they are in range in the same col
+                 distance = Math.abs((eX - pX));
+             }else
+             {
+                 distance = Math.abs((eX - pX)) + Math.abs((eY - pY));
+             }
+             distanceFromEnemy.add(distance);
+                 
           }
-         
-          currentPlayerCells = new ArrayList<>();
-          currentPlayerCells = getCells(piece);
-          opponentPlayerCells = new ArrayList<>();
-          opponentPlayerCells =  getCells(opponent);
-         
-         hValue = currentPlayerCells.size() - opponentPlayerCells.size();
-         
+          // now get the lowest value in the arrayList = will be the closest cell
+          distance = 100;
+          if(!distanceFromEnemy.isEmpty()){
+              for(int i = 0; i < distanceFromEnemy.size(); i++)
+              {
+                  if(distanceFromEnemy.get(i) < distance){ // then swop and distance is now the smallest value thus far
+                      distance = distanceFromEnemy.get(i);
+                  }
+              }
+          }
+          
+          // now distance is the smallest value in the array... now assign a value on how good it is....
+          // the closer it is to another cell the better
+          
+          hValue = N - distance ;
+              
          return hValue;
+          
      }
      
      //~~~~~~~~~ getCells - return the number of dark cells of specified player. 
@@ -1045,7 +1116,6 @@ public class Board {
          ArrayList<Point> playerPoints = new ArrayList<>();
          Point temp = new Point();
          
-        
          for(int i = 0; i < N-1; i++){
             for(int j = 0; j  < N-1; j++){
                 if(board[i][j].getCurrentGamePiece() == piece.getCurrentGamePiece()){
