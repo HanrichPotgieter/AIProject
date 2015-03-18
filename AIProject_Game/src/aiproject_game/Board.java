@@ -20,7 +20,96 @@ public class Board {
     GameState gameState;
     public ArrayList<Move> getPossibleMoves()
     {
-        return null;
+       GamePieces piece = new GamePieces();
+       ArrayList<Move> moves = new ArrayList<Move>();
+       if(gameState.getGameState() == GameState.states.Player_A_Turn){
+           piece.setCurrentGamePiece(GamePieces.gamePieces.Player_A_Dark);
+       }
+       else if(gameState.getGameState() == GameState.states.Player_B_Turn)
+       {
+           piece.setCurrentGamePiece(GamePieces.gamePieces.Player_B_Dark);
+       }
+       
+       for(int i = 0; i < N; i++){
+           for(int j = 0; j < N; j++){
+                if(board[i][j].getCurrentGamePiece() == piece.getCurrentGamePiece())
+                {
+                   
+                    ArrayList<Move> tmp = calcMoves(new Point(i,j));
+                    Iterator<Move> it = tmp.iterator();
+                    while(it.hasNext())
+                    {
+                        Move move = it.next();
+                        moves.add(move);
+                    }
+                }
+           }
+       }
+       
+       Iterator<Move> it = moves.iterator();
+       while(it.hasNext())
+       {
+           Move move = it.next();
+           System.out.println("From x:" + move.from.x + " From y:" + move.from.y);
+           System.out.println("To x:" + move.to.x + " To y:" + move.to.y);
+       }
+       return moves;
+    }
+    
+    public ArrayList<Move> calcMoves(Point from)
+    {
+         
+        ArrayList<Move> moves = new ArrayList<Move>();
+        Integer amount =  calculateAllowedNumberOfMoves(from.x, from.y);
+        for(int i = 1;i <= amount;i++)
+        {
+            Point x  = new Point(from.x+i,from.y);
+            if(validPointAI(x))
+            {
+                Move move = new Move();
+                move.from = from;
+                move.to = x;
+                moves.add(move);
+            }
+                
+        }
+        for(int i = 1;i <= amount;i++)
+        {
+            Point x  = new Point(from.x-i,from.y);
+            if(validPointAI(x))
+            {
+                Move move = new Move();
+                move.from = from;
+                move.to = x;
+                moves.add(move);
+            }
+                
+        }
+        for(int i = 1;i <= amount;i++)
+        {
+            Point x  = new Point(from.x,from.y+i);
+            if(validPointAI(x))
+            {
+                Move move = new Move();
+                move.from = from;
+                move.to = x;
+                moves.add(move);
+            }
+                
+        }
+        for(int i = 1;i <= amount;i++)
+        {
+            Point x  = new Point(from.x,from.y-i);
+            if(validPointAI(x))
+            {
+                Move move = new Move();
+                move.from = from;
+                move.to = x;
+                moves.add(move);
+            }
+                
+        }
+        return moves;
     }
 
     public void setGUI(GUI g,int id)
@@ -888,6 +977,17 @@ public class Board {
                //{
                  return true;  
               //}
+           }
+       }
+               
+       return false;
+  
+    }
+    public boolean validPointAI(Point x)
+   {
+       if(x.x < N && x.x >= 0){
+           if(x.y < N && x.y >= 0){
+                 return true;  
            }
        }
                
