@@ -1,8 +1,11 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ *  COS 314 Project 1 
+ *  Authors:
+ *  Isabel Nel : 13070305
+ *  Hanrich Potgieter :  12287343
+ *
  */
+
 package aiproject_game;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -13,20 +16,23 @@ import java.util.Scanner;
  * @author hanrich
  */
 public class AI extends Thread {
-    Board board = null;
-    ArrayList<Move> moves;
+
     
+    //~~~~~~~~ class variables
+  
+    protected Integer heuristicVal;
+    public  Board board = null;
+    ArrayList<Move> moves;
+   
+    
+    //~~~~~~ class constructor
     public AI(Board board)
     {
         this.board = board; 
+        
     }
     
     
-    
-    public Integer HeuristicCount()
-    {
-        return 0;
-    }
     public void randomAI()
     {
         Scanner a = new Scanner(System.in);
