@@ -309,7 +309,7 @@ public class GUI implements ActionListener
             return totalHeight+ROW_WIDTH;
         }
         
-        public void update()
+        public synchronized void update()
         {
             loadBoard(board.getBoard(),this);
             repaint();

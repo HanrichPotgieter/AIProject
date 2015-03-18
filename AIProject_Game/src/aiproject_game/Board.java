@@ -18,6 +18,16 @@ public class Board {
     GUI gui = null;
     Integer id = null;
     GameState gameState;
+    public void setGameState(GameState x)
+    {
+        gameState = x;
+    }
+    public GameState getGameState()
+    {
+        GameState x = new GameState();
+        x.setGameState(gameState.getGameState());
+        return x;
+    }
 
     public void setGUI(GUI g,int id)
     {
@@ -44,7 +54,7 @@ public class Board {
     //~~~~~~~~~~ Class variables 
     public int N; // the size of the NxN matrix.
     public boolean validated; // this value will indicate if the N is valid
-    public GamePieces[][] board; // this matrix will hold the whole game grid and which pieces are in which blocks
+    private GamePieces[][] board; // this matrix will hold the whole game grid and which pieces are in which blocks
     public GamePieces temp;
     public int EMPTY = 0;
     public Random random;
@@ -336,8 +346,11 @@ public class Board {
        GamePieces[][] copyBoard = new GamePieces[N][N];
        for(int i = 0;i<N;i++)
             for(int j = 0;j<N;j++)
-                copyBoard[i][j] = board[i][j];
-       return board;
+            {
+                copyBoard[i][j] = new GamePieces();
+                copyBoard[i][j].setCurrentGamePiece(board[i][j].getCurrentGamePiece());
+            }
+       return copyBoard;
    }
    
    //~~~~~~~~~~~ joinCoveredArea this function will check and join the pieces mentioned if they touch. 
@@ -459,12 +472,12 @@ public class Board {
        {
            return false;
        }
-       
+       /*
        if(board[from.x][from.y].getCurrentGamePiece() != piece.getCurrentGamePiece())
        {
            return false;
        }
-       
+       */
        Integer movecount = calculateAllowedNumberOfMoves(from.x, from.y);
        
        Integer xdir = Math.abs(to.x - from.x);
@@ -932,13 +945,7 @@ public class Board {
                     while(it.hasNext())
                     {
                         Move move = it.next();
-                        if(move(move.from,move.to,true)){
-                            moves.add(move);
-                        }
-                        else
-                        {
-                            //System.out.println("invalid move");
-                        }
+                        moves.add(move);
                     }
                 }
            }
