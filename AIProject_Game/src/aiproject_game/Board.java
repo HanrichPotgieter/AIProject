@@ -557,8 +557,8 @@ public class Board {
                   
    }
    
-   public void clearSpace()
-   {
+   public void clearSpace(){
+       
        for(int i = 0; i< N;i++)
        {
            for(int j = 0; j < N;j++)
@@ -584,8 +584,8 @@ public class Board {
            }
        }
    }
-   public void ColorB() 
-   {
+   public void ColorB(){
+       
        for(int i = 0; i < N; i++)
        {
            for(int j = 0;j < N;j++)
@@ -597,8 +597,9 @@ public class Board {
            }
        }
    }
-   public void colorSpace()
-   {
+   
+   public void colorSpace(){
+       
        if(gameState.getGameState() == GameState.states.Player_A_Turn){
            ColorA();
            ColorB();
@@ -610,8 +611,8 @@ public class Board {
        }
    }
    
-   public void colorPiece(Point tmp)
-   {
+   public void colorPiece(Point tmp){
+       
        GamePieces piece = new GamePieces();
        
        piece.setCurrentGamePiece(board[tmp.x][tmp.y].getCurrentGamePiece());
@@ -638,15 +639,14 @@ public class Board {
                {
                    board[z.x][z.y].setCurrentGamePiece(GamePieces.gamePieces.Player_B_Light);
                }
-               
            }
        }
    }
    
    
    
-   public synchronized void updateGUI()
-   {
+   public synchronized void updateGUI(){
+       
        if(gui != null)
            gui.update(id);
    }
@@ -660,11 +660,8 @@ public class Board {
        checkedList = new ArrayList<>();
        searchAroundBlock(row, col);
        cellCount = allocatedList.size();
-       
-       //System.out.println("cellCount = " + cellCount);
-       
+              
        return cellCount;
-          
    }
    
    //~~~~~~~~~~~~ searchAround block will search around the block and return cellcount.
@@ -803,7 +800,6 @@ public class Board {
        if(alreadyContains == false){
            allocatedList.add(temp);
        }
-           
    }
    
    private boolean containsInCheckedList(int row, int col){
@@ -830,19 +826,18 @@ public class Board {
           if(board[row][col].getCurrentGamePiece() == GamePieces.gamePieces.Player_B_Dark)
               validated =  true;
       
-      
        return validated;
    }
    
-   public boolean isSelectable(Point a)
-   {
+   public boolean isSelectable(Point a){
+       
        if(board[a.x][a.y].getCurrentGamePiece() == GamePieces.gamePieces.Player_A_Dark || board[a.x][a.y].getCurrentGamePiece() == GamePieces.gamePieces.Player_B_Dark )
            return true;
        return false;
    }
    
-   public void takeOthers(Point tmp,Point previous)
-   {  
+   public void takeOthers(Point tmp,Point previous){
+       
        GamePieces piece = new GamePieces();
        GamePieces coveredPiece = new GamePieces();
        
@@ -910,22 +905,19 @@ public class Board {
        }
    }
    
-   public boolean validPoint(Point x)
-   {
+   public boolean validPoint(Point x){
+       
        if(x.x < N && x.x >= 0){
            if(x.y < N && x.y >= 0){
-               //if(board[x.x][x.y].getCurrentGamePiece() != GamePieces.gamePieces.Player_A_Dark && board[x.x][x.y].getCurrentGamePiece() != GamePieces.gamePieces.Player_B_Dark )
-               //{
+              
                  return true;  
-              //}
            }
        }
-               
        return false;
-  
     }
-    public boolean validPointAI(Point x)
-   {
+   
+    public boolean validPointAI(Point x) {
+        
        if(x.x < N && x.x >= 0){
            if(x.y < N && x.y >= 0){
                if(board[x.x][x.y].getCurrentGamePiece() == GamePieces.gamePieces.Empty_Block
@@ -979,8 +971,7 @@ public class Board {
        return moves;
     }
     
-      public ArrayList<Move> calcMoves(Point from)
-    {
+      public ArrayList<Move> calcMoves(Point from){
          
         ArrayList<Move> moves = new ArrayList<Move>();
         Integer amount =  calculateAllowedNumberOfMoves(from.x, from.y);
@@ -1071,15 +1062,7 @@ public class Board {
         }
         return i;
      }
-     
-     public boolean otherPlayerCanEnterCoveredArea(ArrayList Opponent){
-         
-         
-         
-     return false;
-     }
-     
-      
+    
     //~~~~~~~~~~~~~~ heuristicCellCount - returns the amount of the players cells - theopponents cells
       public synchronized int hueristicCellCount(Point p){
           
@@ -1095,7 +1078,6 @@ public class Board {
           Integer lowestValue = 1000000;
           int temp = 0;
           String theValue = "1";
-          
          
           enemyPiece = new GamePieces();
           myPiece = new GamePieces();
@@ -1111,7 +1093,6 @@ public class Board {
               
           enemyCells = new ArrayList<>();
           enemyCells = getCells(enemyPiece);
-          
           
           distanceFromEnemy = new int[enemyCells.size()] ;
           
@@ -1148,8 +1129,6 @@ public class Board {
           
           
           return N - lowestValue;
-
-
      }
      
      //~~~~~~~~~ getCells - return the number of dark cells of specified player. 
@@ -1169,7 +1148,6 @@ public class Board {
          }
          
          return playerPoints;
-         
      }
 
 
