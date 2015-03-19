@@ -134,12 +134,12 @@ public class AI extends Thread {
             if(min){
                 move.heuristicVal += generateTree(true,false,newBoard,plyDepth,currentDepth+1); 
             }
-            
-            if(currentDepth == 0)
-            {
-                nextMove = getMaxMove(moves);
-                return 0;
-            }
+           
+        }
+        if(currentDepth == 0)
+        {
+            nextMove = getMaxMove(moves);
+            return 0;
         }
         if(max)
         {
