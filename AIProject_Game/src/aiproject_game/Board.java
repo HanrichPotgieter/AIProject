@@ -1068,35 +1068,40 @@ public class Board {
     //~~~~~~~~~~~~~~ heuristicCellCount - returns the amount of the players cells - theopponents cells
       public synchronized int hueristicCellCount(Point p){
           
-         
-        
           int hValue = 0;
-          GamePieces currentPiece;
-          GamePieces piece;
+          GamePieces enemyPiece;
+          GamePieces myPiece;
           ArrayList<Point> enemyCells;
           ArrayList<Integer> distanceFromEnemy;
           int eX, eY;
           int pX, pY;
           int distance = 0;
+          boolean addedToArray = false;
+          int lowestValue = 1000000;
          
-          currentPiece = new GamePieces();
-          piece = new GamePieces();
+          enemyPiece = new GamePieces();
+          myPiece = new GamePieces();
           
-          piece.setCurrentGamePiece(board[p.x][p.y].getCurrentGamePiece());
-          if(piece.getCurrentGamePiece() == GamePieces.gamePieces.Player_A_Dark)
-              currentPiece.setCurrentGamePiece(GamePieces.gamePieces.Player_A_Dark);
-          else
-               currentPiece.setCurrentGamePiece(GamePieces.gamePieces.Player_B_Dark);
+          if(gameState.getGameState() == GameState.states.Player_A_Turn){
+              enemyPiece.setCurrentGamePiece(GamePieces.gamePieces.Player_A_Dark);
+              myPiece.setCurrentGamePiece(GamePieces.gamePieces.Player_B_Dark);
+          }
+          else{
+              enemyPiece.setCurrentGamePiece(GamePieces.gamePieces.Player_B_Dark);
+              myPiece.setCurrentGamePiece(GamePieces.gamePieces.Player_A_Dark);
+          }
               
-          //currentPiece.setCurrentGamePiece(piece.getCurrentGamePiece());
           enemyCells = new ArrayList<>();
+          enemyCells = getCells(enemyPiece);
+          
+          
           distanceFromEnemy = new ArrayList<>();
-          enemyCells = getCells(currentPiece);
+          // my moved Piece points
           pX = p.x;
           pY = p.y;
-          
+          // gather enemy points
           for(int i = 0; i < enemyCells.size(); i++){
-             eX =  enemyCells.get(i).x;
+             eX = enemyCells.get(i).x;
              eY = enemyCells.get(i).y;
              
              if(eX == pX){// they are in range in the same row
@@ -1109,22 +1114,23 @@ public class Board {
                  distance = Math.abs((eX - pX)) + Math.abs((eY - pY));
              }
 
-             distanceFromEnemy.add(distance);
+            addedToArray =  distanceFromEnemy.add(distance);
                  
           }
           // now get the lowest value in the arrayList = will be the closest cell
-          if(!distanceFromEnemy.isEmpty()){
+          if(addedToArray){
               for(int i = 0; i < distanceFromEnemy.size(); i++)
               {
-                  if(distanceFromEnemy.get(i) < distance){ // then swop and distance is now the smallest value thus far
-                      distance = distanceFromEnemy.get(i);
+                  if(distanceFromEnemy.get(i) < lowestValue){ // then swop and distance is now the smallest value thus far
+                   System.out.println("distance at: "+ i + " = " +distanceFromEnemy.get(i));
+                      lowestValue = distanceFromEnemy.get(i);
+                      
                   }
               }
           }
           
-          // now distance is the smallest value in the array... now assign a value on how good it is....
-          // the closer it is to another cell the better 
-         return distance;
+          System.out.print("LowestVal = " + lowestValue );
+         return lowestValue;
           
      }
      
