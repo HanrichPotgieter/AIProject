@@ -25,8 +25,8 @@ public class AI extends Thread {
     protected Integer heuristicVal;
     public  Board board = null;
     Integer Ply = 1;
+    public Boolean playerVSAI = false;
     //ArrayList<Move> moves;
-   
     
     //~~~~~~ class constructor
     public AI(Board board)
@@ -78,6 +78,15 @@ public class AI extends Thread {
             catch(Exception e)
             {
                 
+            }
+            if(playerVSAI)
+            {
+                GameState tmp = new GameState();
+                tmp.setGameState(GameState.states.Player_A_Turn);
+                while(board.getGameState().getGameState() == tmp.getGameState())
+                {
+                    System.out.println("Waiting for player to move");
+                }
             }
             if(board.gameState.getGameState() == GameState.states.Player_A_Win)
             {
