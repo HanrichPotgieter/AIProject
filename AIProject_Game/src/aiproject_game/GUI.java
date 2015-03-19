@@ -159,6 +159,11 @@ public class GUI implements ActionListener
         }
         
     }
+    
+    public void notify(String msg)
+    {
+        JOptionPane.showMessageDialog(new Frame(), msg);
+    }
 
     public void loadBoard(GamePieces[][] boardLayout,Grid grid)
     {

@@ -570,10 +570,14 @@ public class Board {
        if(counterA == 0)
        {
            gameState.setGameState(GameState.states.Player_B_Win);
+           if(gui!= null)
+                gui.notify("Player B has won!");
        }
        else if(counterB == 0)
        {
            gameState.setGameState(GameState.states.Player_A_Win);
+           if(gui!= null)
+               gui.notify("Player A has won!");
        }
                   
    }
@@ -1057,39 +1061,34 @@ public class Board {
     }
       
      public int heuristicDistanceCount(){
-         
-         ArrayList<Point> currentPlayer;
-         ArrayList<Point> myCoveredAreas;
-         GamePieces piece;
-         GamePieces current;
-         currentPlayer = new ArrayList<>();
-         myCoveredAreas = new ArrayList<>();
-         piece = new GamePieces();
-         current = new GamePieces();
-         boolean canEnterCoveredArea = false;
-         
-         if(gameState.getGameState() == GameState.states.Player_A_Turn){
-             piece.setCurrentGamePiece(GamePieces.gamePieces.Player_A_Dark);// opponenet
-             current.setCurrentGamePiece(GamePieces.gamePieces.Player_B_Light); // current
-         }else
-         {
-            piece.setCurrentGamePiece(GamePieces.gamePieces.Player_B_Dark); // opponenet
-            current.setCurrentGamePiece(GamePieces.gamePieces.Player_A_Light);// current
-         }
-         // now you know where the current players' opponents cell positions and now need to calculate the distance tehy are from the covered areas of your cells.
-           currentPlayer = getCells(piece);
-          
-         // for each position in current player determine how far it is from the closest covered area of the other player
-          // if other player can enter the covered area (-5)
-          // if other player can get close enough to touch border
-        
-          canEnterCoveredArea =  otherPlayerCanEnterCoveredArea(currentPlayer);
-          
-           
-           
+
+       GamePieces playerA = new GamePieces();
+       playerA.setCurrentGamePiece(GamePieces.gamePieces.Player_A_Dark);
+       GamePieces playerB = new GamePieces();
+       playerB.setCurrentGamePiece(GamePieces.gamePieces.Player_B_Dark);
        
-          
-         return 0;
+       Integer counterA = 0;
+       Integer counterB = 0;
+       for(int i = 0;i<N;i++)
+       {
+            for(int j = 0;j<N;j++)
+            {
+                if(board[i][j].getCurrentGamePiece() == playerA.getCurrentGamePiece())
+                    counterA++;
+                if(board[i][j].getCurrentGamePiece() == playerB.getCurrentGamePiece())
+                    counterB++;
+            }
+       }
+         
+        if(gameState.getGameState() ==GameState.states.Player_A_Turn)
+        {
+                return counterA - counterB;
+        }
+        else if(gameState.getGameState() ==GameState.states.Player_B_Turn)
+        {
+                return counterB - counterA;
+        }
+        return 0;
      }
      
      public boolean otherPlayerCanEnterCoveredArea(ArrayList Opponent){

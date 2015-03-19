@@ -85,7 +85,7 @@ public class AI extends Thread {
                 tmp.setGameState(GameState.states.Player_A_Turn);
                 while(board.getGameState().getGameState() == tmp.getGameState())
                 {
-                    System.out.println("Waiting for player to move");
+                    //System.out.println("Waiting for player to move");
                 }
             }
             if(board.gameState.getGameState() == GameState.states.Player_A_Win)
@@ -141,7 +141,7 @@ public class AI extends Thread {
             //newBoard.printBoard();
             
             newBoard.move(move.from, move.to,false);      
-            move.heuristicVal += newBoard.hueristicCellCount(move.to);
+            move.heuristicVal += newBoard.hueristicCellCount(move.to) + newBoard.heuristicDistanceCount();
             System.out.println(move.heuristicVal);
             if(max){
                 move.heuristicVal += generateTree(false,true,newBoard,plyDepth,currentDepth+1);
