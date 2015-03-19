@@ -25,8 +25,8 @@ public class AI extends Thread {
     protected Integer heuristicVal;
     public  Board board = null;
     Integer Ply = 1;
+    public Boolean playerVSAI = false;
     //ArrayList<Move> moves;
-   
     
     //~~~~~~ class constructor
     public AI(Board board)
@@ -79,6 +79,15 @@ public class AI extends Thread {
             {
                 
             }
+            if(playerVSAI)
+            {
+                GameState tmp = new GameState();
+                tmp.setGameState(GameState.states.Player_A_Turn);
+                while(board.getGameState().getGameState() == tmp.getGameState())
+                {
+                    System.out.println("Waiting for player to move");
+                }
+            }
             if(board.gameState.getGameState() == GameState.states.Player_A_Win)
             {
                 System.out.println("Player A has won!");
@@ -100,7 +109,8 @@ public class AI extends Thread {
 
             System.out.println("AI has done its calculation");
             Move tmp = nextMove;
-            this.board.move(nextMove.from,nextMove.to,false);
+            if(tmp != null)
+                this.board.move(nextMove.from,nextMove.to,false);
             
             //this.board.printBoard();
             //this.board.updateGUI();
@@ -132,8 +142,8 @@ public class AI extends Thread {
             //newBoard.printBoard();
             
             newBoard.move(move.from, move.to,false);      
-            move.heuristicVal += newBoard.hueristicCellCount(move.to);
-            System.out.println(move.heuristicVal);
+            move.heuristicVal += newBoard.hueristicCellCount(move.to) + newBoard.heuristicDistanceCount();
+            //System.out.println(move.heuristicVal);
             if(max){
                 move.heuristicVal += generateTree(false,true,newBoard,plyDepth,currentDepth+1);
             }

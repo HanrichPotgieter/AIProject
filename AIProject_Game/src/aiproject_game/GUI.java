@@ -24,6 +24,7 @@ public class GUI implements ActionListener
     SpinnerNumberModel plyDepthLabelModel = new SpinnerNumberModel(1,1,1000,1); 
     JSpinner plyDepthLabelSpinner = new JSpinner(plyDepthLabelModel);
     JRadioButton aiButton = new JRadioButton("AI vs AI");
+    JRadioButton haiButton = new JRadioButton("Human vs AI");
     private Integer n = 10;
 
 	public GUI()
@@ -67,7 +68,7 @@ public class GUI implements ActionListener
         setConstaraints(c,1,2,1);
 		frame.getContentPane().add(aiButton,c);
 
-        JRadioButton haiButton = new JRadioButton("Human vs AI");
+        
         //aiButton.setActionCommand("Ai ");
         setConstaraints(c,1,1,1);
         frame.getContentPane().add(haiButton,c);
@@ -145,11 +146,25 @@ public class GUI implements ActionListener
         }
         if(aiButton.isSelected())
         {
-            AI ai = new AI(board);
+            System.out.println("Starting a AI vs AI game");
+            AI ai= new AI(board);
+            ai.Ply = (Integer)plyDepthLabelSpinner.getValue();
+            ai.start();
+        }
+        if(haiButton.isSelected())
+        {
+            System.out.println("Starting a Human vs AI game");
+            AI ai= new AI(board);
+            ai.playerVSAI = true;
             ai.Ply = (Integer)plyDepthLabelSpinner.getValue();
             ai.start();
         }
         
+    }
+    
+    public void notify(String msg)
+    {
+        JOptionPane.showMessageDialog(new Frame(), msg);
     }
 
     public void loadBoard(GamePieces[][] boardLayout,Grid grid)
