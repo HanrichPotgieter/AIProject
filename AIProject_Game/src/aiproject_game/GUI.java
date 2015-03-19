@@ -146,12 +146,14 @@ public class GUI implements ActionListener
         }
         if(aiButton.isSelected())
         {
+            System.out.println("Starting a AI vs AI game");
             AI ai= new AI(board);
             ai.Ply = (Integer)plyDepthLabelSpinner.getValue();
             ai.start();
         }
         if(haiButton.isSelected())
         {
+            System.out.println("Starting a Human vs AI game");
             AI ai= new AI(board);
             ai.playerVSAI = true;
             ai.Ply = (Integer)plyDepthLabelSpinner.getValue();

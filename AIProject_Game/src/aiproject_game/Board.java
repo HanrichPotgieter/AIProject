@@ -1079,16 +1079,22 @@ public class Board {
                     counterB++;
             }
        }
-         
+            Integer maximum = 20;
+            Integer minimum = 0;
+            
+            Random rn = new Random();
+            int n = maximum - minimum + 1;
+            int i = rn.nextInt() % n;
+       
         if(gameState.getGameState() ==GameState.states.Player_A_Turn)
         {
-                return (counterB - counterA)*5;
+                return (counterB - counterA)*5 + 1;
         }
         else if(gameState.getGameState() ==GameState.states.Player_B_Turn)
         {
-                return (counterA - counterB)*5;
+                return (counterA - counterB)*5 + 1;
         }
-        return 0;
+        return i;
      }
      
      public boolean otherPlayerCanEnterCoveredArea(ArrayList Opponent){

@@ -85,7 +85,7 @@ public class AI extends Thread {
                 tmp.setGameState(GameState.states.Player_A_Turn);
                 while(board.getGameState().getGameState() == tmp.getGameState())
                 {
-                    //System.out.println("Waiting for player to move");
+                    System.out.println("Waiting for player to move");
                 }
             }
             if(board.gameState.getGameState() == GameState.states.Player_A_Win)
