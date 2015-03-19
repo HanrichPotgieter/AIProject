@@ -1082,11 +1082,11 @@ public class Board {
          
         if(gameState.getGameState() ==GameState.states.Player_A_Turn)
         {
-                return (counterA - counterB)*5;
+                return (counterB - counterA)*5;
         }
         else if(gameState.getGameState() ==GameState.states.Player_B_Turn)
         {
-                return (counterB - counterA)*5;
+                return (counterA - counterB)*5;
         }
         return 0;
      }

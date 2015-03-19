@@ -109,7 +109,8 @@ public class AI extends Thread {
 
             System.out.println("AI has done its calculation");
             Move tmp = nextMove;
-            this.board.move(nextMove.from,nextMove.to,false);
+            if(tmp != null)
+                this.board.move(nextMove.from,nextMove.to,false);
             
             //this.board.printBoard();
             //this.board.updateGUI();
@@ -142,7 +143,7 @@ public class AI extends Thread {
             
             newBoard.move(move.from, move.to,false);      
             move.heuristicVal += newBoard.hueristicCellCount(move.to) + newBoard.heuristicDistanceCount();
-            System.out.println(move.heuristicVal);
+            //System.out.println(move.heuristicVal);
             if(max){
                 move.heuristicVal += generateTree(false,true,newBoard,plyDepth,currentDepth+1);
             }
