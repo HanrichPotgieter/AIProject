@@ -1077,7 +1077,8 @@ public class Board {
           int pX, pY;
           int distance = 0;
           boolean addedToArray = false;
-          int lowestValue = 1000000;
+          Integer lowestValue = 1000000;
+          String theValue = "";
          
           enemyPiece = new GamePieces();
           myPiece = new GamePieces();
@@ -1115,16 +1116,14 @@ public class Board {
              }
 
             addedToArray =  distanceFromEnemy.add(distance);
-                 
           }
           // now get the lowest value in the arrayList = will be the closest cell
-          if(addedToArray){
-              for(int i = 0; i < distanceFromEnemy.size(); i++)
-              {
+          System.out.println("Size of ditsance array: " + distanceFromEnemy.size());
+          if(!distanceFromEnemy.isEmpty()){
+              for(int i = 0; i < distanceFromEnemy.size(); i++){
                   if(distanceFromEnemy.get(i) < lowestValue){ // then swop and distance is now the smallest value thus far
-                   System.out.println("distance at: "+ i + " = " +distanceFromEnemy.get(i));
-                      lowestValue = distanceFromEnemy.get(i);
-                      
+                      System.out.println("lowestValue:" + distanceFromEnemy.get(i));
+                   lowestValue = distanceFromEnemy.get(i);
                   }
               }
           }
@@ -1132,9 +1131,7 @@ public class Board {
 
           System.out.print("LowestVal = " + lowestValue );
          return lowestValue;
-          
-// now distance is the smallest value in the array... now assign a value on how good it is....
-          // the closer it is to another cell the better 
+   
          //return N - distance;      
 
      }
