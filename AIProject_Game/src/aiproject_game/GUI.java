@@ -109,6 +109,7 @@ public class GUI implements ActionListener
         //Display the window.
         frame.pack();
         frame.setVisible(true);
+       
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -127,10 +128,12 @@ public class GUI implements ActionListener
         c.fill = GridBagConstraints.HORIZONTAL;
         c.gridx = 0;
         c.gridy = 2;
+        
      
         window.setSize(grid.getWidthGrid(),grid.getHeightGrid());
         window.add(grid);
         window.setVisible(true);
+      
         
         if(board.validateBoardSize(n))
         {
