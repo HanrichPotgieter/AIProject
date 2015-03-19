@@ -21,6 +21,9 @@ public class GUI implements ActionListener
     JSpinner nSpinner = new JSpinner(model);
     SpinnerNumberModel startingBlocksModel = new SpinnerNumberModel(1,1,1000,1); 
     JSpinner startingBlocksSpinner = new JSpinner(startingBlocksModel); 
+    SpinnerNumberModel plyDepthLabelModel = new SpinnerNumberModel(1,1,1000,1); 
+    JSpinner plyDepthLabelSpinner = new JSpinner(plyDepthLabelModel);
+    JRadioButton aiButton = new JRadioButton("AI vs AI");
     private Integer n = 10;
 
 	public GUI()
@@ -59,7 +62,7 @@ public class GUI implements ActionListener
         setConstaraints(c,1,0,1);
 		frame.getContentPane().add(playerButton,c);
 
-    	JRadioButton aiButton = new JRadioButton("AI vs AI");
+    	
     	//aiButton.setActionCommand("Ai ");
         setConstaraints(c,1,2,1);
 		frame.getContentPane().add(aiButton,c);
@@ -91,8 +94,7 @@ public class GUI implements ActionListener
         setConstaraints(c,0,6,1);
         frame.getContentPane().add(plyDepthLabel,c);
 
-        SpinnerNumberModel plyDepthLabelModel = new SpinnerNumberModel(1,1,1000,1); 
-        JSpinner plyDepthLabelSpinner = new JSpinner(plyDepthLabelModel);
+       
         setConstaraints(c,1,6,1);
         frame.getContentPane().add(plyDepthLabelSpinner,c);
 
@@ -141,9 +143,12 @@ public class GUI implements ActionListener
         {
             System.out.println("Failed to create board");
         }
-        
-        AI ai = new AI(board);
-        ai.start();
+        if(aiButton.isSelected())
+        {
+            AI ai = new AI(board);
+            ai.Ply = (Integer)plyDepthLabelSpinner.getValue();
+            ai.start();
+        }
         
     }
 

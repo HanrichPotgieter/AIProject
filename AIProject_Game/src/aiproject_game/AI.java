@@ -24,6 +24,7 @@ public class AI extends Thread {
   
     protected Integer heuristicVal;
     public  Board board = null;
+    Integer Ply = 1;
     //ArrayList<Move> moves;
    
     
@@ -82,15 +83,16 @@ public class AI extends Thread {
             GamePieces[][] newBoardArray  = board.getBoard();
             Board newBoard = new Board(board.numInitialCells);
             newBoard.validateBoardSize(board.N);
+            newBoard.setGameState(board.getGameState());
             newBoard.setBoard(newBoardArray);
             newBoard.gui = null;
-            generateTree(true,false,newBoard,1,0);
+            generateTree(true,false,newBoard,Ply,0);
 
             System.out.println("AI has done its calculation");
             Move tmp = nextMove;
             this.board.move(nextMove.from,nextMove.to,false);
             
-            this.board.printBoard();
+            //this.board.printBoard();
             //this.board.updateGUI();
         }
 
@@ -112,6 +114,7 @@ public class AI extends Thread {
             Move move = it.next();
             GamePieces[][] newBoardArray  = b.getBoard();
             Board newBoard = new Board(b.numInitialCells);
+            //newBoard.setGameState(b.getGameState());
             newBoard.validateBoardSize(b.N);
             
             newBoard.setBoard(newBoardArray);
@@ -124,12 +127,12 @@ public class AI extends Thread {
             }
             //newBoard.printBoard();
             move.heuristicVal += newBoard.hueristicCellCount(move.to);
-            //System.out.println(move.heuristicVal);
+            System.out.println(move.heuristicVal);
             if(max){
                 move.heuristicVal += generateTree(false,true,newBoard,plyDepth,currentDepth+1);
             }
             if(min){
-                move.heuristicVal += generateTree(true, false,newBoard,plyDepth,currentDepth+1); 
+                move.heuristicVal += generateTree(true,false,newBoard,plyDepth,currentDepth+1); 
             }
             
             if(currentDepth == 0)

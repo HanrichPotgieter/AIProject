@@ -472,12 +472,12 @@ public class Board {
        {
            return false;
        }
-       /*
+       
        if(board[from.x][from.y].getCurrentGamePiece() != piece.getCurrentGamePiece())
        {
            return false;
        }
-       */
+       
        Integer movecount = calculateAllowedNumberOfMoves(from.x, from.y);
        
        Integer xdir = Math.abs(to.x - from.x);
@@ -914,6 +914,10 @@ public class Board {
    {
        if(x.x < N && x.x >= 0){
            if(x.y < N && x.y >= 0){
+               if(board[x.x][x.y].getCurrentGamePiece() == GamePieces.gamePieces.Empty_Block
+                       || board[x.x][x.y].getCurrentGamePiece() == GamePieces.gamePieces.Player_A_Light
+                       || board[x.x][x.y].getCurrentGamePiece() == GamePieces.gamePieces.Player_B_Light
+                       )
                  return true;  
            }
        }
@@ -968,30 +972,6 @@ public class Board {
         Integer amount =  calculateAllowedNumberOfMoves(from.x, from.y);
         for(int i = 1;i <= amount;i++)
         {
-            Point x  = new Point(from.x+i,from.y);
-            if(validPointAI(x))
-            {
-                Move move = new Move();
-                move.from = from;
-                move.to = x;
-                moves.add(move);
-            }
-                
-        }
-        for(int i = 1;i <= amount;i++)
-        {
-            Point x  = new Point(from.x-i,from.y);
-            if(validPointAI(x))
-            {
-                Move move = new Move();
-                move.from = from;
-                move.to = x;
-                moves.add(move);
-            }
-                
-        }
-        for(int i = 1;i <= amount;i++)
-        {
             Point x  = new Point(from.x,from.y+i);
             if(validPointAI(x))
             {
@@ -1005,6 +985,30 @@ public class Board {
         for(int i = 1;i <= amount;i++)
         {
             Point x  = new Point(from.x,from.y-i);
+            if(validPointAI(x))
+            {
+                Move move = new Move();
+                move.from = from;
+                move.to = x;
+                moves.add(move);
+            }
+                
+        }
+        for(int i = 1;i <= amount;i++)
+        {
+            Point x  = new Point(from.x+i,from.y);
+            if(validPointAI(x))
+            {
+                Move move = new Move();
+                move.from = from;
+                move.to = x;
+                moves.add(move);
+            }
+                
+        }
+        for(int i = 1;i <= amount;i++)
+        {
+            Point x  = new Point(from.x-i,from.y);
             if(validPointAI(x))
             {
                 Move move = new Move();
@@ -1063,6 +1067,8 @@ public class Board {
       
     //~~~~~~~~~~~~~~ heuristicCellCount - returns the amount of the players cells - theopponents cells
       public synchronized int hueristicCellCount(Point p){
+          
+         
         
           int hValue = 0;
           GamePieces currentPiece;
@@ -1082,7 +1088,7 @@ public class Board {
           else
                currentPiece.setCurrentGamePiece(GamePieces.gamePieces.Player_B_Dark);
               
-          currentPiece.setCurrentGamePiece(piece.getCurrentGamePiece());
+          //currentPiece.setCurrentGamePiece(piece.getCurrentGamePiece());
           enemyCells = new ArrayList<>();
           distanceFromEnemy = new ArrayList<>();
           enemyCells = getCells(currentPiece);
@@ -1102,11 +1108,11 @@ public class Board {
              {
                  distance = Math.abs((eX - pX)) + Math.abs((eY - pY));
              }
+
              distanceFromEnemy.add(distance);
                  
           }
           // now get the lowest value in the arrayList = will be the closest cell
-          distance = 100;
           if(!distanceFromEnemy.isEmpty()){
               for(int i = 0; i < distanceFromEnemy.size(); i++)
               {
@@ -1117,11 +1123,8 @@ public class Board {
           }
           
           // now distance is the smallest value in the array... now assign a value on how good it is....
-          // the closer it is to another cell the better
-          
-          hValue = N - distance ;
-              
-         return hValue;
+          // the closer it is to another cell the better 
+         return distance;
           
      }
      
