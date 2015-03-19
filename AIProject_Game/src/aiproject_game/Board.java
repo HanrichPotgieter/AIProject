@@ -1098,13 +1098,15 @@ public class Board {
           GamePieces enemyPiece;
           GamePieces myPiece;
           ArrayList<Point> enemyCells;
-          ArrayList<Integer> distanceFromEnemy;
+          int[] distanceFromEnemy;
           int eX, eY;
           int pX, pY;
           int distance = 0;
           boolean addedToArray = false;
           Integer lowestValue = 1000000;
-          String theValue = "";
+          int temp = 0;
+          String theValue = "1";
+          
          
           enemyPiece = new GamePieces();
           myPiece = new GamePieces();
@@ -1122,7 +1124,8 @@ public class Board {
           enemyCells = getCells(enemyPiece);
           
           
-          distanceFromEnemy = new ArrayList<>();
+          distanceFromEnemy = new int[enemyCells.size()] ;
+          
           // my moved Piece points
           pX = p.x;
           pY = p.y;
@@ -1140,24 +1143,21 @@ public class Board {
              {
                  distance = Math.abs((eX - pX)) + Math.abs((eY - pY));
              }
-
-            addedToArray =  distanceFromEnemy.add(distance);
+             
+            distanceFromEnemy[i] = distance;
           }
           // now get the lowest value in the arrayList = will be the closest cell
-          System.out.println("Size of ditsance array: " + distanceFromEnemy.size());
-          if(!distanceFromEnemy.isEmpty()){
-              for(int i = 0; i < distanceFromEnemy.size(); i++){
-                  if(distanceFromEnemy.get(i) < lowestValue){ // then swop and distance is now the smallest value thus far
-                      System.out.println("lowestValue:" + distanceFromEnemy.get(i));
-                   lowestValue = distanceFromEnemy.get(i);
-                  }
-              }
-          }
           
-
-          System.out.print("LowestVal = " + lowestValue );
-         return lowestValue;
-   
+         
+         if(distanceFromEnemy.length != 0){
+         for(int i = 0; i < distanceFromEnemy.length; i++){
+             if(distanceFromEnemy[i] < lowestValue)
+                 lowestValue = distanceFromEnemy[i];
+         }
+         }
+          
+          
+          return N - lowestValue;
          //return N - distance;      
 
      }
