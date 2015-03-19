@@ -12,25 +12,23 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 
-
 public class Board {
     // embedded class to help out with initial states when creating a board. 
-    GUI gui = null;
-    Integer id = null;
-    GameState gameState;
-    public void setGameState(GameState x)
-    {
+    public GUI gui = null;
+    public Integer id = null;
+    public GameState gameState;
+    
+    public void setGameState(GameState x){
         gameState = x;
     }
-    public GameState getGameState()
-    {
+    
+    public GameState getGameState() {
         GameState x = new GameState();
         x.setGameState(gameState.getGameState());
         return x;
     }
 
-    public void setGUI(GUI g,int id)
-    {
+    public void setGUI(GUI g,int id){
         gui = g;
         this.id = id;
     }
@@ -73,11 +71,9 @@ public class Board {
     
     //~~~~~~~~ Class constructor;
     Board( int initialCells){
-    
      N = 0;
      numInitialCells = initialCells;
      gameState = new GameState();
-     
     }
     
     //~~~~~~~~~~~ validateBoardSize will ensure that the size specified by N is an even number > 8
@@ -151,14 +147,12 @@ public class Board {
          }
         //System.out.println("***********");
         for(int i = 0; i < numInitialCells; i++){
-         //   System.out.println("allocated : "+ i + "  : " + allocatedSells[i].row + allocatedSells[i].col);
             board[allocatedSells[i].row][allocatedSells[i].col].setCurrentGamePiece(GamePieces.gamePieces.Player_A_Dark);
         }
         
         // now we need to create a covered region where all squeres around each cell is covered in a 
-        //ighter shade of that cell...
+        //lighter shade of that cell...
         for(int i = 0; i < numInitialCells; i++) {
-            
             int row = allocatedSells[i].row;
             int col = allocatedSells[i].col;
          
@@ -204,14 +198,11 @@ public class Board {
             board[row+1][col+1].setCurrentGamePiece(GamePieces.gamePieces.Player_A_Light);
      
     }
-       // now we need to join up the covered areas. 
-        
 // *****PLAYER A NOW PLACED ***** 
         
 //********PLAYER_B*********  
          max =  N - 1;
          min = (N/2) + 2;
-        // System.out.println("min: " + min + " max: " + max);
          allocatedSells = new allocated[numInitialCells]; // this will just store the random numbers that already 
                                             // has blocks allocated for initial ststes
          // just initialize all of the allocated values....
@@ -219,7 +210,7 @@ public class Board {
              allocatedSells[i] = new allocated();
          
         // We now need to allocate 5 pieces of player A to 5 differant blocks 
-       stillLooking = true;
+        stillLooking = true;
         for(int i = 0; i < numInitialCells; i++){
             
             while(stillLooking == true){
@@ -243,17 +234,14 @@ public class Board {
             }
             stillLooking = true; // reset the value and start searching for 2 new values to allocate a piece to the block
          }
-       // System.out.println("***********");
         int counter = 0;
         for(int i =0; i < numInitialCells; i++){
-            
-           // System.out.println("allocated : "+ i + "  : " + allocatedSells[i].row + allocatedSells[i].col);
             board[allocatedSells[i].row][allocatedSells[i].col].setCurrentGamePiece(GamePieces.gamePieces.Player_B_Dark);
             counter++;
         }
         
         // now we need to create a covered region where all squeres around each cell is covered in a 
-        //ighter shade of that cell...
+        //lighter shade of that cell...
         for(int i = 0; i < numInitialCells; i++) {
             
             int row = allocatedSells[i].row;
@@ -299,15 +287,14 @@ public class Board {
         if(board[row+1][col+1] != null) // one cell diagonal down right
            if((board[row+1][col+1].getCurrentGamePiece() == GamePieces.gamePieces.Empty_Block))
             board[row+1][col+1].setCurrentGamePiece(GamePieces.gamePieces.Player_B_Light);
-     
 }
         // ***** PLAYER B NOW PLACED..... ***** 
-        
-        coveredArea();  
-       // printBoard();
        
+        // now create the cover areas around each cell
+        coveredArea();  
     }
     
+    // this printing function is for testing purposes in the terminal
     public void printBoard(){
         System.out.println("Printing the Grid");
         
@@ -333,7 +320,6 @@ public class Board {
             }
             System.out.print('\n');
         }
-            
     }
     
     //~~~~~~~~~~~ changeBoardPiece 
@@ -345,31 +331,24 @@ public class Board {
    public synchronized GamePieces[][] getBoard(){
        GamePieces[][] copyBoard = new GamePieces[N][N];
        for(int i = 0;i<N;i++)
-            for(int j = 0;j<N;j++)
-            {
+            for(int j = 0;j<N;j++){
                 copyBoard[i][j] = new GamePieces();
                 copyBoard[i][j].setCurrentGamePiece(board[i][j].getCurrentGamePiece());
             }
        return copyBoard;
    }
    
-   //~~~~~~~~~~~ joinCoveredArea this function will check and join the pieces mentioned if they touch. 
-   public void joinCoveredAreas(GamePieces.gamePieces piece, allocated[] allocatedArray){
-       
-   }
-     
-   public void coveredArea()
-   {
+  //~~~~~~~~ coveredArea function will add the covered areas as spesified by the game rules
+   public void coveredArea(){
        boolean change = true;
-       while(change)
-       {
+       
+       while(change){
+           
            change = false;
-       for(int i = 0;i < N;i++)
-       {
-           for(int j = 0; j < N; j++)
-           {
-               if(board[i][j].getCurrentGamePiece() == GamePieces.gamePieces.Empty_Block)
-               {
+       for(int i = 0;i < N;i++){
+           for(int j = 0; j < N; j++){
+               
+               if(board[i][j].getCurrentGamePiece() == GamePieces.gamePieces.Empty_Block){
                   
                    GamePieces above = null;
                    GamePieces below = null;
@@ -453,8 +432,9 @@ public class Board {
        }
    }
    
-   public boolean move(Point from,Point to,Boolean test)
-   {
+   //~~~~~~ move function will move the GamePiece from to position to, but only if it is validated by test.
+   public boolean move(Point from,Point to,Boolean test){
+       
        //Checking turns
        GamePieces piece = new GamePieces();
        GamePieces coveredPiece = new GamePieces();
@@ -482,13 +462,11 @@ public class Board {
        
        Integer xdir = Math.abs(to.x - from.x);
        Integer ydir = Math.abs(to.y - from.y);
-       //System.out.println("xdir "+ xdir);
-       //System.out.println("ydir "+ ydir);
-       //System.out.println("mc "+ movecount);
+      
        
        boolean cont = false;
-       if(ydir >= 0 && ydir <= movecount)
-       {
+       if(ydir >= 0 && ydir <= movecount){
+           
            if(xdir >= 0 && xdir <= movecount)
            {
                cont = true;
@@ -513,10 +491,6 @@ public class Board {
        clearSpace();
        
        takeOthers(to,to);
-       
-       
-       //System.out.println("From " + from.x +"."+ from.y +"|| To "+ to.x +"."+ to.y);
-       
        
        
        if(board[from.x][from.y].getCurrentGamePiece() == GamePieces.gamePieces.Player_A_Dark) 
@@ -547,6 +521,7 @@ public class Board {
        
    }
    
+   //~~~~~~ checkWinCondition function will check whether a player has won and then output a notification 
    public void checkWinCondition()
    {
        GamePieces playerA = new GamePieces();
@@ -596,8 +571,8 @@ public class Board {
        }
    }
    
-   public void ColorA()
-   {
+   public void ColorA(){
+       
        for(int i = 0; i < N; i++)
        {
            for(int j = 0;j < N;j++)
@@ -609,7 +584,7 @@ public class Board {
            }
        }
    }
-   public void ColorB()
+   public void ColorB() 
    {
        for(int i = 0; i < N; i++)
        {
