@@ -1129,9 +1129,14 @@ public class Board {
               }
           }
           
+
           System.out.print("LowestVal = " + lowestValue );
          return lowestValue;
           
+// now distance is the smallest value in the array... now assign a value on how good it is....
+          // the closer it is to another cell the better 
+         //return N - distance;      
+
      }
      
      //~~~~~~~~~ getCells - return the number of dark cells of specified player. 
