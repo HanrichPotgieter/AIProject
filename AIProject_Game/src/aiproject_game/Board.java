@@ -540,7 +540,33 @@ public class Board {
            gameState.setGameState(GameState.states.Player_B_Turn);
        else if(piece.getCurrentGamePiece() == GamePieces.gamePieces.Player_B_Dark)
            gameState.setGameState(GameState.states.Player_A_Turn);
+       
+       checkWinCondition();
+       
        return true;
+       
+   }
+   
+   public void checkWinCondition()
+   {
+       GamePieces playerA = new GamePieces();
+       playerA.setCurrentGamePiece(GamePieces.gamePieces.Player_A_Dark);
+       GamePieces playerB = new GamePieces();
+       playerB.setCurrentGamePiece(GamePieces.gamePieces.Player_B_Dark);
+       
+       ArrayList<Point> playerAList =  getCells(playerA);
+       ArrayList<Point> playerBList =  getCells(playerB);
+       
+       if(playerAList.size() == 0)
+       {
+           gameState.setGameState(GameState.states.Player_B_Win);
+       }
+       else if(playerBList.size() == 0)
+       {
+           gameState.setGameState(GameState.states.Player_A_Win);
+       }
+               
+       
    }
    
    public void clearSpace()

@@ -79,6 +79,16 @@ public class AI extends Thread {
             {
                 
             }
+            if(board.gameState.getGameState() == GameState.states.Player_A_Win)
+            {
+                System.out.println("Player A has won!");
+                break;
+            }
+            if(board.gameState.getGameState() == GameState.states.Player_B_Win)
+            {
+                 System.out.println("Player B has won!");
+                 break;
+            }
             ArrayList<Move> moves = board.getPossibleMoves();
             GamePieces[][] newBoardArray  = board.getBoard();
             Board newBoard = new Board(board.numInitialCells);
@@ -121,11 +131,7 @@ public class AI extends Thread {
             newBoard.gui = null;
             //newBoard.printBoard();
             
-            if(newBoard.move(move.from, move.to,false))
-            {
-  //              System.out.println("failed test move");
-            }
-            //newBoard.printBoard();
+            newBoard.move(move.from, move.to,false);      
             move.heuristicVal += newBoard.hueristicCellCount(move.to);
             System.out.println(move.heuristicVal);
             if(max){
