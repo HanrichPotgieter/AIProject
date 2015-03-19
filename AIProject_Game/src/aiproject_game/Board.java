@@ -554,19 +554,28 @@ public class Board {
        GamePieces playerB = new GamePieces();
        playerB.setCurrentGamePiece(GamePieces.gamePieces.Player_B_Dark);
        
-       ArrayList<Point> playerAList =  getCells(playerA);
-       ArrayList<Point> playerBList =  getCells(playerB);
+       Integer counterA = 0;
+       Integer counterB = 0;
+       for(int i = 0;i<N;i++)
+       {
+            for(int j = 0;j<N;j++)
+            {
+                if(board[i][j].getCurrentGamePiece() == playerA.getCurrentGamePiece())
+                    counterA++;
+                if(board[i][j].getCurrentGamePiece() == playerB.getCurrentGamePiece())
+                    counterB++;
+            }
+       }
        
-       if(playerAList.size() == 0)
+       if(counterA == 0)
        {
            gameState.setGameState(GameState.states.Player_B_Win);
        }
-       else if(playerBList.size() == 0)
+       else if(counterB == 0)
        {
            gameState.setGameState(GameState.states.Player_A_Win);
        }
-               
-       
+                  
    }
    
    public void clearSpace()
@@ -1157,7 +1166,7 @@ public class Board {
           
 
           System.out.print("LowestVal = " + lowestValue );
-         return lowestValue;
+         return N - lowestValue;
           
 // now distance is the smallest value in the array... now assign a value on how good it is....
           // the closer it is to another cell the better 
